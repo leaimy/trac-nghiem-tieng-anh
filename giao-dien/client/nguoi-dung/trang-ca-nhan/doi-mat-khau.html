@@ -13,7 +13,7 @@
       crossorigin="anonymous"
     />
 
-    <title>Website trắc nghiệm | Thông tin cá nhân</title>
+    <title>Website trắc nghiệm | Đổi mật khẩu</title>
   </head>
 
   <body>
@@ -113,7 +113,7 @@
             <div class="list-group">
               <a
                 href="thong-tin-ca-nhan.html"
-                class="list-group-item list-group-item-action active"
+                class="list-group-item list-group-item-action"
                 aria-current="true"
               >
                 Thông tin cá nhân
@@ -125,7 +125,7 @@
               >
               <a
                 href="doi-mat-khau.html"
-                class="list-group-item list-group-item-action"
+                class="list-group-item list-group-item-action active"
                 >Đổi mật khẩu</a
               >
               <a href="#" class="list-group-item list-group-item-action"
@@ -135,68 +135,65 @@
           </div>
           <div class="col-lg-9">
             <div class="card">
-              <div class="card-header">Thông tin cá nhân</div>
+              <div class="card-header">Thay đổi mật khẩu</div>
               <div class="card-body">
                 <h5 class="card-title mb-5">
-                  Xem hoặc thay đổi thông tin cá nhân
+                  Xác nhận mật khẩu hiện tại và nhập mật khẩu mới để thay đổi
                 </h5>
                 <form action="#">
                   <div class="mb-3 row">
-                    <label for="first-name" class="col-md-3 col-form-label"
-                      >Tên</label
+                    <label for="old-password" class="col-md-4 col-form-label"
+                      >Mật khẩu hiện tại</label
                     >
-                    <div class="col-md-9">
+                    <div class="col-md-8">
                       <input
-                        type="text"
+                        type="password"
                         class="form-control"
-                        placeholder="Nhập tên"
+                        placeholder="Nhập mật khẩu hiện tại"
                         autocomplete="off"
-                        value="Hà"
-                        id="first-name"
+                        id="old-password"
                         required
                       />
                     </div>
                   </div>
 
                   <div class="mb-3 row">
-                    <label for="last-name" class="col-md-3 col-form-label"
-                      >Họ đệm</label
+                    <label for="new-password" class="col-md-4 col-form-label"
+                      >Nhập mật khẩu mới</label
                     >
-                    <div class="col-md-9">
+                    <div class="col-md-8">
                       <input
-                        type="text"
+                        type="password"
                         class="form-control"
-                        placeholder="Nhập họ đệm"
+                        placeholder="Nhập mật khẩu mới"
                         autocomplete="off"
-                        value="Nguyễn Thị"
-                        id="last-name"
+                        id="new-password"
                         required
                       />
                     </div>
                   </div>
 
                   <div class="mb-3 row">
-                    <label for="email" class="col-md-3 col-form-label"
-                      >Email</label
+                    <label for="re-new-password" class="col-md-4 col-form-label"
+                      >Xác nhận mật khẩu mới</label
                     >
-                    <div class="col-md-9">
+                    <div class="col-md-8">
                       <input
-                        type="email"
+                        type="password"
                         class="form-control"
+                        placeholder="Nhập lại mật khẩu mới"
                         autocomplete="off"
-                        value="hantctk42@gmail.com"
-                        id="email"
-                        disabled
+                        id="re-new-password"
                         required
                       />
                     </div>
                   </div>
 
                   <div class="row justify-content-end mt-4">
-                    <div class="col-md-9">
+                    <div class="col-md-8">
                       <input
                         type="submit"
-                        value="Cập nhật"
+                        value="Đổi mật khẩu"
                         class="btn btn-primary"
                       />
                     </div>
