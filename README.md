@@ -2,9 +2,9 @@
 
 ## 1. Nhóm tác giả 🍎🍎🍎
 
-    -   Nguyễn Thị Hà
-    -   Nguyễn Trọng Hiếu
-    -   Nguyễn Ngọc Quang
+- Nguyễn Thị Hà
+- Nguyễn Trọng Hiếu
+- Nguyễn Ngọc Quang
 
 ## 2. Mục tiêu tổng quan 🍎🍎🍎
 
