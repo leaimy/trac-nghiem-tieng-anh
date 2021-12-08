@@ -47,22 +47,18 @@
                         <label for="" class="form-label">Loại*</label>
                         <select name="" id="" class="form-select">
                             <option value="">Chọn loại câu hỏi</option>
-                            <option value="">Chọn loại câu hỏi</option>
-                            <option value="">Chọn loại câu hỏi</option>
-                            <option value="">Chọn loại câu hỏi</option>
-                            <option value="">Chọn loại câu hỏi</option>
-                            <option value="">Chọn loại câu hỏi</option>
+                            <?php foreach ($question_types as $key => $type): ?>
+                                <option value="<?= $key ?>"><?= $type ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="" class="form-label">Chủ đề *</label>
                         <select name="" id="" class="form-select">
                             <option value="">Chọn chủ đề</option>
-                            <option value="">Chọn loại câu hỏi</option>
-                            <option value="">Chọn loại câu hỏi</option>
-                            <option value="">Chọn loại câu hỏi</option>
-                            <option value="">Chọn loại câu hỏi</option>
-                            <option value="">Chọn loại câu hỏi</option>
+                            <?php foreach ($topics as $key => $title): ?>
+                                <option value="<?= $key ?>"><?= $title ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                 </div>

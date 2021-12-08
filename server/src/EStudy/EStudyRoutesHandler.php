@@ -13,13 +13,22 @@ use EStudy\Controller\Admin\AdminQuizHistoryController;
 use EStudy\Controller\Admin\AdminSettingController;
 use EStudy\Controller\Admin\AdminTopicController;
 use EStudy\Controller\Admin\AdminVocabularyController;
+use EStudy\Model\Admin\QuestionModel;
 use Ninja\Authentication;
+use Ninja\DatabaseTable;
 use Ninja\NJInterface\IRoutes;
+
+use EStudy\Entity\Admin\QuestionEntity;
 
 class EStudyRoutesHandler implements IRoutes
 {
+    private $admin_question_table;
+    private $admin_question_model;
+    
     public function __construct()
     {
+        $this->admin_question_table = new DatabaseTable(QuestionEntity::TABLE, QuestionEntity::PRIMARY_KEY, QuestionEntity::CLASS_NAME);
+        $this->admin_question_model = new QuestionModel($this->admin_question_table);
     }
 
     public function getRoutes(): array
@@ -140,7 +149,7 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_admin_question_routes(): array
     {
-        $controller = new AdminQuestionController();
+        $controller = new AdminQuestionController($this->admin_question_model);
 
         return [
             '/admin/questions' => [
