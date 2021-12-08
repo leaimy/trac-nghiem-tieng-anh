@@ -13,12 +13,21 @@ class NJBaseController
     
     public function __construct()
     {
-        $this->view_handler = new ViewHandler();
-        $this->flush_handler = new NJFlushMessage();
+        if (!isset($this->view_handler))
+            $this->view_handler = new ViewHandler();
+        
+        if (!isset($this->flush_handler))
+            $this->flush_handler = new NJFlushMessage();
     }
     
     public function get_entrypoint_args(array $args)
     {
+        if (!isset($this->flush_handler))
+            $this->flush_handler = new NJFlushMessage();
+        
+        if (!isset($this->view_handler))
+            $this->view_handler = new ViewHandler();
+        
         $this->entrypoint_arguments = $args + ['flush_handler' => $this->flush_handler];
         $this->view_handler->set_general_args($this->entrypoint_arguments);
     }
