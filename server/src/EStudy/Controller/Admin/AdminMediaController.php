@@ -8,6 +8,6 @@ class AdminMediaController extends NJBaseController
 {
     public function index()
     {
-        $this->view_handler->render('admin/customer/index.html.php');
+        $this->view_handler->render('admin/media/index.html.php');
     }
 }
