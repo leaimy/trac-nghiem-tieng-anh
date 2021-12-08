@@ -89,7 +89,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?= $route == '/admin/history' ? 'active' : '' ?>" href="/admin/history">
+                <a class="nav-link <?= $route == '/admin/quiz-history' ? 'active' : '' ?>" href="/admin/quiz-history">
                     <span data-feather="layers"></span>
                     Lịch sử kiểm tra
                 </a>
@@ -212,7 +212,8 @@
 <script src="/static/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    window.feather.replace();
+    window.feather.replace({ 'aria-hidden': 'true' });
+
 </script>
 
 {% yield custom_scrips %}
