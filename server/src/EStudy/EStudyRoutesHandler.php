@@ -148,6 +148,12 @@ class EStudyRoutesHandler implements IRoutes
                     'controller' => $controller,
                     'action' => 'index'
                 ]
+            ],
+            '/admin/questions/create' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'create'
+                ]
             ]
         ];
     }

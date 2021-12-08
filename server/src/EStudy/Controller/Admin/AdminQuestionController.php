@@ -10,4 +10,9 @@ class AdminQuestionController extends NJBaseController
     {
         $this->view_handler->render('admin/question/index.html.php');
     }
+    
+    public function create()
+    {
+        $this->view_handler->render('admin/question/create.html.php');
+    }
 }
