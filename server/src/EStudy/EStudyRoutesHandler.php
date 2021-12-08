@@ -30,7 +30,7 @@ class EStudyRoutesHandler implements IRoutes
         return $controller_routes + $api_routes;
     }
 
-    public function get_all_controller_routes()
+    public function get_all_controller_routes(): array
     {
         $admin_dashboard_routes = $this->get_admin_dashboard_routes();
         $admin_account_routes = $this->get_admin_account_routes();
@@ -57,16 +57,19 @@ class EStudyRoutesHandler implements IRoutes
             $admin_vocabulary_routes;
     }
 
-    public function get_all_api_routes()
+    public function get_all_api_routes(): array
     {
         return [];
     }
 
-    public function get_admin_dashboard_routes()
+    public function get_admin_dashboard_routes(): array
     {
         $controller = new AdminDashboardController();
 
         return [
+            '/' => [
+                'REDIRECT' => '/admin/dashboard'
+            ],
             '/admin' => [
                 'REDIRECT' => '/admin/dashboard'
             ],
@@ -79,7 +82,7 @@ class EStudyRoutesHandler implements IRoutes
         ];
     }
 
-    public function get_admin_account_routes()
+    public function get_admin_account_routes(): array
     {
         $controller = new AdminAccountController();
 
@@ -93,7 +96,7 @@ class EStudyRoutesHandler implements IRoutes
         ];
     }
 
-    public function get_admin_contact_us_routes()
+    public function get_admin_contact_us_routes(): array
     {
         $controller = new AdminContactUsController();
 
@@ -107,7 +110,7 @@ class EStudyRoutesHandler implements IRoutes
         ];
     }
 
-    public function get_admin_customer_routes()
+    public function get_admin_customer_routes(): array
     {
         $controller = new AdminCustomerController();
 
@@ -121,7 +124,7 @@ class EStudyRoutesHandler implements IRoutes
         ];
     }
 
-    public function get_admin_media_routes()
+    public function get_admin_media_routes(): array
     {
         $controller = new AdminMediaController();
 
@@ -135,7 +138,7 @@ class EStudyRoutesHandler implements IRoutes
         ];
     }
 
-    public function get_admin_question_routes()
+    public function get_admin_question_routes(): array
     {
         $controller = new AdminQuestionController();
 
@@ -149,7 +152,7 @@ class EStudyRoutesHandler implements IRoutes
         ];
     }
 
-    public function get_admin_quiz_routes()
+    public function get_admin_quiz_routes(): array
     {
         $controller = new AdminQuizController();
 
@@ -163,7 +166,7 @@ class EStudyRoutesHandler implements IRoutes
         ];
     }
 
-    public function get_admin_quiz_history_routes()
+    public function get_admin_quiz_history_routes(): array
     {
         $controller = new AdminQuizHistoryController();
 
@@ -177,7 +180,7 @@ class EStudyRoutesHandler implements IRoutes
         ];
     }
 
-    public function get_admin_setting_routes()
+    public function get_admin_setting_routes(): array
     {
         $controller = new AdminSettingController();
 
@@ -191,7 +194,7 @@ class EStudyRoutesHandler implements IRoutes
         ];
     }
 
-    public function get_admin_topic_routes()
+    public function get_admin_topic_routes(): array
     {
         $controller = new AdminTopicController();
 
@@ -205,7 +208,7 @@ class EStudyRoutesHandler implements IRoutes
         ];
     }
 
-    public function get_admin_vocabulary_routes()
+    public function get_admin_vocabulary_routes(): array
     {
         $controller = new AdminVocabularyController();
 
