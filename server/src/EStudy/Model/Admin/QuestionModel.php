@@ -49,10 +49,10 @@ class QuestionModel
         if (empty($args[QuestionEntity::KEY_CORRECTS]))
             throw new NinjaException('Vui lòng nhập câu trả lời đúng của câu hỏi');
 
-        if (empty($args[QuestionEntity::KEY_QUESTION_TYPE]))
+        if ($args[QuestionEntity::KEY_QUESTION_TYPE] == "")
             throw new NinjaException('Vui lòng chọn loại câu hỏi');
 
-        if (empty($args[QuestionEntity::KEY_TOPIC]))
+        if ($args[QuestionEntity::KEY_TOPIC] == "")
             throw new NinjaException('Vui lòng chọn chủ đề của câu hỏi');
         
         return $this->question_table->save([

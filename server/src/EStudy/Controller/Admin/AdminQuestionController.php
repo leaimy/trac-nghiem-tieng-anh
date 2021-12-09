@@ -3,6 +3,7 @@
 namespace EStudy\Controller\Admin;
 
 use EStudy\Model\Admin\QuestionModel;
+use Ninja\NinjaException;
 use Ninja\NJBaseController\NJBaseController;
 
 class AdminQuestionController extends NJBaseController
@@ -37,5 +38,17 @@ class AdminQuestionController extends NJBaseController
             'question_types' => $question_types,
             'topics' => $topics,
         ]);
+    }
+    
+    public function store()
+    {
+        $data = $_POST['question'];
+        try {
+            $this->question_model->create_new_question($data);
+            
+            $this->route_redirect('/admin/questions');
+        } catch (NinjaException $e) {
+            // Handle error
+        }
     }
 }
