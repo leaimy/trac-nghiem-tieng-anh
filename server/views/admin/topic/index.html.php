@@ -9,7 +9,27 @@
 </div>
 
 <div class="vh-100">
-
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Title</th>
+      <th scope="col">Description</th>
+      <th scope="col">Media</th>
+    </tr>
+  </thead>
+  <tbody>
+  <?php $count = 1; ?>
+  <?php foreach($topic_all as $topic): ?>
+    <tr>
+      <th scope="row"><?= $count++; ?></th>
+      <td><?= $topic->title; ?></td>
+      <td><?= $topic->description; ?></td>
+      <td><?= $topic->media_id; ?></td>
+    </tr>
+  <?php endforeach;?>
+  </tbody>
+</table>
 </div>
 
 {% endblock %}
