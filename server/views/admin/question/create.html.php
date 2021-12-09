@@ -34,7 +34,7 @@
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary">Thêm mới</button>
-                        <button class="btn btn-secondary">Quay lại</button>
+                        <a href="/admin/questions" class="btn btn-secondary">Quay lại</a>
                     </div>
                 </div>
             </div>
