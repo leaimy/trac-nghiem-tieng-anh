@@ -71,11 +71,11 @@
                 <div class="card-body">
                     <div class="mb-3">
                         <label for="" class="form-label">Tập tin âm thanh</label>
-                        <input type="file" name="" id="" class="form-control">
+                        <input type="file" name="" id="" class="form-control form-control-sm" accept="audio/*">
                     </div>
                     <div class="mb-3">
                         <label for="" class="form-label">Tập tin hình ảnh</label>
-                        <input type="file" name="" id="" class="form-control">
+                        <input type="file" name="" id="" class="form-control form-control-sm" accept="image/*">
                     </div>
                 </div>
             </div>
