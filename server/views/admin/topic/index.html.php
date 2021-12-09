@@ -8,6 +8,8 @@
     <h1 class="h2">Quản lý chủ đề</h1>
 </div>
 
-<div class="vh-100"></div>
+<div class="vh-100">
+
+</div>
 
 {% endblock %}
