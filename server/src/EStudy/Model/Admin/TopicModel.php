@@ -19,6 +19,11 @@ class TopicModel
     {
         return $this->topic_table->findAll();
     }
+
+    public function get_by_id($id)
+    {
+        return $this->topic_table->findById($id);
+    }
     
     /**
      * @throws NinjaException
