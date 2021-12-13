@@ -7,7 +7,7 @@
     <h1 class="h2">Quản lý chủ đề</h1>
 </div>
 
-<div class="vh-100">
+<div class="min-vh-100">
     <div class="d-flex justify-content-end">
     <a href="/admin/topics/create" type="button" class="btn btn-outline-success">Thêm mới</a>
     </div>
@@ -34,7 +34,7 @@
                     <td>
                         <a class="text-info" href="#"><i data-feather="folder"></i></a>
                         <a class="text-warning" href="/admin/topics/edit?id=<?= $topic->id ?>"><i data-feather="edit"></i></a>
-                        <a class="text-danger" href="#"><i data-feather="trash-2"></i></a>
+                        <a class="text-danger" href="/admin/topics/delete?id=<?= $topic->id ?>"><i data-feather="trash-2"></i></a>
                     </td>
                 </tr>
             <?php endforeach; ?>
