@@ -75,7 +75,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           },
                           child: const Text(
                             AppConstants.signUp,
-                            style: CustomTextStyle.heading3Green,
+                            style: CustomTextStyle.heading3BlackBold,
                           ),
                         )
                       ],

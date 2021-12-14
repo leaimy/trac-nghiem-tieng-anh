@@ -6,7 +6,9 @@ class Routes {
   static const String componentsScreen = 'ComponentsScreen';
   static const String screensList = 'ScreensList';
 
-  static const String messageScreen = 'MessageScreen';
+  static const String homeScreen = 'HomeScreen';
+  static const String listQuestionPackScreen = 'ListQuestionPackScreen';
+
   
   static const String signInScreen = 'SignInScreen';
   static const String signUpScreen = 'SignUpScreen';
