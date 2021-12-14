@@ -1,13 +1,41 @@
 {% extends admin/master.html.php %}
 
-{% block title %}<?= $shop_name ?? 'SSF' ?> - Admin - Tài khoản quản trị{% endblock %}
+{% block title %}<?= $shop_name ?? 'SSF' ?> - Admin - Danh sach tai khoan{% endblock %}
 
 {% block content %}
 
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Quản lý tài khoản quản trị</h1>
+<div class="my-5">
+    <h1 class="h2">Quản lý tài khoản</h1>
 </div>
 
-<div class="vh-100"></div>
+<div class="row my-4">
+    <div class="col-md-6"></div>
+    <div class="col-md-6 d-flex justify-content-end">
+        <a href="/admin/accounts/new_user" class="btn btn-primary">Tạo mới</a>
+    </div>
+</div>
+
+<div class="min-vh-100">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Tên đầy đủ</th>
+            <th scope="col">Tên đăng nhập>
+            <th scope="col">Vai trò</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($users as $index => $user): ?>
+        <tr>
+            <th scope="row"><?= $index + 1 ?></th>
+            <td><?= $user->fullname ?? 'N/A' ?></td>
+            <td><?= $user->username ?? 'N/A' ?></td>
+            <td><?= $user->type ?? 'GUEST' ?></td>
+        </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
 
 {% endblock %}

@@ -16,6 +16,7 @@ use EStudy\Controller\Admin\AdminVocabularyController;
 use EStudy\Entity\Admin\MediaEntity;
 use EStudy\Model\Admin\QuestionModel;
 
+use EStudy\Model\Admin\UserModel;
 use Ninja\Authentication;
 use Ninja\DatabaseTable;
 use Ninja\NJInterface\IRoutes;
@@ -36,6 +37,9 @@ class EStudyRoutesHandler implements IRoutes
     private $admin_media_table;
     private $admin_media_model;
     
+    private $admin_user_table;
+    private $admin_user_model;
+    
     public function __construct()
     {
         $this->admin_question_table = new DatabaseTable(QuestionEntity::TABLE, QuestionEntity::PRIMARY_KEY, QuestionEntity::CLASS_NAME);
@@ -45,9 +49,6 @@ class EStudyRoutesHandler implements IRoutes
             &$this->admin_media_model
         ]);
         $this->admin_topic_model = new TopicModel($this->admin_topic_table);
-
-        $this->admin_media_table = new DatabaseTable(MediaEntity::TABLE, MediaEntity::PRIMARY_KEY, MediaEntity::CLASS_NAME);
-        $this->admin_media_model = new MediaModel($this->admin_media_table);
     }
 
     public function getRoutes(): array
@@ -112,13 +113,23 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_admin_account_routes(): array
     {
-        $controller = new AdminAccountController();
+        $controller = new AdminAccountController($this->admin_user_model);
 
         return [
             '/admin/accounts' => [
                 'GET' => [
                     'controller' => $controller,
                     'action' => 'index'
+                ]
+            ],
+            '/admin/accounts/new_user' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'new_user'
+                ],
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'create_new_user'
                 ]
             ]
         ];
