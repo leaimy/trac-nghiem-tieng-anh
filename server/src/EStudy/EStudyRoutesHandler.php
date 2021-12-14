@@ -13,8 +13,10 @@ use EStudy\Controller\Admin\AdminQuizHistoryController;
 use EStudy\Controller\Admin\AdminSettingController;
 use EStudy\Controller\Admin\AdminTopicController;
 use EStudy\Controller\Admin\AdminVocabularyController;
+use EStudy\Entity\Admin\UserEntity;
 use EStudy\Model\Admin\QuestionModel;
 
+use EStudy\Model\Admin\UserModel;
 use Ninja\Authentication;
 use Ninja\DatabaseTable;
 use Ninja\NJInterface\IRoutes;
@@ -31,6 +33,9 @@ class EStudyRoutesHandler implements IRoutes
     private $admin_topic_table;
     private $admin_topic_model;
     
+    private $admin_user_table;
+    private $admin_user_model;
+    
     public function __construct()
     {
         $this->admin_question_table = new DatabaseTable(QuestionEntity::TABLE, QuestionEntity::PRIMARY_KEY, QuestionEntity::CLASS_NAME);
@@ -38,6 +43,9 @@ class EStudyRoutesHandler implements IRoutes
 
         $this->admin_topic_table = new DatabaseTable(TopicEntity::TABLE, TopicEntity::PRIMARY_KEY,TopicEntity::CLASS_NAME);
         $this->admin_topic_model = new TopicModel($this->admin_topic_table);
+    
+        $this->admin_user_table = new DatabaseTable(UserEntity::TABLE, UserEntity::PRIMARY_KEY, UserEntity::CLASS_NAME);
+        $this->admin_user_model = new UserModel($this->admin_user_table);
     }
 
     public function getRoutes(): array
@@ -102,13 +110,23 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_admin_account_routes(): array
     {
-        $controller = new AdminAccountController();
+        $controller = new AdminAccountController($this->admin_user_model);
 
         return [
             '/admin/accounts' => [
                 'GET' => [
                     'controller' => $controller,
                     'action' => 'index'
+                ]
+            ],
+            '/admin/accounts/new_user' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'new_user'
+                ],
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'create_new_user'
                 ]
             ]
         ];
