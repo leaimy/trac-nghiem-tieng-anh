@@ -13,22 +13,41 @@ use EStudy\Controller\Admin\AdminQuizHistoryController;
 use EStudy\Controller\Admin\AdminSettingController;
 use EStudy\Controller\Admin\AdminTopicController;
 use EStudy\Controller\Admin\AdminVocabularyController;
+use EStudy\Entity\Admin\MediaEntity;
 use EStudy\Model\Admin\QuestionModel;
+
 use Ninja\Authentication;
 use Ninja\DatabaseTable;
 use Ninja\NJInterface\IRoutes;
 
 use EStudy\Entity\Admin\QuestionEntity;
+use EStudy\Entity\Admin\TopicEntity;
+use EStudy\Model\Admin\MediaModel;
+use EStudy\Model\Admin\TopicModel;
 
 class EStudyRoutesHandler implements IRoutes
 {
     private $admin_question_table;
     private $admin_question_model;
+
+    private $admin_topic_table;
+    private $admin_topic_model;
+
+    private $admin_media_table;
+    private $admin_media_model;
     
     public function __construct()
     {
         $this->admin_question_table = new DatabaseTable(QuestionEntity::TABLE, QuestionEntity::PRIMARY_KEY, QuestionEntity::CLASS_NAME);
         $this->admin_question_model = new QuestionModel($this->admin_question_table);
+
+        $this->admin_topic_table = new DatabaseTable(TopicEntity::TABLE, TopicEntity::PRIMARY_KEY,TopicEntity::CLASS_NAME, [
+            &$this->admin_media_model
+        ]);
+        $this->admin_topic_model = new TopicModel($this->admin_topic_table);
+
+        $this->admin_media_table = new DatabaseTable(MediaEntity::TABLE, MediaEntity::PRIMARY_KEY, MediaEntity::CLASS_NAME);
+        $this->admin_media_model = new MediaModel($this->admin_media_table);
     }
 
     public function getRoutes(): array
@@ -215,7 +234,7 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_admin_topic_routes(): array
     {
-        $controller = new AdminTopicController();
+        $controller = new AdminTopicController($this->admin_topic_model, $this->admin_media_model);
 
         return [
             '/admin/topics' => [
@@ -223,7 +242,31 @@ class EStudyRoutesHandler implements IRoutes
                     'controller' => $controller,
                     'action' => 'index'
                 ]
-            ]
+                ],
+
+                '/admin/topics/create' => [
+                    'GET' => [
+                        'controller' => $controller,
+                        'action' => 'create'
+                    ],
+                    'POST' => [
+                        'controller' => $controller,
+                        'action' => 'store'
+                    ]
+                    ],
+
+                    '/admin/topics/edit' => [
+                        'GET' => [
+                            'controller' => $controller,
+                            'action' => 'edit'
+                        ],
+                        'POST' => [
+                            'controller' => $controller,
+                            'action' => 'update'
+                        ]
+                    ]
+
+
         ];
     }
 

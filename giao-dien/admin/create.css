@@ -1,0 +1,84 @@
+.cotthem {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+}
+.cot {
+    width: 500px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+    background-color: rgba(255, 255, 255, 0.377);
+}
+
+.noidung {
+    height: 75%;
+    width: 100%;
+    margin-top: 20px;
+
+}
+
+.nhan {
+    text-align: center;
+    font-size: 18px;
+    font-family: "Charm", cursive;
+    color: rgba(0, 0, 0, 0.5);
+
+}
+.canchinh {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 80%;
+    border: 2px outset white;
+    background-color: rgba(128, 128, 128, 0.651);
+    color: white;
+    border-radius: 15px;
+    padding-left: 5px;
+    font-family: "Charm", cursive;
+    font-size: 14px;
+}
+
+.canchinh:focus {
+    outline: none;
+}
+
+input,
+select {
+    height: 30px;
+}
+
+.sua-khung-anh {
+    color: transparent;
+}
+
+.sua-khung-anh::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+.sua-khung-anh::before {
+    content: "Vui lòng chọn ảnh";
+    display: block;
+    color: white;
+    background-color: transparent;
+    text-align: center;
+}
+
+.sua-khung-anh:hover {
+    cursor: pointer;
+}
+
+.button-them {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    border: none;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    border-radius: 15px;
+    font-family: "Charm", cursive;
+    font-size: 18px;
+    background-color: rgba(128, 128, 128, 0.65);
+    color: white;
+    border: 2px outset white
+}
+
+
