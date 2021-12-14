@@ -6,7 +6,7 @@ class DarkTheme {
   static const orange = Color(0xffFF9500);
   static const purple = Color(0xff5856D6);
   static const yellow = Color(0xffFFCC00);
-  static const gray1= Color(0xff8E8E93);
+  static const gray1 = Color(0xff8E8E93);
   static const gray2 = Color(0xffC7C7CC);
   static const gray3 = Color(0xffD1D1D6);
   static const gray4 = Color(0xffE5E5EA);
@@ -18,5 +18,16 @@ class DarkTheme {
   static const darkBackground = Color(0xff242A37);
   static const darkerPink = Color(0xffF54B64);
   static const lighterPink = Color(0xffF78361);
+}
 
+class LightTheme {
+  static const Color white = Color(0xffffffff);
+  static const Color darkGreen = Color(0xff00BC69);
+  static const Color lightGreen = Color(0xff2ADE57);
+  static const Color veryLightGreen = Color(0xff7ECA9C);
+  static const Color grey = Color(0xffCCCCCC);
+  static const Color red = Color(0xffF55349);
+  static const Color black = Color(0xff000000);
+
+  static final Color lightGreenBackground = veryLightGreen.withOpacity(0.1);
 }
