@@ -14,6 +14,7 @@ use EStudy\Controller\Admin\AdminSettingController;
 use EStudy\Controller\Admin\AdminTopicController;
 use EStudy\Controller\Admin\AdminVocabularyController;
 use EStudy\Entity\Admin\MediaEntity;
+use EStudy\Entity\Admin\UserEntity;
 use EStudy\Model\Admin\QuestionModel;
 
 use EStudy\Model\Admin\UserModel;
@@ -49,6 +50,12 @@ class EStudyRoutesHandler implements IRoutes
             &$this->admin_media_model
         ]);
         $this->admin_topic_model = new TopicModel($this->admin_topic_table);
+        
+        $this->admin_media_table = new DatabaseTable(MediaEntity::TABLE, MediaEntity::PRIMARY_KEY, MediaEntity::CLASS_NAME);
+        $this->admin_media_model = new MediaModel($this->admin_media_table);
+        
+        $this->admin_user_table = new DatabaseTable(UserEntity::TABLE, UserEntity::PRIMARY_KEY, UserEntity::CLASS_NAME);
+        $this->admin_user_model = new UserModel($this->admin_user_table);
     }
 
     public function getRoutes(): array
