@@ -11,6 +11,7 @@ class AdminQuestionController extends NJBaseController
     
     public function __construct(QuestionModel $question_model)
     {
+        parent::__construct();
         $this->question_model = $question_model;
     }
 

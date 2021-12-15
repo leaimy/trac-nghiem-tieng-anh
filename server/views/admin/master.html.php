@@ -83,9 +83,9 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?= $route == '/admin/customers' ? 'active' : '' ?>" href="/admin/customers">
+                <a class="nav-link <?= $route == '/admin/accounts' ? 'active' : '' ?>" href="/admin/accounts">
                     <span data-feather="layers"></span>
-                    Người dùng
+                    Quản lý tài khoản
                 </a>
             </li>
             <li class="nav-item">
@@ -95,9 +95,9 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?= $route == '/admin/accounts' ? 'active' : '' ?>" href="/admin/accounts">
+                <a class="nav-link <?= $route == '/admin/customers' ? 'active' : '' ?>" href="/admin/customers">
                     <span data-feather="layers"></span>
-                    Tài khoản quản trị
+                    Cá nhân
                 </a>
             </li>
             <li class="nav-item">
