@@ -14,6 +14,7 @@ use EStudy\Controller\Admin\AdminSettingController;
 use EStudy\Controller\Admin\AdminTopicController;
 use EStudy\Controller\Admin\AdminVocabularyController;
 use EStudy\Entity\Admin\MediaEntity;
+use EStudy\Entity\Admin\UserEntity;
 use EStudy\Model\Admin\QuestionModel;
 
 use EStudy\Model\Admin\UserModel;
@@ -49,6 +50,12 @@ class EStudyRoutesHandler implements IRoutes
             &$this->admin_media_model
         ]);
         $this->admin_topic_model = new TopicModel($this->admin_topic_table);
+        
+        $this->admin_media_table = new DatabaseTable(MediaEntity::TABLE, MediaEntity::PRIMARY_KEY, MediaEntity::CLASS_NAME);
+        $this->admin_media_model = new MediaModel($this->admin_media_table);
+        
+        $this->admin_user_table = new DatabaseTable(UserEntity::TABLE, UserEntity::PRIMARY_KEY, UserEntity::CLASS_NAME);
+        $this->admin_user_model = new UserModel($this->admin_user_table);
     }
 
     public function getRoutes(): array
@@ -168,7 +175,7 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_admin_media_routes(): array
     {
-        $controller = new AdminMediaController();
+        $controller = new AdminMediaController($this->admin_media_model);
 
         return [
             '/admin/media' => [
@@ -195,7 +202,11 @@ class EStudyRoutesHandler implements IRoutes
                 'GET' => [
                     'controller' => $controller,
                     'action' => 'create'
-                ]
+                ],
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'store'
+                ],
             ]
         ];
     }
@@ -244,42 +255,45 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_admin_topic_routes(): array
     {
-        // $controller = new AdminTopicController($this->admin_topic_model, $this->admin_media_model);
+        $controller = new AdminTopicController($this->admin_topic_model, $this->admin_media_model);
 
-        // return [
-        //     '/admin/topics' => [
-        //         'GET' => [
-        //             'controller' => $controller,
-        //             'action' => 'index'
-        //         ]
-        //     ],
+        return [
+            '/admin/topics' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'index'
+                ]
+            ],
 
-        //     '/admin/topics/create' => [
-        //         'GET' => [
-        //             'controller' => $controller,
-        //             'action' => 'create'
-        //         ],
-        //         'POST' => [
-        //             'controller' => $controller,
-        //             'action' => 'store'
-        //         ]
-        //     ],
+            '/admin/topics/create' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'create'
+                ],
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'store'
+                ]
+            ],
 
-        //     '/admin/topics/edit' => [
-        //         'GET' => [
-        //             'controller' => $controller,
-        //             'action' => 'edit'
-        //         ],
-        //         'POST' => [
-        //             'controller' => $controller,
-        //             'action' => 'update'
-        //         ]
-        //     ]
+            '/admin/topics/edit' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'edit'
+                ],
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'update'
+                ]
+            ],
 
-
-        // ];
-
-        return [];
+            '/admin/topics/delete' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'delete'
+                ]
+            ]
+        ];
     }
 
     public function get_admin_vocabulary_routes(): array

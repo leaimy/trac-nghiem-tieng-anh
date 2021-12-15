@@ -47,4 +47,14 @@ class TopicEntity
 
         return $entity->{MediaEntity::KEY_MEDIA_PATH};
     }
+
+    public function get_media_name()
+    {
+        $entity = $this->get_media_entity();
+        if ($entity == null) return null;
+
+        return $entity->{MediaEntity::KEY_MEDIA_ORIGIN_NAME};
+    }
+
+    
 }
