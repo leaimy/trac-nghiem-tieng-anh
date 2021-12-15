@@ -2,6 +2,10 @@
 
 {% block title %}<?= $shop_name ?? 'SSF' ?> - Admin - Thêm từ vựng{% endblock %}
 
+{% block custom_styles %}
+<link href="/static/vendor/select2/select2.min.css" rel="stylesheet" />
+{% endblock %}
+
 {% block content %}
 
 <?php
@@ -39,8 +43,7 @@ $message = $message ?? '';
                         </div>
                         <div class="mb-3">
                             <label for="" class="form-label">Chủ đề*</label>
-                            <select name="topic_id" class="form-select" aria-label="Default select example">
-                                <option selected>Chọn chủ đề</option>
+                            <select name="topic_ids[]" class="form-select" id="topic_select" multiple>
                                 <option value="1">Danh từ</option>
                                 <option value="2">Tính từ</option>
                                 <option value="3">Động từ</option>
@@ -78,6 +81,8 @@ $message = $message ?? '';
 {% endblock %}
 
 {% block custom_scrips %}
+<script src="/static/vendor/jquery/jquery.min.js"></script>
+<script src="/static/vendor/select2/select2.min.js"></script>
 <script>
     function hienthianh(input) {
         if (input.files && input.files[0]) {
@@ -95,5 +100,11 @@ $message = $message ?? '';
             reader.readAsDataURL(input.files[0]);
         }
     }
+
+    $(document).ready(function() {
+        $('#topic_select').select2();
+    });
 </script>
 {% endblock %}
+
+
