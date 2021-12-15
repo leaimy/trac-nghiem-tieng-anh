@@ -61,11 +61,16 @@ class MediaModel
         $duong_dan = $ten_duong_dan_csdl;
 
         // 3. Cập nhật thông tin ảnh vào bảng Media 
-        $new_media = $this->topic_table->save([
+        $new_media = $this->media_table->save([
             MediaEntity::KEY_MEDIA_ORIGIN_NAME => $ten_goc,
             MediaEntity::KEY_MEDIA_PATH => $duong_dan,
         ]);
         
         return $new_media;
+    }
+
+    public function delete_media($id)
+    {
+        return $this->media_table->delete($id);
     }
 }

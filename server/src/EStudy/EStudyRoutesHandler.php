@@ -14,6 +14,7 @@ use EStudy\Controller\Admin\AdminSettingController;
 use EStudy\Controller\Admin\AdminTopicController;
 use EStudy\Controller\Admin\AdminVocabularyController;
 use EStudy\Entity\Admin\MediaEntity;
+use EStudy\Entity\Admin\UserEntity;
 use EStudy\Model\Admin\QuestionModel;
 
 use EStudy\Model\Admin\UserModel;
@@ -45,10 +46,16 @@ class EStudyRoutesHandler implements IRoutes
         $this->admin_question_table = new DatabaseTable(QuestionEntity::TABLE, QuestionEntity::PRIMARY_KEY, QuestionEntity::CLASS_NAME);
         $this->admin_question_model = new QuestionModel($this->admin_question_table);
 
-        $this->admin_topic_table = new DatabaseTable(TopicEntity::TABLE, TopicEntity::PRIMARY_KEY,TopicEntity::CLASS_NAME, [
+        $this->admin_topic_table = new DatabaseTable(TopicEntity::TABLE, TopicEntity::PRIMARY_KEY, TopicEntity::CLASS_NAME, [
             &$this->admin_media_model
         ]);
         $this->admin_topic_model = new TopicModel($this->admin_topic_table);
+        
+        $this->admin_media_table = new DatabaseTable(MediaEntity::TABLE, MediaEntity::PRIMARY_KEY, MediaEntity::CLASS_NAME);
+        $this->admin_media_model = new MediaModel($this->admin_media_table);
+        
+        $this->admin_user_table = new DatabaseTable(UserEntity::TABLE, UserEntity::PRIMARY_KEY, UserEntity::CLASS_NAME);
+        $this->admin_user_model = new UserModel($this->admin_user_table);
     }
 
     public function getRoutes(): array
@@ -73,16 +80,16 @@ class EStudyRoutesHandler implements IRoutes
         $admin_topic_routes = $this->get_admin_topic_routes();
         $admin_vocabulary_routes = $this->get_admin_vocabulary_routes();
 
-        return $admin_dashboard_routes + 
-            $admin_account_routes + 
-            $admin_contact_us_routes + 
-            $admin_customer_routes + 
-            $admin_media_routes + 
-            $admin_question_routes + 
-            $admin_quiz_routes + 
-            $admin_quiz_history_routes + 
-            $admin_setting_routes + 
-            $admin_topic_routes + 
+        return $admin_dashboard_routes +
+            $admin_account_routes +
+            $admin_contact_us_routes +
+            $admin_customer_routes +
+            $admin_media_routes +
+            $admin_question_routes +
+            $admin_quiz_routes +
+            $admin_quiz_history_routes +
+            $admin_setting_routes +
+            $admin_topic_routes +
             $admin_vocabulary_routes;
     }
 
@@ -165,7 +172,7 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_admin_media_routes(): array
     {
-        $controller = new AdminMediaController();
+        $controller = new AdminMediaController($this->admin_media_model);
 
         return [
             '/admin/media' => [
@@ -253,31 +260,36 @@ class EStudyRoutesHandler implements IRoutes
                     'controller' => $controller,
                     'action' => 'index'
                 ]
+            ],
+
+            '/admin/topics/create' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'create'
                 ],
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'store'
+                ]
+            ],
 
-                '/admin/topics/create' => [
-                    'GET' => [
-                        'controller' => $controller,
-                        'action' => 'create'
-                    ],
-                    'POST' => [
-                        'controller' => $controller,
-                        'action' => 'store'
-                    ]
-                    ],
+            '/admin/topics/edit' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'edit'
+                ],
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'update'
+                ]
+            ],
 
-                    '/admin/topics/edit' => [
-                        'GET' => [
-                            'controller' => $controller,
-                            'action' => 'edit'
-                        ],
-                        'POST' => [
-                            'controller' => $controller,
-                            'action' => 'update'
-                        ]
-                    ]
-
-
+            '/admin/topics/delete' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'delete'
+                ]
+            ]
         ];
     }
 
