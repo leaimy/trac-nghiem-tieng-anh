@@ -39,4 +39,20 @@ class TopicModel
             TopicEntity::KEY_MEDIA_ID => $args[TopicEntity::KEY_MEDIA_ID] ?? null,
         ]);
     }
+
+    public function update_topic($id, $args)
+    {
+        return $this->topic_table->save([
+            TopicEntity::KEY_ID => $id,
+            TopicEntity::KEY_TITLE => $args[TopicEntity::KEY_TITLE],
+            TopicEntity::KEY_DESCRIPTION => $args[TopicEntity::KEY_DESCRIPTION] ?? null,
+            TopicEntity::KEY_MEDIA_ID => $args[TopicEntity::KEY_MEDIA_ID] ?? null,
+        ]);
+    }
+
+    public function delete_topic($id)
+    {
+       return $this->topic_table->delete($id);
+
+    }
 }
