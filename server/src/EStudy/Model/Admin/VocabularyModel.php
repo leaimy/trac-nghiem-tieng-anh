@@ -47,13 +47,22 @@ class VocabularyModel
 
     public function update_vocabulary($id, $args)
     {
+        if (isset($args[VocabularyEntity::KEY_MEDIA_ID])) {
+            return $this->vocabulary_table->save([
+                VocabularyEntity::KEY_ID => $id,
+                VocabularyEntity::KEY_ENGLISH => $args[VocabularyEntity::KEY_ENGLISH],
+                VocabularyEntity::KEY_VIETNAMESE => $args[VocabularyEntity::KEY_VIETNAMESE],
+                VocabularyEntity::KEY_DESCRIPTION => $args[VocabularyEntity::KEY_DESCRIPTION],
+                VocabularyEntity::KEY_MEDIA_ID => $args[VocabularyEntity::KEY_MEDIA_ID] ?? null,
+            ]);
+        }
+
         return $this->vocabulary_table->save([
             VocabularyEntity::KEY_ID => $id,
             VocabularyEntity::KEY_ENGLISH => $args[VocabularyEntity::KEY_ENGLISH],
             VocabularyEntity::KEY_VIETNAMESE => $args[VocabularyEntity::KEY_VIETNAMESE],
-            VocabularyEntity::KEY_DESCRIPTION => $args[VocabularyEntity::KEY_DESCRIPTION],
-            VocabularyEntity::KEY_MEDIA_ID => $args[VocabularyEntity::KEY_MEDIA_ID] ?? null,
-        ]);
+            VocabularyEntity::KEY_DESCRIPTION => $args[VocabularyEntity::KEY_DESCRIPTION]
+            ]);
     }
 
     public function delete_vocabulary($id)
