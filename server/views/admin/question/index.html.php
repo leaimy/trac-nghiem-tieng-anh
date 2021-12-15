@@ -47,10 +47,10 @@ $all_questions = $all_questions ?? [];
                 <td title="<?= $question->corrects ?>"><?= $question->get_truncate_correct_answer() ?></td>
                 <td>
                     <a href="/admin/questions/edit?id=<?= $question->id ?>" class="me-2 text-decoration-none">
-                        <i data-feather="edit-2"></i>
+                        <i data-feather="edit-2" class="text-warning"></i>
                     </a>
                     <a href="#" class="text-decoration-none">
-                        <i data-feather="trash-2"></i>
+                        <i data-feather="trash-2" class="text-danger"></i>
                     </a>
                 </td>
             </tr>
