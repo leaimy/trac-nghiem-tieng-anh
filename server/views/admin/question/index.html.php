@@ -49,7 +49,7 @@ $all_questions = $all_questions ?? [];
                     <a href="/admin/questions/edit?id=<?= $question->id ?>" class="me-2 text-decoration-none">
                         <i data-feather="edit-2" class="text-warning"></i>
                     </a>
-                    <a href="#" class="text-decoration-none">
+                    <a href="#" class="text-decoration-none btn-delete-question" data-id="<?= $question->id ?>" data-title="<?= $question->title ?>">
                         <i data-feather="trash-2" class="text-danger"></i>
                     </a>
                 </td>
@@ -69,4 +69,37 @@ $all_questions = $all_questions ?? [];
     </nav>
 </div>
 
+{% endblock %}
+
+{% block custom_scrips %}
+<script src="/static/vendor/sweetalert2/sweetalert2@11.js"></script>
+
+<script>
+    document.querySelectorAll('.btn-delete-question').forEach(function (buttonElement) {
+        buttonElement.addEventListener('click', function (e) {
+            e.preventDefault();
+            
+            var id = e.currentTarget.dataset.id;
+            var title = e.currentTarget.dataset.title;
+
+            Swal.fire({
+                title: 'Xác nhận xóa?',
+                text: "Không thể khôi phục câu hỏi đã xóa, vẫn muốn xóa: \"" + title + "\" ?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xác nhận'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Xóa bỏ!',
+                        'Câu hỏi nãy đã được xóa bỏ!',
+                        'success'
+                    )
+                }
+            })
+        })
+    })
+</script>
 {% endblock %}
