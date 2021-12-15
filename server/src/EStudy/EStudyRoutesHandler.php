@@ -36,16 +36,16 @@ class EStudyRoutesHandler implements IRoutes
 
     private $admin_media_table;
     private $admin_media_model;
-    
+
     private $admin_user_table;
     private $admin_user_model;
-    
+
     public function __construct()
     {
         $this->admin_question_table = new DatabaseTable(QuestionEntity::TABLE, QuestionEntity::PRIMARY_KEY, QuestionEntity::CLASS_NAME);
         $this->admin_question_model = new QuestionModel($this->admin_question_table);
 
-        $this->admin_topic_table = new DatabaseTable(TopicEntity::TABLE, TopicEntity::PRIMARY_KEY,TopicEntity::CLASS_NAME, [
+        $this->admin_topic_table = new DatabaseTable(TopicEntity::TABLE, TopicEntity::PRIMARY_KEY, TopicEntity::CLASS_NAME, [
             &$this->admin_media_model
         ]);
         $this->admin_topic_model = new TopicModel($this->admin_topic_table);
@@ -73,16 +73,16 @@ class EStudyRoutesHandler implements IRoutes
         $admin_topic_routes = $this->get_admin_topic_routes();
         $admin_vocabulary_routes = $this->get_admin_vocabulary_routes();
 
-        return $admin_dashboard_routes + 
-            $admin_account_routes + 
-            $admin_contact_us_routes + 
-            $admin_customer_routes + 
-            $admin_media_routes + 
-            $admin_question_routes + 
-            $admin_quiz_routes + 
-            $admin_quiz_history_routes + 
-            $admin_setting_routes + 
-            $admin_topic_routes + 
+        return $admin_dashboard_routes +
+            $admin_account_routes +
+            $admin_contact_us_routes +
+            $admin_customer_routes +
+            $admin_media_routes +
+            $admin_question_routes +
+            $admin_quiz_routes +
+            $admin_quiz_history_routes +
+            $admin_setting_routes +
+            $admin_topic_routes +
             $admin_vocabulary_routes;
     }
 
@@ -113,26 +113,28 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_admin_account_routes(): array
     {
-        $controller = new AdminAccountController($this->admin_user_model);
+        // $controller = new AdminAccountController($this->admin_user_model);
 
-        return [
-            '/admin/accounts' => [
-                'GET' => [
-                    'controller' => $controller,
-                    'action' => 'index'
-                ]
-            ],
-            '/admin/accounts/new_user' => [
-                'GET' => [
-                    'controller' => $controller,
-                    'action' => 'new_user'
-                ],
-                'POST' => [
-                    'controller' => $controller,
-                    'action' => 'create_new_user'
-                ]
-            ]
-        ];
+        // return [
+        //     '/admin/accounts' => [
+        //         'GET' => [
+        //             'controller' => $controller,
+        //             'action' => 'index'
+        //         ]
+        //     ],
+        //     '/admin/accounts/new_user' => [
+        //         'GET' => [
+        //             'controller' => $controller,
+        //             'action' => 'new_user'
+        //         ],
+        //         'POST' => [
+        //             'controller' => $controller,
+        //             'action' => 'create_new_user'
+        //         ]
+        //     ]
+        // ];
+
+        return [];
     }
 
     public function get_admin_contact_us_routes(): array
@@ -151,16 +153,17 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_admin_customer_routes(): array
     {
-        $controller = new AdminCustomerController();
+        // $controller = new AdminCustomerController();
 
-        return [
-            '/admin/customers' => [
-                'GET' => [
-                    'controller' => $controller,
-                    'action' => 'index'
-                ]
-            ]
-        ];
+        // return [
+        //     '/admin/customers' => [
+        //         'GET' => [
+        //             'controller' => $controller,
+        //             'action' => 'index'
+        //         ]
+        //     ]
+        // ];
+        return [];
     }
 
     public function get_admin_media_routes(): array
@@ -241,40 +244,42 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_admin_topic_routes(): array
     {
-        $controller = new AdminTopicController($this->admin_topic_model, $this->admin_media_model);
+        // $controller = new AdminTopicController($this->admin_topic_model, $this->admin_media_model);
 
-        return [
-            '/admin/topics' => [
-                'GET' => [
-                    'controller' => $controller,
-                    'action' => 'index'
-                ]
-                ],
+        // return [
+        //     '/admin/topics' => [
+        //         'GET' => [
+        //             'controller' => $controller,
+        //             'action' => 'index'
+        //         ]
+        //     ],
 
-                '/admin/topics/create' => [
-                    'GET' => [
-                        'controller' => $controller,
-                        'action' => 'create'
-                    ],
-                    'POST' => [
-                        'controller' => $controller,
-                        'action' => 'store'
-                    ]
-                    ],
+        //     '/admin/topics/create' => [
+        //         'GET' => [
+        //             'controller' => $controller,
+        //             'action' => 'create'
+        //         ],
+        //         'POST' => [
+        //             'controller' => $controller,
+        //             'action' => 'store'
+        //         ]
+        //     ],
 
-                    '/admin/topics/edit' => [
-                        'GET' => [
-                            'controller' => $controller,
-                            'action' => 'edit'
-                        ],
-                        'POST' => [
-                            'controller' => $controller,
-                            'action' => 'update'
-                        ]
-                    ]
+        //     '/admin/topics/edit' => [
+        //         'GET' => [
+        //             'controller' => $controller,
+        //             'action' => 'edit'
+        //         ],
+        //         'POST' => [
+        //             'controller' => $controller,
+        //             'action' => 'update'
+        //         ]
+        //     ]
 
 
-        ];
+        // ];
+
+        return [];
     }
 
     public function get_admin_vocabulary_routes(): array

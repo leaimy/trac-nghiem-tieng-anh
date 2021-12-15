@@ -43,7 +43,10 @@ class ComponentsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Components Screen',style: CustomTextStyle.heading1,),
+        title: const Text(
+          'Components Screen',
+          style: CustomTextStyle.heading1,
+        ),
       ),
       body: SingleChildScrollView(
         padding:
@@ -108,8 +111,8 @@ class ComponentsScreen extends StatelessWidget {
               ],
             )),
             session(Column(
-              // children: [sessionTitle('Inbox Item'), InboxItem(size: size)],
-            )),
+                //   children: [sessionTitle('Inbox Item'), InboxItem(size: size)],
+                )),
           ],
         ),
       ),

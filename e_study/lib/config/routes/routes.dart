@@ -8,9 +8,8 @@ class Routes {
 
   static const String homeScreen = 'HomeScreen';
   static const String listQuestionPackScreen = 'ListQuestionPackScreen';
+  static const String questionDetailScreen = 'QuestionDetailScreen';
 
-  
   static const String signInScreen = 'SignInScreen';
   static const String signUpScreen = 'SignUpScreen';
-  
 }

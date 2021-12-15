@@ -10,7 +10,7 @@ class HomeScreen extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Topic'),
+        title: const Text('Bài trắc nghiệm'),
       ),
       body: ListView.builder(
           padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -28,7 +28,7 @@ class HomeScreen extends StatelessWidget {
                       color: LightTheme.lightBlue,
                       borderRadius: BorderRadius.circular(22)),
                   alignment: Alignment.center,
-                  child: Text('Topics ${index + 1}'),
+                  child: Text('Trắc nghiệm ${index + 1}'),
                 ),
               ),
             );
