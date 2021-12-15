@@ -17,13 +17,13 @@
     </div>
 
     <div class="row my-3">
-        <?php for ($i = 0; $i < 20; $i++) : ?>
+        <?php foreach($media_all as $media) : ?>
             <div class="col-3">
                 <div class="card m-3">
-                    <img  src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg" class="card-img-top" alt="...">
+                    <img  src="<?=$media->media_path ?>" class="card-img-top" alt="...">
                 </div>
             </div>
-        <?php endfor; ?>
+        <?php endforeach; ?>
     </div>
 </div>
 
