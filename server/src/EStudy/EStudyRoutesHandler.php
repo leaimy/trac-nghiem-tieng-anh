@@ -15,9 +15,11 @@ use EStudy\Controller\Admin\AdminTopicController;
 use EStudy\Controller\Admin\AdminVocabularyController;
 use EStudy\Entity\Admin\MediaEntity;
 use EStudy\Entity\Admin\UserEntity;
+use EStudy\Entity\Admin\VocabularyEntity;
 use EStudy\Model\Admin\QuestionModel;
 
 use EStudy\Model\Admin\UserModel;
+use EStudy\Model\Admin\VocabularyModel;
 use Ninja\Authentication;
 use Ninja\DatabaseTable;
 use Ninja\NJInterface\IRoutes;
@@ -38,6 +40,9 @@ class EStudyRoutesHandler implements IRoutes
     private $admin_media_table;
     private $admin_media_model;
     
+    private $admin_vocabulary_table;
+    private $admin_vocabulary_model;
+    
     private $admin_user_table;
     private $admin_user_model;
     
@@ -53,6 +58,11 @@ class EStudyRoutesHandler implements IRoutes
         
         $this->admin_media_table = new DatabaseTable(MediaEntity::TABLE, MediaEntity::PRIMARY_KEY, MediaEntity::CLASS_NAME);
         $this->admin_media_model = new MediaModel($this->admin_media_table);
+        
+        $this->admin_vocabulary_table = new DatabaseTable(VocabularyEntity::TABLE, VocabularyEntity::PRIMARY_KEY, VocabularyEntity::CLASS_NAME, [
+            &$this->admin_media_model
+        ]);
+        $this->admin_vocabulary_model = new VocabularyModel($this->admin_vocabulary_table);
         
         $this->admin_user_table = new DatabaseTable(UserEntity::TABLE, UserEntity::PRIMARY_KEY, UserEntity::CLASS_NAME);
         $this->admin_user_model = new UserModel($this->admin_user_table);
@@ -291,13 +301,23 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_admin_vocabulary_routes(): array
     {
-        $controller = new AdminVocabularyController();
+        $controller = new AdminVocabularyController($this->admin_vocabulary_model, $this->admin_media_model);
 
         return [
             '/admin/vocabularies' => [
                 'GET' => [
                     'controller' => $controller,
                     'action' => 'index'
+                ]
+            ],
+            '/admin/vocabularies/create' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'create'
+                ],
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'store'
                 ]
             ]
         ];
