@@ -1,6 +1,6 @@
 {% extends admin/master.html.php %}
 
-{% block title %}<?= $shop_name ?? 'SSF' ?> - Admin - Thêm chủ đề{% endblock %}
+{% block title %}<?= $shop_name ?? 'SSF' ?> - Admin - Cập nhật chủ đề{% endblock %}
 
 {% block content %}
 
@@ -22,25 +22,26 @@ $message = $message ?? '';
                 <div class="alert alert-danger my-4"><?= $message ?></div>
             <?php endif; ?>
 
-            <form action="" method="post" enctype="multipart/form-data">
+            <form action="/admin/topics/edit" method="post" enctype="multipart/form-data">
                 <div class="card">
+            <input type="hidden" name="id" value="<?= $topic->id ?>">
                     <div class="card-header">
                         Điền thông tin của chủ đề, các trường bắt buộc có dấu*
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
                             <label for="" class="form-label">Tên*</label>
-                            <input name="title" type="text" class="form-control" autocomplete="off" value="<?= $title ?>">
+                            <input name="title" type="text" class="form-control" autocomplete="off" value="<?= $topic->title ?>">
                         </div>
                         <div class="mb-3">
                             <label for="" class="form-label">Mô tả</label>
-                            <textarea name="description" id="" rows="5" class="form-control"><?= $description ?></textarea>
+                            <textarea name="description" id="" rows="5" class="form-control"><?= $topic->description ?></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="" class="form-label">Hình ảnh</label>
                             <div class="row">
                                 <div class="col-10">
-                                    <input type="text" name="image_name" id="name" class="form-control" disabled>
+                                    <input value="<?= $topic->get_media_name() == null ? 'macdinh.jpg' : $topic->get_media_name() ?>" type="text" name="image_name" id="name" class="form-control" disabled>
                                 </div>
                                 <div class="col-2">
                                     <label class="border rounded p-2 bg-info text-white" for="file_upload">Chọn ảnh</label>
@@ -48,10 +49,10 @@ $message = $message ?? '';
                                 </div>
                             </div>
                         </div>
-                        <div class="text-center mb-1"><img id="image" src="" alt="" name="image_path"></div>
+                        <div class="text-center mb-1"><img id="image" style="height: 200px;" src="<?= $topic->get_media_path() == null ? '/uploads/macdinh.jpg' : $topic->get_media_path() ?>" alt="" name="image_path"></div>
                     </div>
                     <div class="card-footer">
-                        <button class="btn btn-success">Thêm mới</button>
+                        <button class="btn btn-warning">Cập nhật</button>
                         <a href="/admin/topics" class="btn btn-secondary">Quay lại</a>
                     </div>
                 </div>
