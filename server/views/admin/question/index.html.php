@@ -40,7 +40,7 @@ $all_questions = $all_questions ?? [];
         <tbody>
         <?php foreach ($all_questions as $idx => $question): ?>
             <tr>
-                <th scope="row"><?= ($_GET['page'] - 1) * $limit + ($idx + 1) ?></th>
+                <th scope="row"><?= ($current_page - 1) * $limit + ($idx + 1) ?></th>
                 <td title="<?= $question->title ?>"><?= $question->get_truncate_title() ?></td>
                 <td><?= $question->type ?></td>
                 <td><?= $question->topic_id ?></td>
