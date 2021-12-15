@@ -5,6 +5,7 @@ namespace EStudy\Controller\Admin;
 use EStudy\Entity\Admin\VocabularyEntity;
 use EStudy\Model\Admin\MediaModel;
 use EStudy\Model\Admin\VocabularyModel;
+use Exception;
 use Ninja\NinjaException;
 use Ninja\NJBaseController\NJBaseController;
 
@@ -14,6 +15,7 @@ class AdminVocabularyController extends NJBaseController
     private $media_model;
     public function __construct(VocabularyModel $vocabulary_model, MediaModel $media_model)
     {
+        parent::__construct();
         $this->vocabulary_model = $vocabulary_model;
         $this->media_model = $media_model;
     }
