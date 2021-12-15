@@ -46,7 +46,7 @@ $all_questions = $all_questions ?? [];
                 <td><?= $question->topic_id ?></td>
                 <td title="<?= $question->corrects ?>"><?= $question->get_truncate_correct_answer() ?></td>
                 <td>
-                    <a href="#" class="me-2 text-decoration-none">
+                    <a href="/admin/questions/edit?id=<?= $question->id ?>" class="me-2 text-decoration-none">
                         <i data-feather="edit-2"></i>
                     </a>
                     <a href="#" class="text-decoration-none">

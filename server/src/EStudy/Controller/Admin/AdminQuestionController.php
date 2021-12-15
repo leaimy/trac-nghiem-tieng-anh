@@ -43,11 +43,38 @@ class AdminQuestionController extends NJBaseController
             2 => 'Văn phòng',
             3 => 'Công sở',
             4 => 'Nhà ăn',
+            666 => 'Quizlet',
+            777 => 'Tin học VP'
         ];
         
         $this->view_handler->render('admin/question/create.html.php', [
             'question_types' => $question_types,
             'topics' => $topics,
+        ]);
+    }
+
+    public function edit()
+    {
+        $question_types = $this->question_model->get_all_question_types();
+        $topics = [
+            0 => 'Xã hội',
+            1 => 'Trường học',
+            2 => 'Văn phòng',
+            3 => 'Công sở',
+            4 => 'Nhà ăn',
+            666 => 'Quizlet',
+            777 => 'Tin học VP'
+        ];
+        
+        $entity = null;
+        if (!is_null($_GET['id'] ?? null)) {
+            $entity = $this->question_model->get_by_id($_GET['id']);
+        }
+
+        $this->view_handler->render('admin/question/edit.html.php', [
+            'question_types' => $question_types,
+            'topics' => $topics,
+            'entity' => $entity
         ]);
     }
 }

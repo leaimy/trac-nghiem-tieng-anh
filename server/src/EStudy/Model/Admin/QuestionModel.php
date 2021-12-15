@@ -20,6 +20,11 @@ class QuestionModel
         return $this->question_table->findAll($orderBy, $orderDirection, $limit, $offset);
     }
     
+    public function get_by_id($id)
+    {
+        return $this->question_table->findById($id);
+    }
+    
     public function count()
     {
         return $this->question_table->total();
