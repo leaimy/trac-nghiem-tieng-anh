@@ -45,7 +45,14 @@ $all_questions = $all_questions ?? [];
                 <td><?= $question->type ?></td>
                 <td><?= $question->topic_id ?></td>
                 <td><?= $question->corrects ?></td>
-                <td></td>
+                <td>
+                    <a href="#" class="me-2 text-decoration-none">
+                        <i data-feather="edit-2"></i>
+                    </a>
+                    <a href="#" class="text-decoration-none">
+                        <i data-feather="trash-2"></i>
+                    </a>
+                </td>
             </tr>
         <?php endforeach; ?>
         </tbody>
