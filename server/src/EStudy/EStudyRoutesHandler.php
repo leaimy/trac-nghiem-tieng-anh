@@ -219,7 +219,7 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_admin_quiz_routes(): array
     {
-        $controller = new AdminQuizController();
+        $controller = new AdminQuizController($this->admin_question_model);
 
         return [
             '/admin/quiz' => [
