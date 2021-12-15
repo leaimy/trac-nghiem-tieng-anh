@@ -15,9 +15,14 @@ class QuestionModel
         $this->question_table = $question_table;
     }
 
-    public function get_all_questions()
+    public function get_all_questions($orderBy = null, $orderDirection = null, $limit = null, $offset = null)
     {
-        return $this->question_table->findAll();
+        return $this->question_table->findAll($orderBy, $orderDirection, $limit, $offset);
+    }
+    
+    public function count()
+    {
+        return $this->question_table->total();
     }
     
     public function get_all_question_types()

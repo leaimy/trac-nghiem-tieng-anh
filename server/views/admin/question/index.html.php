@@ -38,13 +38,13 @@ $all_questions = $all_questions ?? [];
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($all_questions as $question): ?>
+        <?php foreach ($all_questions as $idx => $question): ?>
             <tr>
-                <th scope="row"><?= $question->id ?></th>
-                <td><?= $question->title ?></td>
+                <th scope="row"><?= ($_GET['page'] - 1) * $limit + ($idx + 1) ?></th>
+                <td title="<?= $question->title ?>"><?= $question->get_truncate_title() ?></td>
                 <td><?= $question->type ?></td>
                 <td><?= $question->topic_id ?></td>
-                <td><?= $question->corrects ?></td>
+                <td title="<?= $question->corrects ?>"><?= $question->get_truncate_correct_answer() ?></td>
                 <td>
                     <a href="#" class="me-2 text-decoration-none">
                         <i data-feather="edit-2"></i>
@@ -57,6 +57,16 @@ $all_questions = $all_questions ?? [];
         <?php endforeach; ?>
         </tbody>
     </table>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center flex-wrap">
+            <?php for ($i = 0; $i <= $number_of_page; $i++): ?>
+                <li class="page-item <?= ($i + 1) == $current_page ? 'active' : '' ?>">
+                    <a class="page-link" href="/admin/questions?page=<?= $i + 1 ?>"><?= $i + 1 ?></a>
+                </li>
+            <?php endfor; ?>
+        </ul>
+    </nav>
 </div>
 
 {% endblock %}

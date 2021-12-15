@@ -118,6 +118,12 @@
                     Liên hệ chúng tôi
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link <?= $route == '/admin/import-sample-data' ? 'active' : '' ?>" href="/admin/import-sample-data">
+                    <span data-feather="layers"></span>
+                    Tải dữ liệu mẫu
+                </a>
+            </li>
         </ul>
     </div>
 </nav>
