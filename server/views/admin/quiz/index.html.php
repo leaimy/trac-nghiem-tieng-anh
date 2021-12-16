@@ -33,11 +33,13 @@
                     <form action="/admin/quiz/generate/from-question-bank" method="POST">
                         <div class="mb-3">
                             <label for="title" class="form-label">Tiêu đề</label>
-                            <input value="Auto generated <?= (new \DateTime())->format('d-m-Y h:i:s') ?>" type="text" class="form-control" id="title" name="title">
+                            <input value="Auto generated <?= (new \DateTime())->format('d-m-Y h:i:s') ?>" type="text"
+                                   class="form-control" id="title" name="title">
                         </div>
                         <div class="mb-3">
                             <label for="question_quantity" class="form-label">Số lượng câu hỏi</label>
-                            <input value="20" type="number" min="1" class="form-control" id="question_quantity" name="question_quantity">
+                            <input value="20" type="number" min="1" class="form-control" id="question_quantity"
+                                   name="question_quantity">
                         </div>
                         <div class="mb-3">
                             <label for="question_type" class="form-label">Loại câu hỏi</label>
@@ -77,20 +79,21 @@
         </thead>
         <tbody>
         <?php foreach ($quizzes as $idx => $quiz): ?>
-        <tr>
-            <th scope="row"><?= $idx + 1 ?></th>
-            <td><?= $quiz->title ?></td>
-            <td><?= $quiz->question_quantity ?></td>
-            <td><?= $quiz->author_id ?></td>
-            <td>
-                <a href="" class="me-2 text-decoration-none">
-                    <i data-feather="edit-2" class="text-warning"></i>
-                </a>
-                <a href="#" class="text-decoration-none btn-delete-question" data-id="<?= $quiz->id ?>" data-title="<?= $quiz->title ?>">
-                    <i data-feather="trash-2" class="text-danger"></i>
-                </a>
-            </td>
-        </tr>
+            <tr>
+                <th scope="row"><?= $idx + 1 ?></th>
+                <td><?= $quiz->title ?></td>
+                <td><?= $quiz->question_quantity ?></td>
+                <td><?= $quiz->author_id ?></td>
+                <td>
+                    <a href="/admin/quiz/edit?id=<?= $quiz->id ?>" class="me-2 text-decoration-none">
+                        <i data-feather="edit-2" class="text-warning"></i>
+                    </a>
+                    <a href="#" class="text-decoration-none btn-delete-question" data-id="<?= $quiz->id ?>"
+                       data-title="<?= $quiz->title ?>">
+                        <i data-feather="trash-2" class="text-danger"></i>
+                    </a>
+                </td>
+            </tr>
         <?php endforeach; ?>
         </tbody>
     </table>

@@ -3,6 +3,7 @@
 namespace EStudy\Entity\Admin;
 
 use EStudy\Model\Admin\MediaModel;
+use EStudy\Model\Admin\Pivot\QuestionQuizModel;
 use EStudy\Model\Admin\QuestionModel;
 use EStudy\Model\Admin\UserModel;
 use Ninja\Utils\NJStringUtils;
@@ -32,16 +33,15 @@ class QuizEntity
     private $author_entity;
     private $author_model;
     
-    private $question_entities;
-    private $question_model;
-    
     private $media_entity;
     private $media_model;
     
-    public function __construct(QuestionModel $question_model, UserModel $user_model, MediaModel $media_model)
+    private $question_quiz_model;
+    
+    public function __construct(QuestionQuizModel $question_quiz_model, UserModel $user_model, MediaModel $media_model)
     {
+        $this->question_quiz_model = $question_quiz_model;
         $this->author_model = $user_model;
-        $this->question_model = $question_model;
         $this->media_model = $media_model;
     }
 
@@ -63,9 +63,9 @@ class QuizEntity
         return $this->author_entity;
     }
     
-    function get_questions()
+    function get_questions() : array
     {
-        return [];
+        return $this->question_quiz_model->get_questions_by_quiz_id($this->id) ?? [];
     }
 
     function get_media()

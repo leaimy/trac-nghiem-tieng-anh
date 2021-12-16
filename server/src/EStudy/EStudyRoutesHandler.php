@@ -94,7 +94,7 @@ class EStudyRoutesHandler implements IRoutes
         $this->admin_question_quiz_model = new QuestionQuizModel($this->admin_question_quiz_table);
 
         $this->admin_quiz_table = new DatabaseTable(QuizEntity::TABLE, QuizEntity::PRIMARY_KEY, QuizEntity::CLASS_NAME, [
-            &$this->admin_question_model,
+            &$this->admin_question_quiz_model,
             &$this->admin_user_model,
             &$this->admin_media_model
         ]);
@@ -274,6 +274,12 @@ class EStudyRoutesHandler implements IRoutes
                 'GET' => [
                     'controller' => $controller,
                     'action' => 'index'
+                ]
+            ],
+            '/admin/quiz/edit' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'edit'
                 ]
             ],
             '/admin/quiz/generate/from-question-bank' => [

@@ -41,6 +41,28 @@ class AdminQuizController extends NJBaseController
         ]);
     }
     
+    public function edit()
+    {
+        try {
+            $quiz_id = $_GET['id'] ?? null;
+            
+            if (is_null($quiz_id))
+                throw new NinjaException('Mã định danh bài trắc nghiệm không hợp lệ');
+            
+            $quiz = $this->quiz_model->get_by_id($quiz_id);
+            if (empty($quiz))
+                throw new NinjaException('Không tìm thấy bài trắc nghiệm');
+            
+            $this->view_handler->render('admin/quiz/edit.html.php', [
+                'quiz' => $quiz
+            ]);
+        }
+        catch (NinjaException $e) {
+            // TODO: Handle quiz error page
+            die($e->getMessage());
+        }
+    }
+    
     public function generate_from_question_bank()
     {
         try {
