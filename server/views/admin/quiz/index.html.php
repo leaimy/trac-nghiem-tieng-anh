@@ -26,7 +26,7 @@
         <button class="btn btn-success me-2 " type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
                 aria-expanded="false" aria-controls="collapseExample">Tạo từ ngân hàng câu hỏi
         </button>
-        <a href="/admin/questions/create" class="btn btn-primary">Thêm mới</a>
+        <a href="/admin/quiz/create" class="btn btn-primary">Thêm mới</a>
     </div>
 </div>
 

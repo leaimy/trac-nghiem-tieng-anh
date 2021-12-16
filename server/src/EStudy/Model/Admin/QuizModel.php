@@ -32,15 +32,44 @@ class QuizModel
     {
         return $this->quiz_table->findById($id);
     }
-    
+
+    /**
+     * @throws NinjaException
+     */
+    function create_new_quiz($args)
+    {
+        if (is_null($args[QuizEntity::KEY_TITLE]))
+            throw new NinjaException('Vui lòng nhập tiêu đề');
+
+        return $this->quiz_table->save($args);
+    }
+
+    /**
+     * @throws NinjaException
+     */
     function update_general_info($id, $args)
     {
+        if (is_null($id))
+            throw new NinjaException('Mã định danh bài trắc nghiệm không hợp lệ');
+
+        if (is_null($args[QuizEntity::KEY_TITLE]))
+            throw new NinjaException('Vui lòng nhập tiêu đề');
+
         $args[QuizEntity::KEY_ID] = $id;
         return $this->quiz_table->save($args);
     }
-    
+
+    /**
+     * @throws NinjaException
+     */
     function add_question($quiz_id, $question_id)
     {
+        if (is_null($quiz_id))
+            throw new NinjaException('Mã định danh bài trắc nghiệm không hợp lệ');
+        
+        if (is_null($question_id))
+            throw new NinjaException('Mã định danh câu hỏi không hợp lệ');
+
         $questions = $this->question_quiz_model->get_questions_by_quiz_id($quiz_id);
         
         $existing = false;

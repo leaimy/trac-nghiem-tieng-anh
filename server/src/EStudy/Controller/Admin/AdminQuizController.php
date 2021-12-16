@@ -43,6 +43,40 @@ class AdminQuizController extends NJBaseController
         ]);
     }
     
+    public function create()
+    {
+        $this->view_handler->render('admin/quiz/create.html.php', [
+            'questions' => $this->question_model->get_all_questions()
+        ]);
+    }
+    
+    public function store()
+    {
+        try {
+            $title = $_POST['title'] ?? null;
+            $description = $_POST['description'] ?? '';
+            $question_ids = $_POST['questions'] ?? [];
+            
+            $new_quiz = $this->quiz_model->create_new_quiz([
+                QuizEntity::KEY_TITLE => $title,
+                QuizEntity::KEY_DESCRIPTION => $description,
+                QuizEntity::KEY_QUESTION_QUANTITY => count($question_ids),
+                
+                // TODO: get logged in user id
+                QuizEntity::KEY_AUTHOR_ID => 1,
+            ]);
+            
+            foreach ($question_ids as $question_id) 
+                $this->quiz_model->add_question($new_quiz->id, $question_id);
+            
+            $this->route_redirect('/admin/quiz');
+        }
+        catch (NinjaException $e) {
+            // TODO: Handle quiz error page
+            die($e->getMessage());
+        }
+    }
+    
     public function edit()
     {
         try {
@@ -72,9 +106,6 @@ class AdminQuizController extends NJBaseController
             $quiz_id = $_POST['id'] ?? null;
             $action = $_POST['action'] ?? null;
             
-            if (is_null($quiz_id))
-                throw new NinjaException('Mã định danh bài trắc nghiệm không hợp lệ');
-            
             if (is_null($action))
                 throw new NinjaException('Hành động không hợp lệ');
             
@@ -98,15 +129,9 @@ class AdminQuizController extends NJBaseController
      */
     private function update_general_info()
     {
-        $quiz_id = $_POST['id'];
+        $quiz_id = $_POST['id'] ?? null;
         $quiz_title = $_POST['title'] ?? null;
-        $quiz_description = $_POST['description'] ?? null;
-        
-        if (is_null($quiz_title))
-            throw new NinjaException('Vui lòng nhập tiêu đề');
-        
-        if (is_null($quiz_description))
-            throw new NinjaException('Vui lòng nhập mô tả');
+        $quiz_description = $_POST['description'] ?? '';
         
         $this->quiz_model->update_general_info($quiz_id, [
             QuizEntity::KEY_TITLE => $quiz_title,
@@ -114,9 +139,12 @@ class AdminQuizController extends NJBaseController
         ]);
     }
 
+    /**
+     * @throws NinjaException
+     */
     private function add_more_question()
     {
-        $quiz_id = $_POST['id'];
+        $quiz_id = $_POST['id'] ?? null;
         $question_ids = $_POST['questions'] ?? [];
         
         if (count($question_ids) == 0)
