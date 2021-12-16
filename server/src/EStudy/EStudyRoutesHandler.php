@@ -204,26 +204,26 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_admin_account_routes(): array
     {
-        // $controller = new AdminAccountController($this->admin_user_model);
+         $controller = new AdminAccountController($this->admin_user_model);
 
-        // return [
-        //     '/admin/accounts' => [
-        //         'GET' => [
-        //             'controller' => $controller,
-        //             'action' => 'index'
-        //         ]
-        //     ],
-        //     '/admin/accounts/new_user' => [
-        //         'GET' => [
-        //             'controller' => $controller,
-        //             'action' => 'new_user'
-        //         ],
-        //         'POST' => [
-        //             'controller' => $controller,
-        //             'action' => 'create_new_user'
-        //         ]
-        //     ]
-        // ];
+         return [
+             '/admin/accounts' => [
+                 'GET' => [
+                     'controller' => $controller,
+                     'action' => 'index'
+                 ]
+             ],
+             '/admin/accounts/new_user' => [
+                 'GET' => [
+                     'controller' => $controller,
+                     'action' => 'new_user'
+                 ],
+                 'POST' => [
+                     'controller' => $controller,
+                     'action' => 'create_new_user'
+                 ]
+             ]
+         ];
 
         return [];
     }
@@ -467,6 +467,12 @@ class EStudyRoutesHandler implements IRoutes
                 'POST' => [
                     'controller' => $controller,
                     'action' => 'import_quizlet'
+                ]
+            ],
+            '/admin/import-sample-data/fullname' => [
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'import_fullname'
                 ]
             ]
         ];

@@ -18,6 +18,11 @@
     <form action="/admin/import-sample-data/quizlet" method="POST">
         <input class="btn btn-success" type="submit" value="Nhập bộ trắc nghiệm tiếng Anh Quizlet" name="import_quizlet">
     </form>
+    <hr>
+
+    <form action="/admin/import-sample-data/fullname" method="POST">
+        <input class="btn btn-success" type="submit" value="Nhập dữ liệu tên" name="import_fullname">
+    </form>
 </div>
 
 {% endblock %}
