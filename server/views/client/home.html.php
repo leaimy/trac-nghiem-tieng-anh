@@ -83,83 +83,18 @@
             </h1>
 
             <div class="row mt-5 justify-content-center justify-content-lg-start">
-                <div class="col-sm-10 col-md-6 col-lg-5 col-xxl-3 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Danh từ</h5>
-                            <p class="card-text">
-                                Danh từ trong tiếng Anh dùng để chỉ ...
-                            </p>
-                            <a href="/quiz/quizzes" class="btn btn-primary">Ôn tập ngay</a>
+                <?php foreach ($topics as $topic): ?>
+                    <div class="col-sm-10 col-md-6 col-lg-5 col-xxl-3 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title"><?= $topic->title ?></h5>
+                                <p class="card-text"><?= $topic->description ?></p>
+                                
+                                <a href="/quiz/quizzes" class="btn btn-primary">Ôn tập ngay</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-10 col-md-6 col-lg-5 col-xxl-3 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Động từ</h5>
-                            <p class="card-text">
-                                Làm các bài trắc nghiệm liên quand đến từ vựng thuộc loại
-                                động từ
-                            </p>
-                            <a href="#" class="btn btn-primary">Ôn tập ngay</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-10 col-md-6 col-lg-5 col-xxl-3 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Tính từ</h5>
-                            <p class="card-text">
-                                With supporting text below as a natural lead-in to
-                                additional content.
-                            </p>
-                            <a href="#" class="btn btn-primary">Ôn tập ngay</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-10 col-md-6 col-lg-5 col-xxl-3 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Giới từ</h5>
-                            <p class="card-text">
-                                With supporting text below as a natural lead-in to
-                                additional content.
-                            </p>
-                            <a href="#" class="btn btn-primary">Ôn tập ngay</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-10 col-md-6 col-lg-5 col-xxl-3 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Đại từ</h5>
-                            <p class="card-text">
-                                With supporting text below as a natural lead-in to
-                                additional content.
-                            </p>
-                            <a href="#" class="btn btn-primary">Ôn tập ngay</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-10 col-md-6 col-lg-5 col-xxl-3 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Đại từ</h5>
-                            <p class="card-text">
-                                With supporting text below as a natural lead-in to
-                                additional content.
-                            </p>
-                            <a href="#" class="btn btn-primary">Ôn tập ngay</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mt-4 mb-3">
-                <div class="col d-flex justify-content-center">
-                    <a href="" class="btn btn-primary">Xem thêm các chủ đề khác...</a>
-                </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>

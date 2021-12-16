@@ -153,7 +153,7 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_client_routes()
     {
-        $controller = new HomeController();
+        $controller = new HomeController($this->admin_topic_model);
         $quiz_controller = new QuizController();
 
         return [
