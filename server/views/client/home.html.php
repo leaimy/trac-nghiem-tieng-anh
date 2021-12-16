@@ -90,7 +90,7 @@
                                 <h5 class="card-title"><?= $topic->title ?></h5>
                                 <p class="card-text"><?= $topic->description ?></p>
                                 
-                                <a href="/quiz/quizzes" class="btn btn-primary">Ôn tập ngay</a>
+                                <a href="/quizzes/by_topic?topic_id=<?= $topic->id ?>" class="btn btn-primary">Ôn tập ngay</a>
                             </div>
                         </div>
                     </div>

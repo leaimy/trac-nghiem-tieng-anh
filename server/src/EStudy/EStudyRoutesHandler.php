@@ -154,7 +154,7 @@ class EStudyRoutesHandler implements IRoutes
     public function get_client_routes()
     {
         $controller = new HomeController($this->admin_topic_model);
-        $quiz_controller = new QuizController();
+        $quiz_controller = new QuizController($this->admin_quiz_model);
 
         return [
             '/' => [
@@ -163,10 +163,16 @@ class EStudyRoutesHandler implements IRoutes
                     'action' => 'index'
                 ]
             ],
-            '/quiz/quizzes' => [
+            '/quizzes' => [
                 'GET' => [
                     'controller' => $quiz_controller,
                     'action' => 'index'
+                ]
+            ],
+            '/quizzes/by_topic' => [
+                'GET' => [
+                    'controller' => $quiz_controller,
+                    'action' => 'show_quizzes_by_topic'
                 ]
             ],
             '/quiz/take-quiz' => [
