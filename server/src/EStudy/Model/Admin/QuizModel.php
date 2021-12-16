@@ -166,7 +166,7 @@ class QuizModel
             $topic_entity = $question->get_topic() ?? null;
             if (!$topic_entity) continue;
             
-            $topic_titles[] = $topic_entity->{TopicEntity::KEY_TITLE}; 
+            $topic_titles[$question->topic_id] = $topic_entity->{TopicEntity::KEY_TITLE}; 
         }
         
         $quiz_descriptions = [];
@@ -176,7 +176,7 @@ class QuizModel
         
         $new_quiz = $this->quiz_table->save([
             QuizEntity::KEY_TITLE => $title,
-            QuizEntity::KEY_DESCRIPTION => implode("\n", $quiz_descriptions),
+            QuizEntity::KEY_DESCRIPTION => implode("<br>", $quiz_descriptions),
             QuizEntity::KEY_QUESTION_QUANTITY => $quantity,
             
             // TODO: Get logged in user id
