@@ -54,7 +54,8 @@ class AdminQuizController extends NJBaseController
                 throw new NinjaException('Không tìm thấy bài trắc nghiệm');
             
             $this->view_handler->render('admin/quiz/edit.html.php', [
-                'quiz' => $quiz
+                'quiz' => $quiz,
+                'questions' => $this->question_model->get_all_questions()
             ]);
         }
         catch (NinjaException $e) {
