@@ -90,7 +90,7 @@
                             <p class="card-text">
                                 Danh từ trong tiếng Anh dùng để chỉ ...
                             </p>
-                            <a href="#" class="btn btn-primary">Ôn tập ngay</a>
+                            <a href="/quiz/take-quiz" class="btn btn-primary">Ôn tập ngay</a>
                         </div>
                     </div>
                 </div>

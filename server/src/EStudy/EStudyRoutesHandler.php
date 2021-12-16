@@ -15,6 +15,7 @@ use EStudy\Controller\Admin\AdminSettingController;
 use EStudy\Controller\Admin\AdminTopicController;
 use EStudy\Controller\Admin\AdminVocabularyController;
 use EStudy\Controller\Client\HomeController;
+use EStudy\Controller\Client\QuizController;
 use EStudy\Entity\Admin\MediaEntity;
 use EStudy\Entity\Admin\Pivot\QuestionQuizEntity;
 use EStudy\Entity\Admin\QuizEntity;
@@ -153,12 +154,19 @@ class EStudyRoutesHandler implements IRoutes
     public function get_client_routes()
     {
         $controller = new HomeController();
+        $quiz_controller = new QuizController();
 
         return [
             '/' => [
                 'GET' => [
                     'controller' => $controller,
                     'action' => 'index'
+                ]
+            ],
+            '/quiz/take-quiz' => [
+                'GET' => [
+                    'controller' => $quiz_controller,
+                    'action' => 'take_quiz'
                 ]
             ]
         ];
