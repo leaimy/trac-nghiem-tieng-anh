@@ -2,6 +2,7 @@
 
 namespace EStudy\Entity\Admin;
 
+use EStudy\Model\Admin\MediaModel;
 use EStudy\Model\Admin\TopicModel;
 use Ninja\Utils\NJStringUtils;
 
@@ -51,9 +52,13 @@ class QuestionEntity
     private $topic_entity;
     private $topic_model;
     
-    function __construct(TopicModel $topic_model)
+    private $media_entity;
+    private $media_model;
+    
+    function __construct(TopicModel $topic_model, MediaModel $media_model)
     {
         $this->topic_model = $topic_model;
+        $this->media_model = $media_model;
     }
 
     function get_truncate_title()
@@ -93,6 +98,14 @@ class QuestionEntity
             $this->topic_entity = $this->topic_model->get_by_id($this->topic_id);
         
         return $this->topic_entity;
+    }
+    
+    function get_media()
+    {
+        if (!$this->media_entity)
+            $this->media_entity = $this->media_model->get_by_id($this->media_id);
+        
+        return $this->media_entity;
     }
     
     function get_answers()

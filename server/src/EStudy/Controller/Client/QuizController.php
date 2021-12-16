@@ -4,6 +4,7 @@ namespace EStudy\Controller\Client;
 
 use EStudy\Model\Admin\QuizModel;
 use EStudy\Model\Admin\TopicModel;
+use EStudy\Utils\QuestionRenderHelper;
 use Ninja\NinjaException;
 use Ninja\NJBaseController\NJBaseController;
 
@@ -57,7 +58,8 @@ class QuizController extends NJBaseController
             $questions = $quiz->get_questions();
             
             $this->view_handler->render('client/quiz/take_quiz.html.php', [
-                'questions' => $questions
+                'questions' => $questions,
+                'question_render_helper' => new QuestionRenderHelper()
             ]);
         }
         catch (NinjaException $exception) {

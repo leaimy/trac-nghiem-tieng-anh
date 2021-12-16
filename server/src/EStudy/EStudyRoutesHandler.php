@@ -72,7 +72,8 @@ class EStudyRoutesHandler implements IRoutes
         $this->admin_topic_model = new TopicModel($this->admin_topic_table);
 
         $this->admin_question_table = new DatabaseTable(QuestionEntity::TABLE, QuestionEntity::PRIMARY_KEY, QuestionEntity::CLASS_NAME, [
-            &$this->admin_topic_model
+            &$this->admin_topic_model,
+            &$this->admin_media_model
         ]);
         $this->admin_question_model = new QuestionModel($this->admin_question_table);
 

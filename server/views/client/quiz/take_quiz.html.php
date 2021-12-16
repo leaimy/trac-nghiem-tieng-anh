@@ -20,30 +20,8 @@
     </div>
     
     <?php foreach ($questions as $index => $question): ?>
-        <div class="row mt-3 justify-content-center">
-            <div class="col-sm-10">
-                <div class="card">
-                    <div class="card-header">
-                        Câu <?= $index + 1 ?>: <?= $question->title ?>
-                    </div>
-                    <div class="card-body">
-                        <?php foreach ($question->get_answers() as $answer_counter => $answer): ?>
-                            <div class="form-check">
-                                <input
-                                    class="form-check-input"
-                                    type="radio"
-                                    name="question-<?= $question->id ?>"
-                                    id="question-<?= $question->id ?>-<?= $answer_counter ?>"
-                                />
-                                <label class="form-check-label" for="question-<?= $question->id ?>-<?= $answer_counter ?>">
-                                    <?= $answer ?>
-                                </label>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <?= $question_render_helper->set_question($question) ?>
+        
     <?php endforeach; ?>
 </div>
 
