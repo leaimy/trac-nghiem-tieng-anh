@@ -49,7 +49,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="question_type" class="form-label">Loại câu hỏi</label>
-                            <select name="question_types[]" id="question_type" class="form-select" multiple style="width: 100%">
+                            <select name="question_types[]" id="question_type" class="form-select" multiple
+                                    style="width: 100%">
                                 <?php foreach ($question_types as $key => $type): ?>
                                     <option value="<?= $key ?>"><?= $type ?></option>
                                 <?php endforeach; ?>
@@ -57,7 +58,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="question_topic" class="form-label">Chủ đề câu hỏi</label>
-                            <select name="question_topics[]" id="question_topic" class="form-select" multiple style="width: 100%">
+                            <select name="question_topics[]" id="question_topic" class="form-select" multiple
+                                    style="width: 100%">
                                 <?php foreach ($topics as $topic): ?>
                                     <option value="<?= $topic->id ?>"><?= $topic->title ?></option>
                                 <?php endforeach; ?>
@@ -111,7 +113,7 @@
 
 {% block custom_scrips %}
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#question_type').select2();
         $('#question_topic').select2();
     });

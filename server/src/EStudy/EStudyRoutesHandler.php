@@ -14,6 +14,7 @@ use EStudy\Controller\Admin\AdminQuizHistoryController;
 use EStudy\Controller\Admin\AdminSettingController;
 use EStudy\Controller\Admin\AdminTopicController;
 use EStudy\Controller\Admin\AdminVocabularyController;
+use EStudy\Controller\Client\HomeController;
 use EStudy\Entity\Admin\MediaEntity;
 use EStudy\Entity\Admin\Pivot\QuestionQuizEntity;
 use EStudy\Entity\Admin\QuizEntity;
@@ -49,16 +50,16 @@ class EStudyRoutesHandler implements IRoutes
 
     private $admin_vocabulary_table;
     private $admin_vocabulary_model;
-    
+
     private $admin_topic_vocabulary_table;
     private $admin_topic_vocabulary_model;
 
     private $admin_quiz_table;
     private $admin_quiz_model;
-    
+
     private $admin_question_quiz_table;
     private $admin_question_quiz_model;
-    
+
     private $admin_user_table;
     private $admin_user_model;
 
@@ -76,12 +77,12 @@ class EStudyRoutesHandler implements IRoutes
 
         $this->admin_media_table = new DatabaseTable(MediaEntity::TABLE, MediaEntity::PRIMARY_KEY, MediaEntity::CLASS_NAME);
         $this->admin_media_model = new MediaModel($this->admin_media_table);
-        
+
         $this->admin_vocabulary_table = new DatabaseTable(VocabularyEntity::TABLE, VocabularyEntity::PRIMARY_KEY, VocabularyEntity::CLASS_NAME, [
             &$this->admin_media_model, &$this->admin_topic_vocabulary_model
         ]);
         $this->admin_vocabulary_model = new VocabularyModel($this->admin_vocabulary_table);
-        
+
         $this->admin_topic_vocabulary_table = new DatabaseTable(TopicVocabulary::TABLE, TopicVocabulary::PRIMARY_KEY, TopicVocabulary::CLASS_NAME, [
             &$this->admin_topic_model
         ]);
@@ -99,7 +100,7 @@ class EStudyRoutesHandler implements IRoutes
             &$this->admin_media_model
         ]);
         $this->admin_quiz_model = new QuizModel($this->admin_quiz_table, $this->admin_question_model, $this->admin_question_quiz_model);
-        
+
         $this->admin_user_table = new DatabaseTable(UserEntity::TABLE, UserEntity::PRIMARY_KEY, UserEntity::CLASS_NAME);
         $this->admin_user_model = new UserModel($this->admin_user_table);
     }
@@ -127,7 +128,10 @@ class EStudyRoutesHandler implements IRoutes
         $admin_vocabulary_routes = $this->get_admin_vocabulary_routes();
         $admin_import_routes = $this->get_admin_import_routes();
 
-        return $admin_dashboard_routes +
+        $client_routes = $this->get_client_routes();
+
+        return $client_routes +
+            $admin_dashboard_routes +
             $admin_account_routes +
             $admin_contact_us_routes +
             $admin_customer_routes +
@@ -137,7 +141,7 @@ class EStudyRoutesHandler implements IRoutes
             $admin_quiz_history_routes +
             $admin_setting_routes +
             $admin_topic_routes +
-            $admin_vocabulary_routes + 
+            $admin_vocabulary_routes +
             $admin_import_routes;
     }
 
@@ -146,14 +150,25 @@ class EStudyRoutesHandler implements IRoutes
         return [];
     }
 
+    public function get_client_routes()
+    {
+        $controller = new HomeController();
+
+        return [
+            '/' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'index'
+                ]
+            ]
+        ];
+    }
+
     public function get_admin_dashboard_routes(): array
     {
         $controller = new AdminDashboardController();
 
         return [
-            '/' => [
-                'REDIRECT' => '/admin/dashboard'
-            ],
             '/admin' => [
                 'REDIRECT' => '/admin/dashboard'
             ],
@@ -378,7 +393,7 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_admin_vocabulary_routes(): array
     {
-        $controller = new AdminVocabularyController($this->admin_vocabulary_model, $this->admin_media_model, $this->admin_topic_vocabulary_model,$this->admin_topic_model);
+        $controller = new AdminVocabularyController($this->admin_vocabulary_model, $this->admin_media_model, $this->admin_topic_vocabulary_model, $this->admin_topic_model);
 
         return [
             '/admin/vocabularies' => [
