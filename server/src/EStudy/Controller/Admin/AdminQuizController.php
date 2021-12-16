@@ -2,8 +2,10 @@
 
 namespace EStudy\Controller\Admin;
 
+use EStudy\Entity\Admin\QuizEntity;
 use EStudy\Model\Admin\QuestionModel;
 use EStudy\Model\Admin\QuizModel;
+use http\Exception\InvalidArgumentException;
 use Ninja\NinjaException;
 use Ninja\NJBaseController\NJBaseController;
 
@@ -64,6 +66,50 @@ class AdminQuizController extends NJBaseController
         }
     }
     
+    public function update()
+    {
+        try {
+            $quiz_id = $_POST['id'] ?? null;
+            $action = $_POST['action'] ?? null;
+            
+            if (is_null($quiz_id))
+                throw new NinjaException('Mã định danh bài trắc nghiệm không hợp lệ');
+            
+            if (is_null($action))
+                throw new NinjaException('Hành động không hợp lệ');
+            
+            if ($action == 'update_general_info') {
+                $this->update_general_info();
+            }
+            else if ($action == 'add_questions') {
+                $this->add_more_question();
+            }
+            
+            $this->route_redirect('/admin/quiz/edit?id=' . $quiz_id);
+        }
+        catch (NinjaException $e) {
+            // TODO: Handle quiz error page
+            die($e->getMessage());
+        }
+    }
+    
+    private function update_general_info()
+    {
+        $quiz_id = $_POST['id'] ?? null;
+        $quiz_title = $_POST['title'] ?? null;
+        $quiz_description = $_POST['description'] ?? null;
+        
+        $this->quiz_model->update_general_info([
+            QuizEntity::KEY_ID => $quiz_id,
+            QuizEntity::KEY_TITLE => $quiz_title,
+            QuizEntity::KEY_DESCRIPTION => $quiz_description
+        ]);
+    }
+
+    private function add_more_question()
+    {
+    }
+
     public function generate_from_question_bank()
     {
         try {

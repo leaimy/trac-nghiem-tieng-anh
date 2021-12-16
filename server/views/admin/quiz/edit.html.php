@@ -17,7 +17,9 @@
 <div class="min-vh-100">
     <div class="row my-5">
         <div class="col">
-            <form action="" method="POST">
+            <form action="" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="id" value="<?= $quiz->id ?>">
+                <input type="hidden" name="action" value="update_general_info">
                 <div class="mb-3">
                     <label for="title" class="form-label">Tiêu đề</label>
                     <input type="text" name="title" id="title" class="form-control" value="<?= $quiz->title ?>">
@@ -55,6 +57,8 @@
             <div class="collapse" id="collapseExample">
                 <div class="card card-body">
                     <form action="" method="POST">
+                        <input type="hidden" name="id" value="<?= $quiz->id ?>">
+                        <input type="hidden" name="action" value="add_questions">
                         <div class="mb-3">
                             <label for="questions" class="form-label">Chọn câu hỏi</label>
                             <select name="questions[]" id="questions" class="form-select w-100" style="width: 100%" multiple>

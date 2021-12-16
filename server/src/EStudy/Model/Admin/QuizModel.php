@@ -32,6 +32,11 @@ class QuizModel
     {
         return $this->quiz_table->findById($id);
     }
+    
+    function update_general_info($args)
+    {
+        $this->quiz_table->save($args);
+    }
 
     /**
      * Generate quiz from the question bank
