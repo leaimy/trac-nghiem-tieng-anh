@@ -94,4 +94,14 @@ class QuestionEntity
         
         return $this->topic_entity;
     }
+    
+    function get_answers()
+    {
+        return explode("\n", $this->answers);
+    }
+    
+    function get_correct_answers()
+    {
+        return explode("\n", $this->corrects);
+    }
 }

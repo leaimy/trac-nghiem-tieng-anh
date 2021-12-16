@@ -48,6 +48,20 @@ class QuizController extends NJBaseController
     
     public function take_quiz()
     {
-        $this->view_handler->render('client/quiz/take_quiz.html.php');
+        try {
+            $quiz_id = $_GET['quiz_id'] ?? null;
+            if (is_null($quiz_id))
+                throw new NinjaException('Mã định danh bài trắc nghiệm không hợp lệ');
+            
+            $quiz = $this->quiz_model->get_by_id($quiz_id);
+            $questions = $quiz->get_questions();
+            
+            $this->view_handler->render('client/quiz/take_quiz.html.php', [
+                'questions' => $questions
+            ]);
+        }
+        catch (NinjaException $exception) {
+            $this->route_redirect('/quizzes');
+        }
     }
 }
