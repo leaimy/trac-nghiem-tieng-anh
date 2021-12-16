@@ -2,57 +2,72 @@
 
 namespace EStudy\Model\Admin;
 
-use EStudy\Entity\Admin\TopicEntity;
+use EStudy\Entity\Admin\VocabularyEntity;
 use Ninja\DatabaseTable;
 use Ninja\NinjaException;
 
-class TopicModel
+class VocabularyModel
 {
-    private $topic_table;
+    private $vocabulary_table;
 
-    public function __construct(DatabaseTable $topic_table)
+    public function __construct(DatabaseTable $vocabulary_table)
     {
-        $this->topic_table = $topic_table;
+        $this->vocabulary_table = $vocabulary_table;
     }
 
-    public function get_all_topic()
+    public function get_all_vocabulary()
     {
-        return $this->topic_table->findAll();
+        return $this->vocabulary_table->findAll();
     }
 
     public function get_by_id($id)
     {
-        return $this->topic_table->findById($id);
+        return $this->vocabulary_table->findById($id);
     }
     
     /**
      * @throws NinjaException
      */
-    public function create_new_topic($args)
+    public function create_new_vocabulary($args)
     {
-        if (empty($args[TopicEntity::KEY_TITLE]))
-            throw new NinjaException('Vui lòng nhập tiêu đề câu hỏi');
- 
-        return $this->topic_table->save([
-            TopicEntity::KEY_TITLE => $args[TopicEntity::KEY_TITLE],
-            TopicEntity::KEY_DESCRIPTION => $args[TopicEntity::KEY_DESCRIPTION] ?? null,
-            TopicEntity::KEY_MEDIA_ID => $args[TopicEntity::KEY_MEDIA_ID] ?? null,
+        if (empty($args[VocabularyEntity::KEY_ENGLISH]))
+            throw new NinjaException('Vui lòng nhập từ tiếng anh');
+        if (empty($args[VocabularyEntity::KEY_VIETNAMESE]))
+            throw new NinjaException('Vui lòng nhập từ tiếng việt');
+        if (empty($args[VocabularyEntity::KEY_DESCRIPTION]))
+            throw new NinjaException('Vui lòng nhập mô tả tử');
+       
+        return $this->vocabulary_table->save([
+            VocabularyEntity::KEY_ENGLISH => $args[VocabularyEntity::KEY_ENGLISH],
+            VocabularyEntity::KEY_VIETNAMESE => $args[VocabularyEntity::KEY_VIETNAMESE],
+            VocabularyEntity::KEY_DESCRIPTION => $args[VocabularyEntity::KEY_DESCRIPTION],
+            VocabularyEntity::KEY_MEDIA_ID => $args[VocabularyEntity::KEY_MEDIA_ID] ?? null,
         ]);
     }
 
-    public function update_topic($id, $args)
+    public function update_vocabulary($id, $args)
     {
-        return $this->topic_table->save([
-            TopicEntity::KEY_ID => $id,
-            TopicEntity::KEY_TITLE => $args[TopicEntity::KEY_TITLE],
-            TopicEntity::KEY_DESCRIPTION => $args[TopicEntity::KEY_DESCRIPTION] ?? null,
-            TopicEntity::KEY_MEDIA_ID => $args[TopicEntity::KEY_MEDIA_ID] ?? null,
-        ]);
+        if (isset($args[VocabularyEntity::KEY_MEDIA_ID])) {
+            return $this->vocabulary_table->save([
+                VocabularyEntity::KEY_ID => $id,
+                VocabularyEntity::KEY_ENGLISH => $args[VocabularyEntity::KEY_ENGLISH],
+                VocabularyEntity::KEY_VIETNAMESE => $args[VocabularyEntity::KEY_VIETNAMESE],
+                VocabularyEntity::KEY_DESCRIPTION => $args[VocabularyEntity::KEY_DESCRIPTION],
+                VocabularyEntity::KEY_MEDIA_ID => $args[VocabularyEntity::KEY_MEDIA_ID] ?? null,
+            ]);
+        }
+
+        return $this->vocabulary_table->save([
+            VocabularyEntity::KEY_ID => $id,
+            VocabularyEntity::KEY_ENGLISH => $args[VocabularyEntity::KEY_ENGLISH],
+            VocabularyEntity::KEY_VIETNAMESE => $args[VocabularyEntity::KEY_VIETNAMESE],
+            VocabularyEntity::KEY_DESCRIPTION => $args[VocabularyEntity::KEY_DESCRIPTION]
+            ]);
     }
 
-    public function delete_topic($id)
+    public function delete_vocabulary($id)
     {
-       return $this->topic_table->delete($id);
+       return $this->vocabulary_table->delete($id);
 
     }
 }
