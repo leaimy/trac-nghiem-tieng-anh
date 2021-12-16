@@ -40,9 +40,14 @@ class QuestionModel
         ];
     }
 
-    public function get_by_type($type)
+    public function get_by_type($type_id)
     {
-        return $this->question_table->find(QuestionEntity::KEY_QUESTION_TYPE, $type) ?? [];
+        return $this->question_table->find(QuestionEntity::KEY_QUESTION_TYPE, $type_id) ?? [];
+    }
+    
+    public function get_by_topic($topic_id)
+    {
+        return $this->question_table->find(QuestionEntity::KEY_TOPIC, $topic_id) ?? [];
     }
 
     /**
@@ -75,24 +80,5 @@ class QuestionModel
             QuestionEntity::KEY_AUDIO_PATH => $args[QuestionEntity::KEY_AUDIO_PATH] ?? null,
             QuestionEntity::KEY_AUDIO_NAME => $args[QuestionEntity::KEY_AUDIO_NAME] ?? null,
         ]);
-    }
-
-    /**
-     * Generate quiz from the question bank
-     * @param int $quantity number of questions of the quiz
-     * @param array $topics array of question topics
-     * @param array $types array of question types
-     * @throws NinjaException
-     */
-    public function generate_from_question_bank(int $quantity, array $topics, array $types)
-    {
-        if ($quantity <= 0)
-            throw new NinjaException('Số lượng câu hỏi không hợp lệ');
-
-        if (count($types) == 0)
-            throw new NinjaException('Vui lòng chọn loại câu hỏi');
-
-        if (count($topics))
-            throw new NinjaException('Vui lòng chọn chủ đề của câu hỏi');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace EStudy\Entity\Admin;
 
+use EStudy\Model\Admin\TopicModel;
 use Ninja\Utils\NJStringUtils;
 
 class QuestionEntity
@@ -46,6 +47,14 @@ class QuestionEntity
     public $audio_path;
     public $audio_name;
     public $created_at;
+    
+    private $topic_entity;
+    private $topic_model;
+    
+    function __construct(TopicModel $topic_model)
+    {
+        $this->topic_model = $topic_model;
+    }
 
     function get_truncate_title()
     {
@@ -55,5 +64,13 @@ class QuestionEntity
     function get_truncate_correct_answer()
     {
         return NJStringUtils::truncate($this->corrects, 50);
+    }
+    
+    function get_topic()
+    {
+        if (!$this->topic_entity)
+            $this->topic_entity = $this->topic_model->get_by_id($this->topic_id);
+        
+        return $this->topic_entity;
     }
 }
