@@ -58,8 +58,8 @@
                         <div class="mb-3">
                             <label for="question_topic" class="form-label">Chủ đề câu hỏi</label>
                             <select name="question_topics[]" id="question_topic" class="form-select" multiple style="width: 100%">
-                                <?php foreach ($topics as $key => $type): ?>
-                                    <option value="<?= $key ?>"><?= $type ?></option>
+                                <?php foreach ($topics as $topic): ?>
+                                    <option value="<?= $topic->id ?>"><?= $topic->title ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
