@@ -11,6 +11,8 @@ class HomeController extends NJBaseController
     
     public function __construct(TopicModel $topic_model)
     {
+        parent::__construct();
+        
         $this->topic_model = $topic_model;
     }
 

@@ -32,6 +32,26 @@ class QuizModel
     {
         return $this->quiz_table->findById($id);
     }
+    
+    function get_by_topic($topic_id): array
+    {
+        $quizzes = $this->get_all();
+        
+        $filtered = [];
+        
+        foreach ($quizzes as $quiz) {
+            $topics = $quiz->get_topics();
+            
+            $topic_ids = array_map(function ($topic) {
+                return $topic->id;
+            }, $topics);
+            
+            if (in_array($topic_id, $topic_ids))
+                $filtered[] = $quiz;
+        }
+        
+        return $filtered;
+    }
 
     /**
      * @throws NinjaException
