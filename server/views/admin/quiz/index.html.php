@@ -79,6 +79,7 @@
             <th scope="col">#</th>
             <th scope="col">Tiêu đề</th>
             <th scope="col">Câu hỏi</th>
+            <th scope="col">Chủ đề</th>
             <th scope="col">Người tạo</th>
             <th scope="col"></th>
         </tr>
@@ -89,6 +90,7 @@
                 <th scope="row"><?= $idx + 1 ?></th>
                 <td><?= $quiz->title ?></td>
                 <td><?= $quiz->question_quantity ?></td>
+                <td><?= implode("<br>", $quiz->get_topic_titles()) ?></td>
                 <td><?= $quiz->author_id ?></td>
                 <td>
                     <a href="/admin/quiz/edit?id=<?= $quiz->id ?>" class="me-2 text-decoration-none">

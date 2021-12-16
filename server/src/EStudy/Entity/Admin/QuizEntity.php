@@ -77,4 +77,28 @@ class QuizEntity
 
         return $this->media_entity;
     }
+    
+    function get_topics(): array
+    {
+        $questions = $this->get_questions();
+        
+        $topics = [];
+        
+        foreach ($questions as $question) {
+            if (!array_key_exists($question->topic_id, $topics))
+                $topics[$question->topic_id]= $question->get_topic();
+        }
+        
+        return $topics;
+    }
+
+    function get_topic_titles() : array
+    {
+        $titles = [];
+        
+        foreach ($this->get_topics() as $topic)
+            $titles[] = $topic->title;
+        
+        return $titles;
+    }
 }
