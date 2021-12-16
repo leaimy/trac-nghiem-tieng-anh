@@ -92,15 +92,23 @@ class AdminQuizController extends NJBaseController
             die($e->getMessage());
         }
     }
-    
+
+    /**
+     * @throws NinjaException
+     */
     private function update_general_info()
     {
-        $quiz_id = $_POST['id'] ?? null;
+        $quiz_id = $_POST['id'];
         $quiz_title = $_POST['title'] ?? null;
         $quiz_description = $_POST['description'] ?? null;
         
-        $this->quiz_model->update_general_info([
-            QuizEntity::KEY_ID => $quiz_id,
+        if (is_null($quiz_title))
+            throw new NinjaException('Vui lòng nhập tiêu đề');
+        
+        if (is_null($quiz_description))
+            throw new NinjaException('Vui lòng nhập mô tả');
+        
+        $this->quiz_model->update_general_info($quiz_id, [
             QuizEntity::KEY_TITLE => $quiz_title,
             QuizEntity::KEY_DESCRIPTION => $quiz_description
         ]);
@@ -108,6 +116,14 @@ class AdminQuizController extends NJBaseController
 
     private function add_more_question()
     {
+        $quiz_id = $_POST['id'];
+        $question_ids = $_POST['questions'] ?? [];
+        
+        if (count($question_ids) == 0)
+            return;
+        
+        foreach ($question_ids as $question_id)
+            $this->quiz_model->add_question($quiz_id, $question_id);
     }
 
     public function generate_from_question_bank()

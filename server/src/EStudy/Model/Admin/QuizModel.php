@@ -33,11 +33,29 @@ class QuizModel
         return $this->quiz_table->findById($id);
     }
     
-    function update_general_info($args)
+    function update_general_info($id, $args)
     {
-        $this->quiz_table->save($args);
+        $args[QuizEntity::KEY_ID] = $id;
+        return $this->quiz_table->save($args);
     }
-
+    
+    function add_question($quiz_id, $question_id)
+    {
+        $questions = $this->question_quiz_model->get_questions_by_quiz_id($quiz_id);
+        
+        $existing = false;
+        foreach ($questions as $question) {
+            if ($question->id == $question_id) {
+                $existing = true;
+                break;
+            }
+        }
+        
+        if ($existing) return null;
+        
+        return $this->question_quiz_model->create_new_connection($question_id, $quiz_id);
+    }
+    
     /**
      * Generate quiz from the question bank
      * @param int $quantity number of questions of the quiz
