@@ -53,6 +53,7 @@ class QuizModel
         
         if ($existing) return null;
         
+        // TODO: add MySQL trigger for automating increase question_quantity in question table
         return $this->question_quiz_model->create_new_connection($question_id, $quiz_id);
     }
     
@@ -101,6 +102,8 @@ class QuizModel
             foreach ($topics as $topic_id) {
                 foreach ($types as $type) {
                     $question = $this->get_random_question_by_topic_and_type($questions, $topic_id, $type);
+                    if (is_null($question)) continue;
+                    
                     $results[$question->id] = $question;
                 }
             }
@@ -153,6 +156,8 @@ class QuizModel
     private function get_random_question_by_topic_and_type($aggretate, $topic, $type)
     {
         $questions = $aggretate[$topic][$type] ?? [];
+        
+        if (count($questions) == 0) return null;
 
         $idx = array_rand($questions, 1);
         return $questions[$idx];
