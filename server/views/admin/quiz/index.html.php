@@ -2,6 +2,12 @@
 
 {% block title %}<?= $shop_name ?? 'SSF' ?> - Admin - Bài trắc nghiệm{% endblock %}
 
+{% block custom_styles %}
+<link rel="stylesheet" href="/static/vendor/select2/select2.min.css">
+<script src="/static/vendor/jquery/jquery.min.js"></script>
+<script src="/static/vendor/select2/select2.min.js"></script>
+{% endblock %}
+
 {% block content %}
 
 <div class="my-5">
@@ -43,7 +49,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="question_type" class="form-label">Loại câu hỏi</label>
-                            <select name="question_types[]" id="question_type" class="form-select" multiple>
+                            <select name="question_types[]" id="question_type" class="form-select" multiple style="width: 100%">
                                 <?php foreach ($question_types as $key => $type): ?>
                                     <option value="<?= $key ?>"><?= $type ?></option>
                                 <?php endforeach; ?>
@@ -51,7 +57,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="question_topic" class="form-label">Chủ đề câu hỏi</label>
-                            <select name="question_topics[]" id="question_topic" class="form-select" multiple>
+                            <select name="question_topics[]" id="question_topic" class="form-select" multiple style="width: 100%">
                                 <?php foreach ($topics as $key => $type): ?>
                                     <option value="<?= $key ?>"><?= $type ?></option>
                                 <?php endforeach; ?>
@@ -99,4 +105,13 @@
     </table>
 </div>
 
+{% endblock %}
+
+{% block custom_scrips %}
+<script>
+    $(document).ready(function() {
+        $('#question_type').select2();
+        $('#question_topic').select2();
+    });
+</script>
 {% endblock %}
