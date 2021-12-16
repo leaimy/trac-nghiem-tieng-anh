@@ -163,6 +163,12 @@ class EStudyRoutesHandler implements IRoutes
                     'action' => 'index'
                 ]
             ],
+            '/quiz/quizzes' => [
+                'GET' => [
+                    'controller' => $quiz_controller,
+                    'action' => 'index'
+                ]
+            ],
             '/quiz/take-quiz' => [
                 'GET' => [
                     'controller' => $quiz_controller,
