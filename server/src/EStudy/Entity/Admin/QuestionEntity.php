@@ -2,17 +2,19 @@
 
 namespace EStudy\Entity\Admin;
 
+use Ninja\Utils\NJStringUtils;
+
 class QuestionEntity
 {
     const PRIMARY_KEY = 'id';
     const TABLE = 'question';
     const CLASS_NAME = '\\EStudy\\Entity\\Admin\\QuestionEntity';
-    
+
     const TYPE_TEXT_WITH_ONE_CORRECT = 0;
     const TYPE_TEXT_WITH_MULTIPLE_CORRECTS = 1;
     const TYPE_FILL_IN_BLANK = 2;
     const TYPE_SORT_SENTENCE = 3;
-    
+
     public static function get_types(): array
     {
         return [
@@ -44,4 +46,14 @@ class QuestionEntity
     public $audio_path;
     public $audio_name;
     public $created_at;
+
+    function get_truncate_title()
+    {
+        return NJStringUtils::truncate($this->title, 50);
+    }
+    
+    function get_truncate_correct_answer()
+    {
+        return NJStringUtils::truncate($this->corrects, 50);
+    }
 }

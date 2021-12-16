@@ -6,6 +6,7 @@ use EStudy\Controller\Admin\AdminAccountController;
 use EStudy\Controller\Admin\AdminContactUsController;
 use EStudy\Controller\Admin\AdminCustomerController;
 use EStudy\Controller\Admin\AdminDashboardController;
+use EStudy\Controller\Admin\AdminImportController;
 use EStudy\Controller\Admin\AdminMediaController;
 use EStudy\Controller\Admin\AdminQuestionController;
 use EStudy\Controller\Admin\AdminQuizController;
@@ -99,6 +100,7 @@ class EStudyRoutesHandler implements IRoutes
         $admin_setting_routes = $this->get_admin_setting_routes();
         $admin_topic_routes = $this->get_admin_topic_routes();
         $admin_vocabulary_routes = $this->get_admin_vocabulary_routes();
+        $admin_import_routes = $this->get_admin_import_routes();
 
         return $admin_dashboard_routes +
             $admin_account_routes +
@@ -110,7 +112,8 @@ class EStudyRoutesHandler implements IRoutes
             $admin_quiz_history_routes +
             $admin_setting_routes +
             $admin_topic_routes +
-            $admin_vocabulary_routes;
+            $admin_vocabulary_routes + 
+            $admin_import_routes;
     }
 
     public function get_all_api_routes(): array
@@ -227,13 +230,19 @@ class EStudyRoutesHandler implements IRoutes
                     'controller' => $controller,
                     'action' => 'store'
                 ],
+            ],
+            '/admin/questions/edit' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'edit'
+                ]
             ]
         ];
     }
 
     public function get_admin_quiz_routes(): array
     {
-        $controller = new AdminQuizController();
+        $controller = new AdminQuizController($this->admin_question_model);
 
         return [
             '/admin/quiz' => [
@@ -345,6 +354,32 @@ class EStudyRoutesHandler implements IRoutes
                 'POST' => [
                     'controller' => $controller,
                     'action' => 'update'
+                ]
+            ]
+        ];
+    }
+
+    public function get_admin_import_routes(): array
+    {
+        $controller = new AdminImportController();
+
+        return [
+            '/admin/import-sample-data' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'index'
+                ]
+            ],
+            '/admin/import-sample-data/ict' => [
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'import_ict'
+                ]
+            ],
+            '/admin/import-sample-data/quizlet' => [
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'import_quizlet'
                 ]
             ]
         ];
