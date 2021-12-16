@@ -33,11 +33,11 @@
                     <form action="" method="POST">
                         <div class="mb-3">
                             <label for="question_quantity" class="form-label">Số lượng câu hỏi</label>
-                            <input value="20" type="number" min="1" class="form-control" id="question_quantity">
+                            <input value="20" type="number" min="1" class="form-control" id="question_quantity" name="question_quantity">
                         </div>
                         <div class="mb-3">
                             <label for="question_type" class="form-label">Loại câu hỏi</label>
-                            <select name="" id="question_type" class="form-select" multiple>
+                            <select name="question_types[]" id="question_type" class="form-select" multiple>
                                 <?php foreach ($question_types as $key => $type): ?>
                                     <option value="<?= $key ?>"><?= $type ?></option>
                                 <?php endforeach; ?>
@@ -45,7 +45,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="question_topic" class="form-label">Chủ đề câu hỏi</label>
-                            <select name="" id="question_topic" class="form-select" multiple>
+                            <select name="question_topics[]" id="question_topic" class="form-select" multiple>
                                 <?php foreach ($topics as $key => $type): ?>
                                     <option value="<?= $key ?>"><?= $type ?></option>
                                 <?php endforeach; ?>

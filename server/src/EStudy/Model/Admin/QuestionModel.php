@@ -76,4 +76,23 @@ class QuestionModel
             QuestionEntity::KEY_AUDIO_NAME => $args[QuestionEntity::KEY_AUDIO_NAME] ?? null,
         ]);
     }
+
+    /**
+     * Generate quiz from the question bank
+     * @param int $quantity number of questions of the quiz
+     * @param array $topics array of question topics
+     * @param array $types array of question types
+     * @throws NinjaException
+     */
+    public function generate_from_question_bank(int $quantity, array $topics, array $types)
+    {
+        if ($quantity <= 0)
+            throw new NinjaException('Số lượng câu hỏi không hợp lệ');
+
+        if (count($types) == 0)
+            throw new NinjaException('Vui lòng chọn loại câu hỏi');
+
+        if (count($topics))
+            throw new NinjaException('Vui lòng chọn chủ đề của câu hỏi');
+    }
 }

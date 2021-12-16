@@ -250,6 +250,12 @@ class EStudyRoutesHandler implements IRoutes
                     'controller' => $controller,
                     'action' => 'index'
                 ]
+            ],
+            '/admin/quiz/generate/from-question-bank' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'generate_from_question_bank'
+                ]
             ]
         ];
     }
