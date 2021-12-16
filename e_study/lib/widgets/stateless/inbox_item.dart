@@ -35,7 +35,7 @@ class InboxItem extends StatelessWidget {
                   Expanded(
                       child: Container(
                     alignment: Alignment.centerLeft,
-                    child: const Text('User Name',style: CustomTextStyle.heading1Bold,),
+                    child: const Text('User Name',style: CustomTextStyle.heading1,),
                   )),
                   Container(
                     alignment: Alignment.centerLeft,

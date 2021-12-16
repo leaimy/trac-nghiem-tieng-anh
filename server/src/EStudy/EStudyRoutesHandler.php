@@ -15,10 +15,14 @@ use EStudy\Controller\Admin\AdminSettingController;
 use EStudy\Controller\Admin\AdminTopicController;
 use EStudy\Controller\Admin\AdminVocabularyController;
 use EStudy\Entity\Admin\MediaEntity;
+use EStudy\Entity\Admin\TopicVocabulary;
 use EStudy\Entity\Admin\UserEntity;
+use EStudy\Entity\Admin\VocabularyEntity;
 use EStudy\Model\Admin\QuestionModel;
 
+use EStudy\Model\Admin\TopicVocabularyModel;
 use EStudy\Model\Admin\UserModel;
+use EStudy\Model\Admin\VocabularyModel;
 use Ninja\Authentication;
 use Ninja\DatabaseTable;
 use Ninja\NJInterface\IRoutes;
@@ -38,10 +42,16 @@ class EStudyRoutesHandler implements IRoutes
 
     private $admin_media_table;
     private $admin_media_model;
+
+    private $admin_vocabulary_table;
+    private $admin_vocabulary_model;
+    
+    private $admin_topic_vocabulary_table;
+    private $admin_topic_vocabulary_model;
     
     private $admin_user_table;
     private $admin_user_model;
-    
+
     public function __construct()
     {
         $this->admin_question_table = new DatabaseTable(QuestionEntity::TABLE, QuestionEntity::PRIMARY_KEY, QuestionEntity::CLASS_NAME);
@@ -54,6 +64,16 @@ class EStudyRoutesHandler implements IRoutes
         
         $this->admin_media_table = new DatabaseTable(MediaEntity::TABLE, MediaEntity::PRIMARY_KEY, MediaEntity::CLASS_NAME);
         $this->admin_media_model = new MediaModel($this->admin_media_table);
+        
+        $this->admin_vocabulary_table = new DatabaseTable(VocabularyEntity::TABLE, VocabularyEntity::PRIMARY_KEY, VocabularyEntity::CLASS_NAME, [
+            &$this->admin_media_model, &$this->admin_topic_vocabulary_model
+        ]);
+        $this->admin_vocabulary_model = new VocabularyModel($this->admin_vocabulary_table);
+        
+        $this->admin_topic_vocabulary_table = new DatabaseTable(TopicVocabulary::TABLE, TopicVocabulary::PRIMARY_KEY, TopicVocabulary::CLASS_NAME, [
+            &$this->admin_topic_model
+        ]);
+        $this->admin_topic_vocabulary_model = new TopicVocabularyModel($this->admin_topic_vocabulary_table);
         
         $this->admin_user_table = new DatabaseTable(UserEntity::TABLE, UserEntity::PRIMARY_KEY, UserEntity::CLASS_NAME);
         $this->admin_user_model = new UserModel($this->admin_user_table);
@@ -123,26 +143,28 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_admin_account_routes(): array
     {
-        $controller = new AdminAccountController($this->admin_user_model);
+        // $controller = new AdminAccountController($this->admin_user_model);
 
-        return [
-            '/admin/accounts' => [
-                'GET' => [
-                    'controller' => $controller,
-                    'action' => 'index'
-                ]
-            ],
-            '/admin/accounts/new_user' => [
-                'GET' => [
-                    'controller' => $controller,
-                    'action' => 'new_user'
-                ],
-                'POST' => [
-                    'controller' => $controller,
-                    'action' => 'create_new_user'
-                ]
-            ]
-        ];
+        // return [
+        //     '/admin/accounts' => [
+        //         'GET' => [
+        //             'controller' => $controller,
+        //             'action' => 'index'
+        //         ]
+        //     ],
+        //     '/admin/accounts/new_user' => [
+        //         'GET' => [
+        //             'controller' => $controller,
+        //             'action' => 'new_user'
+        //         ],
+        //         'POST' => [
+        //             'controller' => $controller,
+        //             'action' => 'create_new_user'
+        //         ]
+        //     ]
+        // ];
+
+        return [];
     }
 
     public function get_admin_contact_us_routes(): array
@@ -161,16 +183,17 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_admin_customer_routes(): array
     {
-        $controller = new AdminCustomerController();
+        // $controller = new AdminCustomerController();
 
-        return [
-            '/admin/customers' => [
-                'GET' => [
-                    'controller' => $controller,
-                    'action' => 'index'
-                ]
-            ]
-        ];
+        // return [
+        //     '/admin/customers' => [
+        //         'GET' => [
+        //             'controller' => $controller,
+        //             'action' => 'index'
+        //         ]
+        //     ]
+        // ];
+        return [];
     }
 
     public function get_admin_media_routes(): array
@@ -304,13 +327,33 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_admin_vocabulary_routes(): array
     {
-        $controller = new AdminVocabularyController();
+        $controller = new AdminVocabularyController($this->admin_vocabulary_model, $this->admin_media_model, $this->admin_topic_vocabulary_model,$this->admin_topic_model);
 
         return [
             '/admin/vocabularies' => [
                 'GET' => [
                     'controller' => $controller,
                     'action' => 'index'
+                ]
+            ],
+            '/admin/vocabularies/create' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'create'
+                ],
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'store'
+                ]
+            ],
+            '/admin/vocabularies/edit' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'edit'
+                ],
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'update'
                 ]
             ]
         ];
