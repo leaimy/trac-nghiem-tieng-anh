@@ -15,14 +15,19 @@ class VocabularyModel
         $this->vocabulary_table = $vocabulary_table;
     }
 
-    public function get_all_vocabulary()
+    public function get_all_vocabulary($orderBy = null, $orderDirection = null, $limit = null, $offset = null)
     {
-        return $this->vocabulary_table->findAll();
+        return $this->vocabulary_table->findAll($orderBy, $orderDirection, $limit, $offset);
     }
 
     public function get_by_id($id)
     {
         return $this->vocabulary_table->findById($id);
+    }
+    
+    public function count()
+    {
+        return $this->vocabulary_table->total();
     }
     
     /**
@@ -67,7 +72,6 @@ class VocabularyModel
 
     public function delete_vocabulary($id)
     {
-       return $this->vocabulary_table->delete($id);
-
+       $this->vocabulary_table->delete($id);
     }
 }
