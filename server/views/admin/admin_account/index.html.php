@@ -5,7 +5,7 @@
 {% block content %}
 
 <div class="my-5">
-    <h1 class="h2">Quản lý tài khoản</h1>
+    <h1 class="h2">Quản lý người dùng</h1>
 </div>
 
 <div class="row my-4">

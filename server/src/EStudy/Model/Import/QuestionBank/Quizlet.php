@@ -30,7 +30,7 @@ class Quizlet
             }
 
             $question_table->save([
-                QuestionEntity::KEY_TOPIC => 666,
+                QuestionEntity::KEY_TOPIC => 12,
                 QuestionEntity::KEY_CREATED_AT => (new \DateTime()),
                 QuestionEntity::KEY_AUDIO_NAME => null,
                 QuestionEntity::KEY_AUDIO_PATH => null,
