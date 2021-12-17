@@ -219,7 +219,7 @@ class DatabaseTable
     {
         foreach ($fields as $key => $value) {
             if ($value instanceof \DateTime) {
-                $fields[$key] = $value->format('Y-m-d');
+                $fields[$key] = $value->format('Y-m-d H:i:s');
             }
         }
 
