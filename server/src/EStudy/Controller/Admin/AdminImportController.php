@@ -4,8 +4,9 @@ namespace EStudy\Controller\Admin;
 
 use EStudy\Model\Import\QuestionBank\ICT;
 use EStudy\Model\Import\QuestionBank\Quizlet;
-use EStudy\Model\Import\User\FullName;
+use EStudy\Model\Import\Vocabulary\LacViet;
 use Ninja\NJBaseController\NJBaseController;
+use EStudy\Model\Import\User\FullName;
 
 class AdminImportController extends NJBaseController
 {
@@ -30,7 +31,16 @@ class AdminImportController extends NJBaseController
         $this->route_redirect('/admin/import-sample-data');
     }
     
-    public function import_fullname() {
+    public function import_lacviet_vocabulary()
+    {
+        $instance = new LacViet();
+        $instance->populate();
+
+        $this->route_redirect('/admin/import-sample-data');
+    }
+  
+    public function import_fullname() 
+    {
         $instance = new FullName();
         $instance->populate();
 

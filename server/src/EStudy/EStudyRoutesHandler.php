@@ -224,8 +224,6 @@ class EStudyRoutesHandler implements IRoutes
                  ]
              ]
          ];
-
-        return [];
     }
 
     public function get_admin_contact_us_routes(): array
@@ -469,12 +467,18 @@ class EStudyRoutesHandler implements IRoutes
                     'action' => 'import_quizlet'
                 ]
             ],
+            '/admin/import-sample-data/lac_viet' => [
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'import_lacviet_vocabulary'
+                ]
+            ],
             '/admin/import-sample-data/fullname' => [
                 'POST' => [
                     'controller' => $controller,
                     'action' => 'import_fullname'
                 ]
-            ]
+            ]          
         ];
     }
 
