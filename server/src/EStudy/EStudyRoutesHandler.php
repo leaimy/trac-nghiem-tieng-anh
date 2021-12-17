@@ -468,6 +468,12 @@ class EStudyRoutesHandler implements IRoutes
                     'controller' => $controller,
                     'action' => 'import_quizlet'
                 ]
+            ],
+            '/admin/import-sample-data/lac_viet' => [
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'import_lacviet_vocabulary'
+                ]
             ]
         ];
     }
