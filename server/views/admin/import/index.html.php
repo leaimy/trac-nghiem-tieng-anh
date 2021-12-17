@@ -29,6 +29,12 @@
         <input class="btn btn-warning mb-2" type="submit" value="Nhập từ điển Lạc Việt (Việt - Anh) 1" name="vi_1">
         <input class="btn btn-warning mb-2" type="submit" value="Nhập từ điển Lạc Việt (Việt - Anh) 2" name="vi_2">
     </form>
+  
+    <hr>
+
+    <form action="/admin/import-sample-data/fullname" method="POST">
+        <input class="btn btn-success" type="submit" value="Nhập dữ liệu tên" name="import_fullname">
+    </form>  
 </div>
 
 {% endblock %}
