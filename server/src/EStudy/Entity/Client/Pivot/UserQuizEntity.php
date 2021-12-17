@@ -87,7 +87,7 @@ class UserQuizEntity
         foreach ($question_entities as $question_entity)
             $to_write['questions'][] = $question_entity->to_json();
         
-        $this->history_model->add_history_log($this->quiz_id, $to_write);
+        return $this->history_model->add_history_log($this->quiz_id, $to_write);
     }
     
     public function get_histories()

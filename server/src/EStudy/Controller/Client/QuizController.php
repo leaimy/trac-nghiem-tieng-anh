@@ -8,6 +8,7 @@ use EStudy\Model\Admin\QuestionModel;
 use EStudy\Model\Admin\QuizModel;
 use EStudy\Model\Admin\TopicModel;
 use EStudy\Model\Client\Pivot\UserQuizModel;
+use EStudy\Model\Client\QuizHistoryModel;
 use EStudy\Utils\QuestionRenderHelper;
 use Ninja\NinjaException;
 use Ninja\NJBaseController\NJBaseController;
@@ -19,8 +20,9 @@ class QuizController extends NJBaseController
     private $question_model;
     
     private $user_quiz_model;
+    private $quiz_history_model;
     
-    public function __construct(QuizModel $quiz_model, TopicModel $topic_model, QuestionModel $question_model, UserQuizModel $user_quiz_model)
+    public function __construct(QuizModel $quiz_model, TopicModel $topic_model, QuestionModel $question_model, UserQuizModel $user_quiz_model, QuizHistoryModel $quiz_history_model)
     {
         parent::__construct();
         
@@ -28,6 +30,7 @@ class QuizController extends NJBaseController
         $this->topic_model = $topic_model;
         $this->question_model = $question_model;
         $this->user_quiz_model = $user_quiz_model;
+        $this->quiz_history_model = $quiz_history_model;
     }
 
     public function index()
@@ -100,7 +103,7 @@ class QuizController extends NJBaseController
             foreach ($answers_with_one_correct as $question_id => $answers) {
                 $question = $this->question_model->get_by_id($question_id);
                 $corrects = $question->get_correct_answers();
-                $question->user_answers = implode("\n", $answers);
+                $question->user_answers = count($answers) > 0 ? implode("\n", $answers) : '';
                 
                 if (json_encode($corrects) == json_encode($answers)) {
                     $correct_count ++;
@@ -114,11 +117,35 @@ class QuizController extends NJBaseController
                 UserQuizEntity::FINISH_TIME => $now
             ]);
             
-            $new_record->add_history($questions);
+            $history = $new_record->add_history($questions);
+            
+            $this->route_redirect('/quizzes/histories/show?quiz_history_id=' . $history->id);
         }
         catch (NinjaException $exception) {
             // TODO: Handle process quiz error
             die($exception->getMessage());
+        }
+    }
+    
+    public function show_history()
+    {
+        try {
+            $history_id = $_GET['quiz_history_id'] ?? null;
+            if (is_null($history_id))
+                throw new NinjaException('Không tìm thấy bài trắc nghiệm');
+            
+            $history = $this->quiz_history_model->get_by_id($history_id);
+            $content = $history->get_content();
+            
+            $this->view_handler->render('client/quiz/history/show.html.php', [
+                'quiz_info' => $content['quiz']['quiz_detail'],
+                'questions' => $content['questions'],
+                'question_render_helper' => new QuestionRenderHelper()
+            ]);
+        }
+        catch (NinjaException $exception) {
+            // TODO: Handle show quiz history detail
+            die('Handle show quiz history detail');
         }
     }
 }

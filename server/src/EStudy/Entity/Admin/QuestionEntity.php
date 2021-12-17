@@ -129,6 +129,7 @@ class QuestionEntity
             self::KEY_ANSWERS => $this->answers,
             self::KEY_CORRECTS => $this->corrects,
             self::KEY_MEDIA_ID => $this->media_id,
+            MediaEntity::KEY_MEDIA_PATH => $this->get_media()->{MediaEntity::KEY_MEDIA_PATH} ?? null,
             self::KEY_AUDIO_PATH => $this->audio_path,
             self::KEY_AUDIO_NAME => $this->audio_name,
             self::KEY_USER_ANSWERS => $this->user_answers,
