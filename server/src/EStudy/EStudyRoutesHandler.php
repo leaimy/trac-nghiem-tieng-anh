@@ -16,6 +16,7 @@ use EStudy\Controller\Admin\AdminTopicController;
 use EStudy\Controller\Admin\AdminVocabularyController;
 use EStudy\Controller\Client\HomeController;
 use EStudy\Controller\Client\QuizController;
+use EStudy\Controller\Client\AuthController;
 use EStudy\Entity\Admin\MediaEntity;
 use EStudy\Entity\Admin\Pivot\QuestionQuizEntity;
 use EStudy\Entity\Admin\QuizEntity;
@@ -156,7 +157,7 @@ class EStudyRoutesHandler implements IRoutes
     {
         $controller = new HomeController($this->admin_topic_model);
         $quiz_controller = new QuizController($this->admin_quiz_model, $this->admin_topic_model);
-
+        $auth_controller = new AuthController();
         return [
             '/' => [
                 'GET' => [
@@ -181,7 +182,19 @@ class EStudyRoutesHandler implements IRoutes
                     'controller' => $quiz_controller,
                     'action' => 'take_quiz'
                 ]
-            ]
+            ],
+            '/auth/sign-in' => [
+                'GET' => [
+                    'controller' => $auth_controller,
+                    'action' => 'sign_in'
+                ]
+            ],
+            '/auth/sign-up' => [
+                'GET' => [
+                    'controller' => $auth_controller,
+                    'action' => 'sign_up'
+                ]
+            ],
         ];
     }
 
