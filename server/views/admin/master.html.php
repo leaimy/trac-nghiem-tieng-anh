@@ -84,19 +84,13 @@
             <li class="nav-item">
                 <a class="nav-link <?= strpos($route, '/admin/accounts') !== false ? 'active' : '' ?>" href="/admin/accounts">
                     <span data-feather="layers"></span>
-                    Quản lý tài khoản
+                    Quản lý người dùng
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link <?= strpos($route, '/admin/quiz-history') !== false ? 'active' : '' ?>" href="/admin/quiz-history">
                     <span data-feather="layers"></span>
                     Lịch sử kiểm tra
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link <?= strpos($route, '/admin/customers') !== false ? 'active' : '' ?>" href="/admin/customers">
-                    <span data-feather="layers"></span>
-                    Cá nhân
                 </a>
             </li>
             <li class="nav-item">
