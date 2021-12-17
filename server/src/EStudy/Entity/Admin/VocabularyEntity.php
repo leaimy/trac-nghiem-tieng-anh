@@ -96,4 +96,8 @@ class VocabularyEntity
         return $results;
     }
 
+    public function add_topic($topic_id)
+    {
+        $this->topic_vocabulary_model->add_connection($topic_id, $this->id);
+    }
 }

@@ -2,6 +2,12 @@
 
 {% block title %}<?= $shop_name ?? 'SSF' ?> - Admin - Thêm câu hỏi mới{% endblock %}
 
+{% block custom_styles %}
+<link rel="stylesheet" href="/static/vendor/select2/select2.min.css">
+<script src="/static/vendor/jquery/jquery.min.js"></script>
+<script src="/static/vendor/select2/select2.min.js"></script>
+{% endblock %}
+
 {% block content %}
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -54,11 +60,11 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="" class="form-label">Chủ đề *</label>
-                            <select name="question[topic_id]" id="" class="form-select">
-                                <option value="">Chọn chủ đề</option>
-                                <?php foreach ($topics as $key => $title): ?>
-                                    <option value="<?= $key ?>"><?= $title ?></option>
+                            <label for="topic" class="form-label">Chủ đề *</label>
+                            <select name="question[topic_id]" id="topic" class="form-select">
+                                <option value="">Chọn chủ đề cho câu hỏi</option>
+                                <?php foreach ($topics as $topic): ?>
+                                    <option value="<?= $topic->id ?>"><?= $topic->title ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -85,4 +91,12 @@
     </form>
 </div>
 
+{% endblock %}
+
+{% block custom_scrips %}
+<script>
+    $(document).ready(function () {
+        $('#topic').select2();
+    });
+</script>
 {% endblock %}

@@ -52,74 +52,73 @@
     <div class="position-sticky pt-3">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link <?= $route == '/admin/dashboard' ? 'active' : '' ?>" aria-current="page"
-                   href="/admin/dashboard">
+                <a class="nav-link <?= strpos($route, '/admin/dashboard') !== false ? 'active' : '' ?>" href="/admin/dashboard">
                     <span data-feather="home"></span>
                     Tổng quan
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?= $route == '/admin/topics' ? 'active' : '' ?>" href="/admin/topics">
+                <a class="nav-link <?= strpos($route, '/admin/topics') !== false ? 'active' : '' ?>" href="/admin/topics">
                     <span data-feather="file"></span>
                     Chủ đề
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?= $route == '/admin/vocabularies' ? 'active' : '' ?>" href="/admin/vocabularies">
+                <a class="nav-link <?= strpos($route, '/admin/vocabularies') !== false ? 'active' : '' ?>" href="/admin/vocabularies">
                     <span data-feather="shopping-cart"></span>
                     Từ vựng
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?= $route == '/admin/quiz' ? 'active' : '' ?>" href="/admin/quiz">
+                <a class="nav-link <?= strpos($route, '/admin/quiz') !== false ? 'active' : '' ?>" href="/admin/quiz">
                     <span data-feather="users"></span>
                     Bài trắc nghiệm
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?= $route == '/admin/questions' ? 'active' : '' ?>" href="/admin/questions">
+                <a class="nav-link <?= strpos($route, '/admin/questions') !== false ? 'active' : '' ?>" href="/admin/questions">
                     <span data-feather="bar-chart-2"></span>
                     Câu hỏi
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?= $route == '/admin/accounts' ? 'active' : '' ?>" href="/admin/accounts">
+                <a class="nav-link <?= strpos($route, '/admin/accounts') !== false ? 'active' : '' ?>" href="/admin/accounts">
                     <span data-feather="layers"></span>
                     Quản lý tài khoản
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?= $route == '/admin/quiz-history' ? 'active' : '' ?>" href="/admin/quiz-history">
+                <a class="nav-link <?= strpos($route, '/admin/quiz-history') !== false ? 'active' : '' ?>" href="/admin/quiz-history">
                     <span data-feather="layers"></span>
                     Lịch sử kiểm tra
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?= $route == '/admin/customers' ? 'active' : '' ?>" href="/admin/customers">
+                <a class="nav-link <?= strpos($route, '/admin/customers') !== false ? 'active' : '' ?>" href="/admin/customers">
                     <span data-feather="layers"></span>
                     Cá nhân
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?= $route == '/admin/settings' ? 'active' : '' ?>" href="/admin/settings">
+                <a class="nav-link <?= strpos($route, '/admin/settings') !== false ? 'active' : '' ?>" href="/admin/settings">
                     <span data-feather="layers"></span>
                     Cấu hình
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?= $route == '/admin/media' ? 'active' : '' ?>" href="/admin/media">
+                <a class="nav-link <?= strpos($route, '/admin/media') !== false ? 'active' : '' ?>" href="/admin/media">
                     <span data-feather="layers"></span>
                     Hình ảnh
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?= $route == '/admin/contact-us' ? 'active' : '' ?>" href="/admin/contact-us">
+                <a class="nav-link <?= strpos($route, '/admin/contact-us') !== false ? 'active' : '' ?>" href="/admin/contact-us">
                     <span data-feather="layers"></span>
                     Liên hệ chúng tôi
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?= $route == '/admin/import-sample-data' ? 'active' : '' ?>" href="/admin/import-sample-data">
+                <a class="nav-link <?= strpos($route, '/admin/import-sample-data') !== false ? 'active' : '' ?>" href="/admin/import-sample-data">
                     <span data-feather="layers"></span>
                     Tải dữ liệu mẫu
                 </a>

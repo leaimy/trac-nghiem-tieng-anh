@@ -40,9 +40,14 @@ class QuestionModel
         ];
     }
 
-    public function get_by_type($type)
+    public function get_by_type($type_id)
     {
-        return $this->question_table->find(QuestionEntity::KEY_QUESTION_TYPE, $type) ?? [];
+        return $this->question_table->find(QuestionEntity::KEY_QUESTION_TYPE, $type_id) ?? [];
+    }
+    
+    public function get_by_topic($topic_id)
+    {
+        return $this->question_table->find(QuestionEntity::KEY_TOPIC, $topic_id) ?? [];
     }
 
     /**

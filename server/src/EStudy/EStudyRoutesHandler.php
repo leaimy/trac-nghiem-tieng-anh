@@ -14,12 +14,18 @@ use EStudy\Controller\Admin\AdminQuizHistoryController;
 use EStudy\Controller\Admin\AdminSettingController;
 use EStudy\Controller\Admin\AdminTopicController;
 use EStudy\Controller\Admin\AdminVocabularyController;
+use EStudy\Controller\Client\HomeController;
+use EStudy\Controller\Client\QuizController;
 use EStudy\Entity\Admin\MediaEntity;
+use EStudy\Entity\Admin\Pivot\QuestionQuizEntity;
+use EStudy\Entity\Admin\QuizEntity;
 use EStudy\Entity\Admin\TopicVocabulary;
 use EStudy\Entity\Admin\UserEntity;
 use EStudy\Entity\Admin\VocabularyEntity;
+use EStudy\Model\Admin\Pivot\QuestionQuizModel;
 use EStudy\Model\Admin\QuestionModel;
 
+use EStudy\Model\Admin\QuizModel;
 use EStudy\Model\Admin\TopicVocabularyModel;
 use EStudy\Model\Admin\UserModel;
 use EStudy\Model\Admin\VocabularyModel;
@@ -45,36 +51,58 @@ class EStudyRoutesHandler implements IRoutes
 
     private $admin_vocabulary_table;
     private $admin_vocabulary_model;
-    
+
     private $admin_topic_vocabulary_table;
     private $admin_topic_vocabulary_model;
-    
+
+    private $admin_quiz_table;
+    private $admin_quiz_model;
+
+    private $admin_question_quiz_table;
+    private $admin_question_quiz_model;
+
     private $admin_user_table;
     private $admin_user_model;
 
     public function __construct()
     {
-        $this->admin_question_table = new DatabaseTable(QuestionEntity::TABLE, QuestionEntity::PRIMARY_KEY, QuestionEntity::CLASS_NAME);
-        $this->admin_question_model = new QuestionModel($this->admin_question_table);
-
         $this->admin_topic_table = new DatabaseTable(TopicEntity::TABLE, TopicEntity::PRIMARY_KEY, TopicEntity::CLASS_NAME, [
             &$this->admin_media_model
         ]);
         $this->admin_topic_model = new TopicModel($this->admin_topic_table);
-        
+
+        $this->admin_question_table = new DatabaseTable(QuestionEntity::TABLE, QuestionEntity::PRIMARY_KEY, QuestionEntity::CLASS_NAME, [
+            &$this->admin_topic_model,
+            &$this->admin_media_model
+        ]);
+        $this->admin_question_model = new QuestionModel($this->admin_question_table);
+
         $this->admin_media_table = new DatabaseTable(MediaEntity::TABLE, MediaEntity::PRIMARY_KEY, MediaEntity::CLASS_NAME);
         $this->admin_media_model = new MediaModel($this->admin_media_table);
-        
+
         $this->admin_vocabulary_table = new DatabaseTable(VocabularyEntity::TABLE, VocabularyEntity::PRIMARY_KEY, VocabularyEntity::CLASS_NAME, [
             &$this->admin_media_model, &$this->admin_topic_vocabulary_model
         ]);
         $this->admin_vocabulary_model = new VocabularyModel($this->admin_vocabulary_table);
-        
+
         $this->admin_topic_vocabulary_table = new DatabaseTable(TopicVocabulary::TABLE, TopicVocabulary::PRIMARY_KEY, TopicVocabulary::CLASS_NAME, [
             &$this->admin_topic_model
         ]);
         $this->admin_topic_vocabulary_model = new TopicVocabularyModel($this->admin_topic_vocabulary_table);
-        
+
+        $this->admin_question_quiz_table = new DatabaseTable(QuestionQuizEntity::TABLE, QuestionQuizEntity::PRIMARY_KEY, QuestionQuizEntity::CLASS_NAME, [
+            &$this->admin_question_model,
+            &$this->admin_quiz_model
+        ]);
+        $this->admin_question_quiz_model = new QuestionQuizModel($this->admin_question_quiz_table);
+
+        $this->admin_quiz_table = new DatabaseTable(QuizEntity::TABLE, QuizEntity::PRIMARY_KEY, QuizEntity::CLASS_NAME, [
+            &$this->admin_question_quiz_model,
+            &$this->admin_user_model,
+            &$this->admin_media_model
+        ]);
+        $this->admin_quiz_model = new QuizModel($this->admin_quiz_table, $this->admin_question_model, $this->admin_question_quiz_model);
+
         $this->admin_user_table = new DatabaseTable(UserEntity::TABLE, UserEntity::PRIMARY_KEY, UserEntity::CLASS_NAME);
         $this->admin_user_model = new UserModel($this->admin_user_table);
     }
@@ -102,7 +130,10 @@ class EStudyRoutesHandler implements IRoutes
         $admin_vocabulary_routes = $this->get_admin_vocabulary_routes();
         $admin_import_routes = $this->get_admin_import_routes();
 
-        return $admin_dashboard_routes +
+        $client_routes = $this->get_client_routes();
+
+        return $client_routes +
+            $admin_dashboard_routes +
             $admin_account_routes +
             $admin_contact_us_routes +
             $admin_customer_routes +
@@ -112,7 +143,7 @@ class EStudyRoutesHandler implements IRoutes
             $admin_quiz_history_routes +
             $admin_setting_routes +
             $admin_topic_routes +
-            $admin_vocabulary_routes + 
+            $admin_vocabulary_routes +
             $admin_import_routes;
     }
 
@@ -121,14 +152,44 @@ class EStudyRoutesHandler implements IRoutes
         return [];
     }
 
+    public function get_client_routes()
+    {
+        $controller = new HomeController($this->admin_topic_model);
+        $quiz_controller = new QuizController($this->admin_quiz_model, $this->admin_topic_model);
+
+        return [
+            '/' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'index'
+                ]
+            ],
+            '/quizzes' => [
+                'GET' => [
+                    'controller' => $quiz_controller,
+                    'action' => 'index'
+                ]
+            ],
+            '/quizzes/by_topic' => [
+                'GET' => [
+                    'controller' => $quiz_controller,
+                    'action' => 'show_quizzes_by_topic'
+                ]
+            ],
+            '/quizzes/take-quiz' => [
+                'GET' => [
+                    'controller' => $quiz_controller,
+                    'action' => 'take_quiz'
+                ]
+            ]
+        ];
+    }
+
     public function get_admin_dashboard_routes(): array
     {
         $controller = new AdminDashboardController();
 
         return [
-            '/' => [
-                'REDIRECT' => '/admin/dashboard'
-            ],
             '/admin' => [
                 'REDIRECT' => '/admin/dashboard'
             ],
@@ -212,7 +273,7 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_admin_question_routes(): array
     {
-        $controller = new AdminQuestionController($this->admin_question_model);
+        $controller = new AdminQuestionController($this->admin_question_model, $this->admin_topic_model);
 
         return [
             '/admin/questions' => [
@@ -242,13 +303,39 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_admin_quiz_routes(): array
     {
-        $controller = new AdminQuizController($this->admin_question_model);
+        $controller = new AdminQuizController($this->admin_quiz_model, $this->admin_question_model, $this->admin_topic_model);
 
         return [
             '/admin/quiz' => [
                 'GET' => [
                     'controller' => $controller,
                     'action' => 'index'
+                ]
+            ],
+            '/admin/quiz/create' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'create'
+                ],
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'store'
+                ]
+            ],
+            '/admin/quiz/edit' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'edit'
+                ],
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'update'
+                ]
+            ],
+            '/admin/quiz/generate/from-question-bank' => [
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'generate_from_question_bank'
                 ]
             ]
         ];
@@ -327,7 +414,7 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_admin_vocabulary_routes(): array
     {
-        $controller = new AdminVocabularyController($this->admin_vocabulary_model, $this->admin_media_model, $this->admin_topic_vocabulary_model,$this->admin_topic_model);
+        $controller = new AdminVocabularyController($this->admin_vocabulary_model, $this->admin_media_model, $this->admin_topic_vocabulary_model, $this->admin_topic_model);
 
         return [
             '/admin/vocabularies' => [
@@ -380,6 +467,12 @@ class EStudyRoutesHandler implements IRoutes
                 'POST' => [
                     'controller' => $controller,
                     'action' => 'import_quizlet'
+                ]
+            ],
+            '/admin/import-sample-data/lac_viet' => [
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'import_lacviet_vocabulary'
                 ]
             ]
         ];

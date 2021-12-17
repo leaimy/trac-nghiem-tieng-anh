@@ -42,8 +42,8 @@ $all_questions = $all_questions ?? [];
             <tr>
                 <th scope="row"><?= ($current_page - 1) * $limit + ($idx + 1) ?></th>
                 <td title="<?= $question->title ?>"><?= $question->get_truncate_title() ?></td>
-                <td><?= $question->type ?></td>
-                <td><?= $question->topic_id ?></td>
+                <td><?= $question->get_type() ?></td>
+                <td><?= $question->get_topic()->title ?></td>
                 <td title="<?= $question->corrects ?>"><?= $question->get_truncate_correct_answer() ?></td>
                 <td>
                     <a href="/admin/questions/edit?id=<?= $question->id ?>" class="me-2 text-decoration-none">
