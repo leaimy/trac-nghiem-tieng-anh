@@ -4,8 +4,9 @@ namespace EStudy\Entity\Client\Pivot;
 
 use EStudy\Model\Admin\QuizModel;
 use EStudy\Model\Admin\UserModel;
+use EStudy\Model\Client\QuizHistoryModel;
 
-class UserQuiz
+class UserQuizEntity
 {
     const PRIMARY_KEY = 'id';
     const TABLE = 'user_quiz';
@@ -17,7 +18,6 @@ class UserQuiz
     const BEGIN_TIME = 'begin_time';
     const FINISH_TIME = 'finish_time';
     const CORRECT_QUANTITY = 'correct_quantity';
-    const QUIZ_HISTORY_ID = 'quiz_history_id';
     const KEY_CREATED_AT = 'created_at';
 
     public $id;
@@ -26,7 +26,6 @@ class UserQuiz
     public $begin_time;
     public $finish_time;
     public $correct_quantity;
-    public $quiz_history_id;
     public $created_at;
     
     private $user_entity;
@@ -35,21 +34,38 @@ class UserQuiz
     private $quiz_entity;
     private $quiz_model;
     
-    private $history_entity;
     private $history_model;
+    
+    public function __construct(UserModel $user_model, QuizModel $quiz_model, QuizHistoryModel $history_model)
+    {
+        $this->user_model = $user_model;
+        $this->quiz_model = $quiz_model;
+        $this->history_model = $history_model;
+    }
 
     public function get_user()
     {
-        return null;
+        if (!$this->user_entity)
+            $this->user_entity = $this->user_model->get_user_by_id($this->user_id);
+        
+        return $this->user_entity;
     }
     
     public function get_quiz()
     {
-        return null;
+        if (!$this->quiz_model)
+            $this->quiz_model = $this->quiz_model->get_by_id($this->quiz_id);
+        
+        return $this->quiz_model;
     }
     
-    public function get_history()
+    public function add_history($content_object)
     {
-        return null;
+        $this->history_model->add_history_log($this->quiz_id, $content_object);
+    }
+    
+    public function get_histories()
+    {
+        return $this->history_model->get_histories_by_user_quiz_id($this->id);
     }
 }
