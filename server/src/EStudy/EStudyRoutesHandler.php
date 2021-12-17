@@ -204,28 +204,26 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_admin_account_routes(): array
     {
-        // $controller = new AdminAccountController($this->admin_user_model);
+         $controller = new AdminAccountController($this->admin_user_model);
 
-        // return [
-        //     '/admin/accounts' => [
-        //         'GET' => [
-        //             'controller' => $controller,
-        //             'action' => 'index'
-        //         ]
-        //     ],
-        //     '/admin/accounts/new_user' => [
-        //         'GET' => [
-        //             'controller' => $controller,
-        //             'action' => 'new_user'
-        //         ],
-        //         'POST' => [
-        //             'controller' => $controller,
-        //             'action' => 'create_new_user'
-        //         ]
-        //     ]
-        // ];
-
-        return [];
+         return [
+             '/admin/accounts' => [
+                 'GET' => [
+                     'controller' => $controller,
+                     'action' => 'index'
+                 ]
+             ],
+             '/admin/accounts/new_user' => [
+                 'GET' => [
+                     'controller' => $controller,
+                     'action' => 'new_user'
+                 ],
+                 'POST' => [
+                     'controller' => $controller,
+                     'action' => 'create_new_user'
+                 ]
+             ]
+         ];
     }
 
     public function get_admin_contact_us_routes(): array
@@ -474,7 +472,13 @@ class EStudyRoutesHandler implements IRoutes
                     'controller' => $controller,
                     'action' => 'import_lacviet_vocabulary'
                 ]
-            ]
+            ],
+            '/admin/import-sample-data/fullname' => [
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'import_fullname'
+                ]
+            ]          
         ];
     }
 

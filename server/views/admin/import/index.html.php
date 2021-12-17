@@ -24,6 +24,12 @@
     <form action="/admin/import-sample-data/lac_viet" method="POST">
         <input class="btn btn-warning" type="submit" value="Nhập từ điển Lạc Việt" name="import_lac_viet">
     </form>
+  
+    <hr>
+
+    <form action="/admin/import-sample-data/fullname" method="POST">
+        <input class="btn btn-success" type="submit" value="Nhập dữ liệu tên" name="import_fullname">
+    </form>  
 </div>
 
 {% endblock %}

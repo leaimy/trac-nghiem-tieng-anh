@@ -15,9 +15,14 @@ class UserModel
         $this->user_table = $user_table;
     }
 
-    public function get_all_user()
+    public function count()
     {
-        return $this->user_table->findAll();
+        return $this->user_table->total();
+    }
+
+    public function get_all_user($orderBy = null, $orderDirection = null, $limit = null, $offset = null)
+    {
+        return $this->user_table->findAll($orderBy, $orderDirection, $limit, $offset);
     }
 
     public function get_user_by_id($user_id)

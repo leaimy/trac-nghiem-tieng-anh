@@ -32,7 +32,7 @@ class DatabaseTable
         $db_charset = NJConfiguration::get('db_charset') ?? null;
         $db_username = NJConfiguration::get('db_username') ?? null;
         $db_password = NJConfiguration::get('db_password') ?? null;
-        
+
         $this->pdo = new \PDO("mysql:host=$db_host;dbname=$db_name;charset=$db_charset", $db_username, $db_password);
         $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
     }

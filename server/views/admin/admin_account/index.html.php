@@ -21,14 +21,14 @@
         <tr>
             <th scope="col">#</th>
             <th scope="col">Tên đầy đủ</th>
-            <th scope="col">Tên đăng nhập>
+            <th scope="col">Tên đăng nhập</th>
             <th scope="col">Vai trò</th>
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($users as $index => $user): ?>
+        <?php foreach ($all_users as $index => $user): ?>
         <tr>
-            <th scope="row"><?= $index + 1 ?></th>
+            <th scope="row"><?= ($current_page - 1) * $limit + ($index + 1) ?></th>
             <td><?= $user->fullname ?? 'N/A' ?></td>
             <td><?= $user->username ?? 'N/A' ?></td>
             <td><?= $user->type ?? 'GUEST' ?></td>
@@ -36,6 +36,17 @@
         <?php endforeach; ?>
         </tbody>
     </table>
+    
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center flex-wrap">
+            <?php for ($i = 0; $i <= $number_of_page; $i++): ?>
+                <li class="page-item <?= ($i + 1) == $current_page ? 'active' : '' ?>">
+                    <a class="page-link" href="/admin/accounts?page=<?= $i + 1 ?>"><?= $i + 1 ?></a>
+                </li>
+            <?php endfor; ?>
+        </ul>
+    </nav>
 </div>
+
 
 {% endblock %}
