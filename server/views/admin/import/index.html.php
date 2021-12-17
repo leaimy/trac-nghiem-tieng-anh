@@ -22,12 +22,13 @@
     <hr>
 
     <form action="/admin/import-sample-data/lac_viet" method="POST">
-        <input class="btn btn-warning mb-2" type="submit" value="Nhập từ điển Lạc Việt (Anh - Việt) 1" name="en_1">
-        <input class="btn btn-warning mb-2" type="submit" value="Nhập từ điển Lạc Việt (Anh - Việt) 2" name="en_2">
-        <input class="btn btn-warning mb-2" type="submit" value="Nhập từ điển Lạc Việt (Anh - Việt) 3" name="en_3">
-        <input class="btn btn-warning mb-2" type="submit" value="Nhập từ điển Lạc Việt (Anh - Việt) 4" name="en_4">
-        <input class="btn btn-warning mb-2" type="submit" value="Nhập từ điển Lạc Việt (Việt - Anh) 1" name="vi_1">
-        <input class="btn btn-warning mb-2" type="submit" value="Nhập từ điển Lạc Việt (Việt - Anh) 2" name="vi_2">
+        <input class="btn btn-warning mb-2" type="submit" value="Nhập từ điển Lạc Việt (Anh - Việt) - 1000 từ đầu tiên" name="en_0">
+        <input class="btn btn-warning mb-2" type="submit" value="Nhập từ điển Lạc Việt (Anh - Việt) - 1" name="en_1">
+        <input class="btn btn-warning mb-2" type="submit" value="Nhập từ điển Lạc Việt (Anh - Việt) - 2" name="en_2">
+        <input class="btn btn-warning mb-2" type="submit" value="Nhập từ điển Lạc Việt (Anh - Việt) - 3" name="en_3">
+        <input class="btn btn-warning mb-2" type="submit" value="Nhập từ điển Lạc Việt (Anh - Việt) - 4" name="en_4">
+        <input class="btn btn-warning mb-2" type="submit" value="Nhập từ điển Lạc Việt (Việt - Anh) - 1" name="vi_1">
+        <input class="btn btn-warning mb-2" type="submit" value="Nhập từ điển Lạc Việt (Việt - Anh) - 2" name="vi_2">
     </form>
   
     <hr>

@@ -2,6 +2,8 @@
 
 namespace EStudy\Controller\Client;
 
+use EStudy\Entity\Admin\QuestionEntity;
+use EStudy\Model\Admin\QuestionModel;
 use EStudy\Model\Admin\QuizModel;
 use EStudy\Model\Admin\TopicModel;
 use EStudy\Utils\QuestionRenderHelper;
@@ -12,13 +14,15 @@ class QuizController extends NJBaseController
 {
     private $quiz_model;
     private $topic_model;
+    private $question_model;
     
-    public function __construct(QuizModel $quiz_model, TopicModel $topic_model)
+    public function __construct(QuizModel $quiz_model, TopicModel $topic_model, QuestionModel $question_model)
     {
         parent::__construct();
         
         $this->quiz_model = $quiz_model;
         $this->topic_model = $topic_model;
+        $this->question_model = $question_model;
     }
 
     public function index()
@@ -58,12 +62,43 @@ class QuizController extends NJBaseController
             $questions = $quiz->get_questions();
             
             $this->view_handler->render('client/quiz/take_quiz.html.php', [
+                'quiz_id' => $quiz->id,
                 'questions' => $questions,
                 'question_render_helper' => new QuestionRenderHelper()
             ]);
         }
         catch (NinjaException $exception) {
             $this->route_redirect('/quizzes');
+        }
+    }
+    
+    public function process_quiz()
+    {
+        try {
+            $quiz_id = $_POST['quiz_id'] ?? null;
+            if (is_null($quiz_id))
+                throw new NinjaException('Bài trắc nghiệm không hợp lệ');
+            
+            $quiz = $this->quiz_model->get_by_id($quiz_id);
+            if (empty($quiz))
+                throw new NinjaException('Bài trắc nghiệm không tồn tại');
+            
+            $answers_with_one_correct = $_POST['answers-' . QuestionEntity::TYPE_TEXT_WITH_ONE_CORRECT] ?? [];
+            
+            $correct_count = 0;
+            foreach ($answers_with_one_correct as $question_id => $answers) {
+                $question = $this->question_model->get_by_id($question_id);
+                $corrects = $question->get_correct_answers();
+                
+                if (json_encode($corrects) == json_encode($answers))
+                    $correct_count ++;
+            }
+            
+            die($correct_count);
+        }
+        catch (NinjaException $exception) {
+            // TODO: Handle process quiz error
+            die($exception->getMessage());
         }
     }
 }
