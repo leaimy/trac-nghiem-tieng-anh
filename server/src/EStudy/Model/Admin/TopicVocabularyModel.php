@@ -56,7 +56,7 @@ class TopicVocabularyModel
      * Tìm tất cả chủ đề của một từ vựng
      * @param $vocabulary_id
      */
-    public function find_all_topic($vocabulary_id)
+    public function get_topics_by_vocabulary($vocabulary_id)
     {
       return $this->topic_vocabulary_table->find(TopicVocabulary::KEY_VOCABULARY_ID, $vocabulary_id);
     }

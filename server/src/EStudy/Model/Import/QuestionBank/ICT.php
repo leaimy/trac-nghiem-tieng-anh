@@ -33,7 +33,7 @@ class ICT
             }
 
             $question_table->save([
-                QuestionEntity::KEY_TOPIC => 777,
+                QuestionEntity::KEY_TOPIC => 13,
                 QuestionEntity::KEY_CREATED_AT => (new \DateTime()),
                 QuestionEntity::KEY_AUDIO_NAME => null,
                 QuestionEntity::KEY_AUDIO_PATH => null,

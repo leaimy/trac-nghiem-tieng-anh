@@ -34,6 +34,29 @@ class AdminImportController extends NJBaseController
     public function import_lacviet_vocabulary()
     {
         $instance = new LacViet();
+        
+        if (isset($_POST['en_0'])) {
+            $instance->set_part('en_0');
+        }
+        else if (isset($_POST['en_1'])) {
+            $instance->set_part('en_1');
+        }
+        else if (isset($_POST['en_2'])) {
+            $instance->set_part('en_2');
+        }
+        else if (isset($_POST['en_3'])) {
+            $instance->set_part('en_3');
+        }
+        else if (isset($_POST['en_4'])) {
+            $instance->set_part('en_4');
+        }
+        else if (isset($_POST['vi_1'])) {
+            $instance->set_part('vi_1');
+        }
+        else if (isset($_POST['vi_2'])) {
+            $instance->set_part('vi_2');
+        }
+        
         $instance->populate();
 
         $this->route_redirect('/admin/import-sample-data');
