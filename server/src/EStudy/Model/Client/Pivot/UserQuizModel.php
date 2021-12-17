@@ -16,11 +16,11 @@ class UserQuizModel
     
     public function create_new_connection($user_id, $quiz_id, $args)
     {
-        $this->user_quiz_table->save([
+        return $this->user_quiz_table->save([
             UserQuizEntity::KEY_USER_ID => $user_id,
             UserQuizEntity::KEY_QUIZ_ID => $quiz_id,
-            UserQuizEntity::BEGIN_TIME => $args[UserQuizEntity::BEGIN_TIME],
-            UserQuizEntity::FINISH_TIME => $args[UserQuizEntity::FINISH_TIME],
+            UserQuizEntity::BEGIN_TIME => $args[UserQuizEntity::BEGIN_TIME] ?? null,
+            UserQuizEntity::FINISH_TIME => $args[UserQuizEntity::FINISH_TIME] ?? null,
             UserQuizEntity::CORRECT_QUANTITY => $args[UserQuizEntity::CORRECT_QUANTITY]
         ]);
     }

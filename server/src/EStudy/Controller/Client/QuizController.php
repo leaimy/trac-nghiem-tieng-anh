@@ -3,9 +3,11 @@
 namespace EStudy\Controller\Client;
 
 use EStudy\Entity\Admin\QuestionEntity;
+use EStudy\Entity\Client\Pivot\UserQuizEntity;
 use EStudy\Model\Admin\QuestionModel;
 use EStudy\Model\Admin\QuizModel;
 use EStudy\Model\Admin\TopicModel;
+use EStudy\Model\Client\Pivot\UserQuizModel;
 use EStudy\Utils\QuestionRenderHelper;
 use Ninja\NinjaException;
 use Ninja\NJBaseController\NJBaseController;
@@ -16,13 +18,16 @@ class QuizController extends NJBaseController
     private $topic_model;
     private $question_model;
     
-    public function __construct(QuizModel $quiz_model, TopicModel $topic_model, QuestionModel $question_model)
+    private $user_quiz_model;
+    
+    public function __construct(QuizModel $quiz_model, TopicModel $topic_model, QuestionModel $question_model, UserQuizModel $user_quiz_model)
     {
         parent::__construct();
         
         $this->quiz_model = $quiz_model;
         $this->topic_model = $topic_model;
         $this->question_model = $question_model;
+        $this->user_quiz_model = $user_quiz_model;
     }
 
     public function index()
@@ -82,19 +87,34 @@ class QuizController extends NJBaseController
             $quiz = $this->quiz_model->get_by_id($quiz_id);
             if (empty($quiz))
                 throw new NinjaException('Bài trắc nghiệm không tồn tại');
+           
+            // TODO: replace with logged in user
+            $user_id = 1;
             
             $answers_with_one_correct = $_POST['answers-' . QuestionEntity::TYPE_TEXT_WITH_ONE_CORRECT] ?? [];
+            $now = new \DateTime();
             
             $correct_count = 0;
+            $questions = [];
+            
             foreach ($answers_with_one_correct as $question_id => $answers) {
                 $question = $this->question_model->get_by_id($question_id);
                 $corrects = $question->get_correct_answers();
+                $question->user_answers = implode("\n", $answers);
                 
-                if (json_encode($corrects) == json_encode($answers))
+                if (json_encode($corrects) == json_encode($answers)) {
                     $correct_count ++;
+                }
+                
+                $questions[] = $question;
             }
             
-            die($correct_count);
+            $new_record = $this->user_quiz_model->create_new_connection($user_id, $quiz_id, [
+                UserQuizEntity::CORRECT_QUANTITY => $correct_count,
+                UserQuizEntity::FINISH_TIME => $now
+            ]);
+            
+            $new_record->add_history($questions);
         }
         catch (NinjaException $exception) {
             // TODO: Handle process quiz error

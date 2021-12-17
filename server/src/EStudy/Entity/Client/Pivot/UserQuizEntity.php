@@ -2,6 +2,7 @@
 
 namespace EStudy\Entity\Client\Pivot;
 
+use EStudy\Entity\Admin\QuizEntity;
 use EStudy\Model\Admin\QuizModel;
 use EStudy\Model\Admin\UserModel;
 use EStudy\Model\Client\QuizHistoryModel;
@@ -10,7 +11,7 @@ class UserQuizEntity
 {
     const PRIMARY_KEY = 'id';
     const TABLE = 'user_quiz';
-    const CLASS_NAME = '\\EStudy\\Entity\\Client\\Pivot\\UserQuiz';
+    const CLASS_NAME = '\\EStudy\\Entity\\Client\\Pivot\\UserQuizEntity';
 
     const KEY_ID = 'id';
     const KEY_USER_ID = 'user_id';
@@ -53,19 +54,48 @@ class UserQuizEntity
     
     public function get_quiz()
     {
-        if (!$this->quiz_model)
-            $this->quiz_model = $this->quiz_model->get_by_id($this->quiz_id);
+        if (!$this->quiz_entity)
+            $this->quiz_entity = $this->quiz_model->get_by_id($this->quiz_id);
         
-        return $this->quiz_model;
+        return $this->quiz_entity;
     }
     
-    public function add_history($content_object)
+    public function add_history($question_entities)
     {
-        $this->history_model->add_history_log($this->quiz_id, $content_object);
+        $to_write = [];
+        
+        $quiz = $this->get_quiz();
+        
+        // TODO: write user information
+         $user = $this->get_user();
+        
+        $to_write['quiz'] = [
+            self::KEY_ID => $this->id,
+            self::KEY_QUIZ_ID => $this->quiz_id,
+            self::KEY_USER_ID => $this->user_id,
+            self::KEY_CREATED_AT => ($this->created_at instanceof \DateTime) ? $this->created_at->format('Y-m-d H:i:s') : null,
+            'quiz_detail' => [
+                QuizEntity::KEY_ID => $quiz->id ?? null, // TODO: Check quiz id
+                QuizEntity::KEY_MEDIA_ID => $quiz->{QuizEntity::KEY_MEDIA_ID} ?? null,
+                QuizEntity::KEY_TITLE => $quiz->{QuizEntity::KEY_TITLE} ?? '',
+                QuizEntity::KEY_DESCRIPTION => $quiz->{QuizEntity::KEY_DESCRIPTION} ?? '',
+                QuizEntity::KEY_QUESTION_QUANTITY => $quiz->{QuizEntity::KEY_QUESTION_QUANTITY} ?? 0,
+                QuizEntity::KEY_AUTHOR_ID => $quiz->{QuizEntity::KEY_AUTHOR_ID} ?? 1 // TODO: Check user id
+            ]
+        ];
+        $to_write['questions'] = [];
+        foreach ($question_entities as $question_entity)
+            $to_write['questions'][] = $question_entity->to_json();
+        
+        $this->history_model->add_history_log($this->quiz_id, $to_write);
     }
     
     public function get_histories()
     {
         return $this->history_model->get_histories_by_user_quiz_id($this->id);
+    }
+    
+    public function to_json()
+    {
     }
 }

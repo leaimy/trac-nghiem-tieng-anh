@@ -22,6 +22,8 @@ use EStudy\Entity\Admin\QuizEntity;
 use EStudy\Entity\Admin\TopicVocabulary;
 use EStudy\Entity\Admin\UserEntity;
 use EStudy\Entity\Admin\VocabularyEntity;
+use EStudy\Entity\Client\Pivot\UserQuizEntity;
+use EStudy\Entity\Client\QuizHistoryEntity;
 use EStudy\Model\Admin\Pivot\QuestionQuizModel;
 use EStudy\Model\Admin\QuestionModel;
 
@@ -29,6 +31,8 @@ use EStudy\Model\Admin\QuizModel;
 use EStudy\Model\Admin\TopicVocabularyModel;
 use EStudy\Model\Admin\UserModel;
 use EStudy\Model\Admin\VocabularyModel;
+use EStudy\Model\Client\Pivot\UserQuizModel;
+use EStudy\Model\Client\QuizHistoryModel;
 use Ninja\Authentication;
 use Ninja\DatabaseTable;
 use Ninja\NJInterface\IRoutes;
@@ -63,6 +67,12 @@ class EStudyRoutesHandler implements IRoutes
 
     private $admin_user_table;
     private $admin_user_model;
+    
+    private $user_quiz_table;
+    private $user_quiz_model;
+
+    private $quiz_history_table;
+    private $quiz_history_model;
 
     public function __construct()
     {
@@ -105,6 +115,16 @@ class EStudyRoutesHandler implements IRoutes
 
         $this->admin_user_table = new DatabaseTable(UserEntity::TABLE, UserEntity::PRIMARY_KEY, UserEntity::CLASS_NAME);
         $this->admin_user_model = new UserModel($this->admin_user_table);
+        
+        $this->quiz_history_table = new DatabaseTable(QuizHistoryEntity::TABLE, QuizHistoryEntity::PRIMARY_KEY, QuizHistoryEntity::CLASS_NAME);
+        $this->quiz_history_model = new QuizHistoryModel($this->quiz_history_table);
+        
+        $this->user_quiz_table = new DatabaseTable(UserQuizEntity::TABLE, UserQuizEntity::PRIMARY_KEY, UserQuizEntity::CLASS_NAME, [
+            &$this->admin_user_model,
+            &$this->admin_quiz_model,
+            &$this->quiz_history_model
+        ]);
+        $this->user_quiz_model = new UserQuizModel($this->user_quiz_table);
     }
 
     public function getRoutes(): array
@@ -155,7 +175,7 @@ class EStudyRoutesHandler implements IRoutes
     public function get_client_routes()
     {
         $controller = new HomeController($this->admin_topic_model);
-        $quiz_controller = new QuizController($this->admin_quiz_model, $this->admin_topic_model, $this->admin_question_model);
+        $quiz_controller = new QuizController($this->admin_quiz_model, $this->admin_topic_model, $this->admin_question_model, $this->user_quiz_model);
 
         return [
             '/' => [
