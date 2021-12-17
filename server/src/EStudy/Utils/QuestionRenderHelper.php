@@ -62,7 +62,7 @@ class QuestionRenderHelper
         ?>
         <div class="card">
             <div class="card-header">
-                câu <?= $this->counter++ ?>: <?= $this->question->title ?>
+                Câu <?= $this->counter++ ?>: <?= $this->question->title ?>
             </div>
             <div class="card-body">
                 <?php if (is_null($this->question->media_id)): ?>
@@ -121,8 +121,8 @@ class QuestionRenderHelper
         ob_start();
         ?>
         <div class="card <?= $is_correct ? 'border border-success' : 'border border-danger' ?>">
-            <div class="card-header">
-                câu <?= $this->counter++ ?>: <?= $this->question['title'] ?>
+            <div class="card-header text-white <?= $is_correct ? 'bg-success' : 'bg-danger' ?>">
+                Câu <?= $this->counter++ ?>: <?= $this->question['title'] ?>
             </div>
             <div class="card-body">
                 <?php if (is_null($this->question['media_id'])): ?>
@@ -155,7 +155,7 @@ class QuestionRenderHelper
                                             <?= $answer == $this->question['corrects'] ? 'checked': 'disabled' ?>
                                             value="<?= $answer ?>"
                                         />
-                                        <label class="form-check-label <?= $answer == $this->question['corrects'] ? 'text-success': '' ?>">
+                                        <label class="form-check-label <?= $answer == $this->question['corrects'] ? 'text-success': ($answer == $this->question['user_answers'] ? 'text-danger' : '') ?>">
                                             <?= $answer ?>
                                         </label>
                                     </div>
