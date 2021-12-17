@@ -2,8 +2,6 @@
 
 namespace Ninja;
 
-use SSF\Entity\UserEntity;
-
 class Authentication
 {
     private $users;
@@ -44,37 +42,6 @@ class Authentication
         return true;
     }
 
-    /**
-     * @throws NinjaException
-     */
-    public function register($username, $password, $display_name)
-    {
-        if (empty($username))
-            throw new NinjaException('Vui lòng điền tên đăng nhập');
-        
-        if (empty($password))
-            throw new NinjaException('Vui lòng điền mật khẩu');
-        
-        if (empty($display_name))
-            throw new NinjaException('Vui lòng điền tên hiển thị');
-        
-        $user = $this->users->find($this->usernameColumn, $username);
-        
-        if ($user instanceof UserEntity)
-            throw new NinjaException("Tên đăng nhập '$username' đã tồn tại trong hệ thống");
-
-        $password = password_hash($password, PASSWORD_DEFAULT);
-
-        return $this->users->save([
-            UserEntity::KEY_USERNAME => $username,
-            UserEntity::KEY_EMAIL => '',
-            UserEntity::KEY_DISPLAY_NAME => $display_name,
-            UserEntity::KEY_AVATAR => 'avatar1',
-            UserEntity::KEY_PASSWORD => $password,
-            UserEntity::KEY_TYPE => UserEntity::TYPE_USER,
-        ]);
-    }
-    
     public function logout()
     {
         unset($_SESSION['username']);

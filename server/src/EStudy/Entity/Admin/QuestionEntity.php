@@ -34,6 +34,7 @@ class QuestionEntity
     const KEY_MEDIA_ID = 'media_id';
     const KEY_QUESTION_TYPE = 'type';
     const KEY_TOPIC = 'topic_id';
+    const KEY_STATUS = 'status';
     const KEY_AUDIO_PATH = 'audio_path';
     const KEY_AUDIO_NAME = 'audio_name';
     const KEY_CREATED_AT = 'created_at';
@@ -45,6 +46,7 @@ class QuestionEntity
     public $media_id;
     public $type;
     public $topic_id;
+    public $status;
     public $audio_path;
     public $audio_name;
     public $created_at;

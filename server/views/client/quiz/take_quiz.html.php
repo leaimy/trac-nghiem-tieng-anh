@@ -18,11 +18,23 @@
             </div>
         </div>
     </div>
-    
-    <?php foreach ($questions as $index => $question): ?>
-        <?= $question_render_helper->set_question($question) ?>
-        
-    <?php endforeach; ?>
+
+    <form action="" method="POST">
+        <input type="hidden" name="quiz_id" value="<?= $quiz_id ?>">
+        <div class="row mt-3 justify-content-center">
+            <div class="col-sm-10">
+                
+                <?php foreach ($questions as $index => $question): ?>
+                    <?= $question_render_helper->set_question($question) ?>
+                    <div class="mb-3"></div>
+                <?php endforeach; ?>
+
+                <hr class="mt-5 my-3">
+                <input type="submit" value="Hoàn thành" class="btn btn-success w-100">
+            </div>
+        </div>
+    </form>
+
 </div>
 
 {% endblock %}
