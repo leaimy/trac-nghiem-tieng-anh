@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 17, 2021 at 09:20 AM
+-- Generation Time: Dec 18, 2021 at 04:41 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.25
 
@@ -63,7 +63,8 @@ CREATE TABLE `question` (
   `topic_id` int(11) NOT NULL,
   `audio_path` int(11) DEFAULT NULL,
   `audio_name` int(11) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp()
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `user_choices` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -98,6 +99,20 @@ CREATE TABLE `quiz` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `quiz_history`
+--
+
+CREATE TABLE `quiz_history` (
+  `id` int(11) NOT NULL,
+  `correct` int(11) NOT NULL,
+  `content` text NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `user_quiz_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `topic`
 --
 
@@ -125,7 +140,8 @@ INSERT INTO `topic` (`id`, `title`, `description`, `media_id`, `created_at`) VAL
 (9, 'thành ngữ', '', 1, '2021-12-16 23:02:28'),
 (10, 'viết tắt', '', 1, '2021-12-16 23:02:28'),
 (11, 'hậu tố', '', 1, '2021-12-16 23:02:28'),
-(12, 'tổng hợp', '', 1, '2021-12-16 23:02:28');
+(12, 'tổng hợp', '', 1, '2021-12-16 23:02:28'),
+(13, 'ict', '', 3, '2021-12-17 16:37:48');
 
 -- --------------------------------------------------------
 
@@ -153,6 +169,22 @@ CREATE TABLE `user` (
   `fullname` varchar(255) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
   `type` enum('ADMIN','GUEST') NOT NULL DEFAULT 'GUEST',
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_quiz`
+--
+
+CREATE TABLE `user_quiz` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `quiz_id` int(11) NOT NULL,
+  `begin_time` datetime DEFAULT NULL,
+  `finish_time` datetime DEFAULT NULL,
+  `correct_quantity` int(11) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -200,6 +232,12 @@ ALTER TABLE `quiz`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `quiz_history`
+--
+ALTER TABLE `quiz_history`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `topic`
 --
 ALTER TABLE `topic`
@@ -215,6 +253,12 @@ ALTER TABLE `topic_vocabulary`
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `user_quiz`
+--
+ALTER TABLE `user_quiz`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -249,7 +293,13 @@ ALTER TABLE `question_quiz`
 -- AUTO_INCREMENT for table `quiz`
 --
 ALTER TABLE `quiz`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `quiz_history`
+--
+ALTER TABLE `quiz_history`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `topic`
@@ -267,6 +317,12 @@ ALTER TABLE `topic_vocabulary`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `user_quiz`
+--
+ALTER TABLE `user_quiz`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
