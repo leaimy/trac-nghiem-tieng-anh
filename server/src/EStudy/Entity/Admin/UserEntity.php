@@ -26,4 +26,14 @@ class UserEntity
     public $email;
     public $user_type;
     public $created_at;
+    
+    public function is_admin()
+    {
+        return $this->user_type == self::ADMIN;
+    }
+    
+    public function is_guest()
+    {
+        return $this->user_type == self::GUEST;
+    }
 }
