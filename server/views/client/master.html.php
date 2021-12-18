@@ -20,7 +20,7 @@
 <body>
 <nav class="navbar navbar-expand-md navbar-light bg-light">
     <div class="container" style="z-index: 999;">
-        <a class="navbar-brand" href="/giao-dien/client/index.html">2NTH</a>
+        <a class="navbar-brand" href="/">2NTH</a>
         <button
             class="navbar-toggler"
             type="button"
@@ -38,35 +38,18 @@
                     <a
                         class="nav-link active"
                         aria-current="page"
-                        href="/giao-dien/client/index.html"
+                        href="/"
                     >Trang chủ</a
                     >
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Trắc nghiệm chủ đề</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Làm bài thi</a>
-                </li>
             </ul>
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item ms-auto">
-                    <a class="nav-link" href="/auth/sign-in">Đăng nhập</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/auth/sign-up">Tạo tài khoản</a>
-                </li>
-
-            </ul>
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <!--
                 <li class="nav-item ms-auto">
                   <a class="nav-link" href="#">Đăng nhập</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="#">Tạo tài khoản</a>
                 </li>
-                -->
                 <li class="nav-item dropdown">
                     <a
                         class="nav-link dropdown-toggle"

@@ -79,7 +79,7 @@
     <div class="card">
         <div class="card-body">
             <h1 class="text-center my-4">
-                Ôn tập từ vựng thông qua các bài trắc nghiệm ngẫu nhiên
+                Chủ đề
             </h1>
 
             <div class="row mt-5 justify-content-center justify-content-lg-start">
@@ -87,10 +87,12 @@
                     <div class="col-sm-10 col-md-6 col-lg-5 col-xxl-3 mb-3">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title"><?= $topic->title ?></h5>
+                                <h5 class="card-title text-capitalize"><?= $topic->title ?></h5>
                                 <p class="card-text"><?= $topic->description ?></p>
-                                
-                                <a href="/quizzes/by_topic?topic_id=<?= $topic->id ?>" class="btn btn-primary">Ôn tập ngay</a>
+
+                                <a href="" class="btn btn-outline-primary btn-sm">Ngẫu nhiên</a>
+                                <a href="/quizzes/by_topic?topic_id=<?= $topic->id ?>" class="btn btn-primary btn-sm">Giải
+                                    đề</a>
                             </div>
                         </div>
                     </div>
@@ -103,90 +105,22 @@
 <div class="container mt-5 mb-5">
     <div class="card">
         <div class="card-body">
-            <h1 class="text-center my-4">Giải đề trắc nghiệm tiếng Anh</h1>
+            <h1 class="text-center my-4">Giải đề trắc nghiệm</h1>
 
             <div class="row mt-5 justify-content-center justify-content-lg-start">
-                <div class="col-sm-10 col-md-6 col-lg-5 col-xxl-3 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Đề 01</h5>
-                            <p class="card-text">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                Similique provident debitis sapiente harum distinctio
-                                nesciunt, dolore neque et natus. Dicta.
-                            </p>
-                            <a href="#" class="btn btn-primary">Làm ngay</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-10 col-md-6 col-lg-5 col-xxl-3 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Đề 02</h5>
-                            <p class="card-text">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                Quisquam maiores facilis numquam commodi saepe? Vel!
-                            </p>
-                            <a href="#" class="btn btn-primary">Làm ngay</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-10 col-md-6 col-lg-5 col-xxl-3 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Đề 03</h5>
-                            <p class="card-text">
-                                With supporting text below as a natural lead-in to
-                                additional content.
-                            </p>
-                            <a href="#" class="btn btn-primary">Làm ngay</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-10 col-md-6 col-lg-5 col-xxl-3 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Đề 04</h5>
-                            <p class="card-text">
-                                With supporting text below as a natural lead-in to
-                                additional content.
-                            </p>
-                            <a href="#" class="btn btn-primary">Làm ngay</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-10 col-md-6 col-lg-5 col-xxl-3 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Đề 05</h5>
-                            <p class="card-text">
-                                With supporting text below as a natural lead-in to
-                                additional content.
-                            </p>
-                            <a href="#" class="btn btn-primary">Làm ngay</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-10 col-md-6 col-lg-5 col-xxl-3 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Đề 06</h5>
-                            <p class="card-text">
-                                With supporting text below as a natural lead-in to
-                                additional content.
-                            </p>
-                            <a href="#" class="btn btn-primary">Làm ngay</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <?php foreach ($quizzes as $index => $quiz): ?>
 
-            <div class="row mt-4 mb-3">
-                <div class="col d-flex justify-content-center">
-                    <a href="" class="btn btn-primary"
-                    >Xem thêm các đề trắc nghiệm khác...</a
-                    >
-                </div>
+                    <div class="col-sm-10 col-md-6 col-lg-5 col-xxl-3 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Đề <?= $index + 1 ?> <?= $quiz->title ?></h5>
+                                <p class="card-text"><?= $quiz->description ?></p>
+                                <a href="/quizzes/take-quiz?quiz_id=<?= $quiz->id ?>" class="btn btn-primary">Làm ngay</a>
+                            </div>
+                        </div>
+                    </div>
+
+                <?php endforeach; ?>
             </div>
         </div>
     </div>
