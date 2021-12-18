@@ -4,7 +4,6 @@ namespace EStudy;
 
 use EStudy\Controller\Admin\AdminAccountController;
 use EStudy\Controller\Admin\AdminContactUsController;
-use EStudy\Controller\Admin\AdminCustomerController;
 use EStudy\Controller\Admin\AdminDashboardController;
 use EStudy\Controller\Admin\AdminImportController;
 use EStudy\Controller\Admin\AdminMediaController;
@@ -68,7 +67,7 @@ class EStudyRoutesHandler implements IRoutes
 
     private $admin_user_table;
     private $admin_user_model;
-    
+
     private $user_quiz_table;
     private $user_quiz_model;
 
@@ -116,10 +115,10 @@ class EStudyRoutesHandler implements IRoutes
 
         $this->admin_user_table = new DatabaseTable(UserEntity::TABLE, UserEntity::PRIMARY_KEY, UserEntity::CLASS_NAME);
         $this->admin_user_model = new UserModel($this->admin_user_table);
-        
+
         $this->quiz_history_table = new DatabaseTable(QuizHistoryEntity::TABLE, QuizHistoryEntity::PRIMARY_KEY, QuizHistoryEntity::CLASS_NAME);
         $this->quiz_history_model = new QuizHistoryModel($this->quiz_history_table);
-        
+
         $this->user_quiz_table = new DatabaseTable(UserQuizEntity::TABLE, UserQuizEntity::PRIMARY_KEY, UserQuizEntity::CLASS_NAME, [
             &$this->admin_user_model,
             &$this->admin_quiz_model,
@@ -174,10 +173,11 @@ class EStudyRoutesHandler implements IRoutes
         return [];
     }
 
-    public function get_client_routes()
+    public function get_client_routes(): array
     {
         $controller = new HomeController($this->admin_topic_model);
         $quiz_controller = new QuizController($this->admin_quiz_model, $this->admin_topic_model, $this->admin_question_model, $this->user_quiz_model, $this->quiz_history_model);
+        $auth_controller = new AuthController();
 
         return [
             '/' => [
@@ -213,7 +213,7 @@ class EStudyRoutesHandler implements IRoutes
                     'controller' => $quiz_controller,
                     'action' => 'show_history'
                 ]
-            ],         
+            ],
             '/auth/sign-in' => [
                 'GET' => [
                     'controller' => $auth_controller,
@@ -225,7 +225,7 @@ class EStudyRoutesHandler implements IRoutes
                     'controller' => $auth_controller,
                     'action' => 'sign_up'
                 ]
-            ],         
+            ],
         ];
     }
 
@@ -248,26 +248,26 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_admin_account_routes(): array
     {
-         $controller = new AdminAccountController($this->admin_user_model);
+        $controller = new AdminAccountController($this->admin_user_model);
 
-         return [
-             '/admin/accounts' => [
-                 'GET' => [
-                     'controller' => $controller,
-                     'action' => 'index'
-                 ]
-             ],
-             '/admin/accounts/new_user' => [
-                 'GET' => [
-                     'controller' => $controller,
-                     'action' => 'new_user'
-                 ],
-                 'POST' => [
-                     'controller' => $controller,
-                     'action' => 'create_new_user'
-                 ]
-             ]
-         ];
+        return [
+            '/admin/accounts' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'index'
+                ]
+            ],
+            '/admin/accounts/new_user' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'new_user'
+                ],
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'create_new_user'
+                ]
+            ]
+        ];
     }
 
     public function get_admin_contact_us_routes(): array
@@ -522,7 +522,7 @@ class EStudyRoutesHandler implements IRoutes
                     'controller' => $controller,
                     'action' => 'import_fullname'
                 ]
-            ]          
+            ]
         ];
     }
 
