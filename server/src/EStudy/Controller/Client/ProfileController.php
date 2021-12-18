@@ -41,7 +41,7 @@ class ProfileController extends EStudyBaseController
                 UserEntity::KEY_EMAIL => $email
             ]);
             
-            $this->route_redirect('/profile');
+            $this->route_redirect('/me');
         }
         catch (NinjaException $exception) {
             // TODO: Handle update profile update fail

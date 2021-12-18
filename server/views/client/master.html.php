@@ -48,7 +48,7 @@
                     <li class="nav-item dropdown">
                         <a
                             class="nav-link dropdown-toggle"
-                            href="#"
+                            href="/me"
                             id="navbarDropdown"
                             role="button"
                             data-bs-toggle="dropdown"
@@ -58,7 +58,7 @@
                         </a>
                         <ul class="dropdown-menu d" aria-labelledby="navbarDropdown">
                             <li>
-                                <a class="dropdown-item" href="/profile">Tài khoản</a>
+                                <a class="dropdown-item" href="/me">Tài khoản</a>
                             </li>
                             <li>
                                 <a class="dropdown-item" href="">Lịch sử kiểm tra</a>

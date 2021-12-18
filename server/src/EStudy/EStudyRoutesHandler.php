@@ -282,7 +282,7 @@ class EStudyRoutesHandler implements IRoutes
                     'action' => 'show_history'
                 ]
             ],
-            '/profile' => [
+            '/me' => [
                 'GET' => [
                     'controller' => $profile_controller,
                     'action' => 'show_dashboard'
