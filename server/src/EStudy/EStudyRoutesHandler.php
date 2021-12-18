@@ -14,6 +14,7 @@ use EStudy\Controller\Admin\AdminQuizHistoryController;
 use EStudy\Controller\Admin\AdminSettingController;
 use EStudy\Controller\Admin\AdminTopicController;
 use EStudy\Controller\Admin\AdminVocabularyController;
+use EStudy\Controller\Client\AuthController;
 use EStudy\Controller\Client\HomeController;
 use EStudy\Controller\Client\QuizController;
 use EStudy\Entity\Admin\MediaEntity;
@@ -212,7 +213,19 @@ class EStudyRoutesHandler implements IRoutes
                     'controller' => $quiz_controller,
                     'action' => 'show_history'
                 ]
-            ]
+            ],         
+            '/auth/sign-in' => [
+                'GET' => [
+                    'controller' => $auth_controller,
+                    'action' => 'sign_in'
+                ]
+            ],
+            '/auth/sign-up' => [
+                'GET' => [
+                    'controller' => $auth_controller,
+                    'action' => 'sign_up'
+                ]
+            ],         
         ];
     }
 
