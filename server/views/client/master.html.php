@@ -38,7 +38,7 @@
                     <a class="nav-link active" aria-current="page" href="/">Trang chủ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin" target="_blank">Admin</a>
+                    <a class="nav-link" href="/admin">Admin</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -65,7 +65,7 @@
                                 <hr class="dropdown-divider"/>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="">Đăng xuất</a></li>
+                                <a class="dropdown-item" href="/auth/logout">Đăng xuất</a></li>
                         </ul>
                     </li>
                 <?php else: ?>
