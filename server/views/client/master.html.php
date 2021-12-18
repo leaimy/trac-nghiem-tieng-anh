@@ -35,7 +35,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Trang chủ</a>
+                    <a class="nav-link <?= $route == '/' ? 'active' : '' ?>" href="/">Trang chủ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= $route == '/quizzes' ? 'active' : '' ?>" href="/quizzes">Bài trắc nghiệm</a>
                 </li>
                 <?php if ($is_logged_in && $logged_in_user->is_admin()): ?>
                     <li class="nav-item">

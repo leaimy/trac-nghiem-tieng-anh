@@ -40,7 +40,12 @@ class QuizController extends EStudyBaseController
 
     public function index()
     {
-        $this->view_handler->render('client/quiz/index.html.php');
+        $quizzes = $this->quiz_model->get_all();
+        
+        $this->view_handler->render('client/quiz/index.html.php', [
+            'quizzes' => $quizzes,
+            'topic' => null
+        ]);
     }
     
     public function show_quizzes_by_topic()
@@ -72,6 +77,9 @@ class QuizController extends EStudyBaseController
                 throw new NinjaException('Mã định danh bài trắc nghiệm không hợp lệ');
             
             $quiz = $this->quiz_model->get_by_id($quiz_id);
+            if (!$quiz)
+                throw new NinjaException('Bài trắc nghiệm không tồn tại', 404);
+            
             $questions = $quiz->get_questions();
             
             $this->view_handler->render('client/quiz/take_quiz.html.php', [
@@ -81,6 +89,11 @@ class QuizController extends EStudyBaseController
             ]);
         }
         catch (NinjaException $exception) {
+            if ($exception->get_status_code() == 404) {
+                parent::handle_on_page_not_found([]);
+                exit();
+            }
+            
             $this->route_redirect('/quizzes');
         }
     }

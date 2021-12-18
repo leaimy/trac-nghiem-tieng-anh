@@ -4,7 +4,11 @@
 
 {% block content %}
 <div class="container mt-5 mb-5 min-vh-100">
-    <h1 class="text-center mt-4 h4">Chủ đề: <?= $topic->title ?></h1>
+    <?php if (is_null($topic)): ?>
+        <h1 class="text-center mt-4 h4">Danh sách bài trắc nghiệm</h1>
+    <?php else: ?>
+        <h1 class="text-center mt-4 h4">Chủ đề: <?= $topic->title ?></h1>
+    <?php endif; ?>
     <p class="text-center mb-4">Số bài trắc nghiệm: <?= count($quizzes) ?></p>
 
     <div class="mt-5">
@@ -18,7 +22,8 @@
                                     <h5 class="card-title"><?= $quiz->title ?></h5>
                                     <p class="card-text"><?= $quiz->description ?></p>
 
-                                    <a href="/quizzes/take-quiz?quiz_id=<?= $quiz->id ?>" class="btn btn-primary">Làm ngay</a>
+                                    <a href="/quizzes/take-quiz?quiz_id=<?= $quiz->id ?>" class="btn btn-primary">Làm
+                                        ngay</a>
                                 </div>
                             </div>
                         </div>
