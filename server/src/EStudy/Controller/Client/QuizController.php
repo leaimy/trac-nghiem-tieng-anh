@@ -117,7 +117,7 @@ class QuizController extends NJBaseController
                 UserQuizEntity::FINISH_TIME => $now
             ]);
             
-            $history = $new_record->add_history($questions);
+            $history = $new_record->add_history($questions, $correct_count);
             
             $this->route_redirect('/quizzes/histories/show?quiz_history_id=' . $history->id);
         }

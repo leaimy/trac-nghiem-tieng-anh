@@ -122,7 +122,8 @@ class EStudyRoutesHandler implements IRoutes
         $this->user_quiz_table = new DatabaseTable(UserQuizEntity::TABLE, UserQuizEntity::PRIMARY_KEY, UserQuizEntity::CLASS_NAME, [
             &$this->admin_user_model,
             &$this->admin_quiz_model,
-            &$this->quiz_history_model
+            &$this->quiz_history_model,
+            &$this->user_quiz_model
         ]);
         $this->user_quiz_model = new UserQuizModel($this->user_quiz_table);
     }

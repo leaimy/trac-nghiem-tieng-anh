@@ -6,6 +6,7 @@ use EStudy\Entity\Admin\QuizEntity;
 use EStudy\Entity\Admin\UserEntity;
 use EStudy\Model\Admin\QuizModel;
 use EStudy\Model\Admin\UserModel;
+use EStudy\Model\Client\Pivot\UserQuizModel;
 use EStudy\Model\Client\QuizHistoryModel;
 
 class UserQuizEntity
@@ -38,11 +39,14 @@ class UserQuizEntity
     
     private $history_model;
     
-    public function __construct(UserModel $user_model, QuizModel $quiz_model, QuizHistoryModel $history_model)
+    private $user_quiz_model;
+    
+    public function __construct(UserModel $user_model, QuizModel $quiz_model, QuizHistoryModel $history_model, UserQuizModel $user_quiz_model)
     {
         $this->user_model = $user_model;
         $this->quiz_model = $quiz_model;
         $this->history_model = $history_model;
+        $this->user_quiz_model = $user_quiz_model;
     }
 
     public function get_user()
@@ -61,7 +65,7 @@ class UserQuizEntity
         return $this->quiz_entity;
     }
     
-    public function add_history($question_entities)
+    public function add_history($question_entities, $number_of_correct = null)
     {
         $to_write = [];
         
@@ -69,6 +73,9 @@ class UserQuizEntity
         
         // TODO: write user information
          $user = $this->get_user();
+         
+         if (is_null($number_of_correct))
+             $number_of_correct = 0; // TODO: Calculate number of correct
         
         $to_write['quiz'] = [
             self::KEY_ID => $this->id,
@@ -90,7 +97,7 @@ class UserQuizEntity
                 UserEntity::KEY_FULL_NAME => $user->{UserEntity::KEY_FULL_NAME}
             ],
             'result' => [
-                'correct' => $this->correct_quantity ?? 0,
+                'correct' => $number_of_correct,
                 'total' => $quiz->{QuizEntity::KEY_QUESTION_QUANTITY} ?? 0
             ]
         ];
@@ -100,7 +107,16 @@ class UserQuizEntity
         foreach ($question_entities as $question_entity)
             $to_write['questions'][] = $question_entity->to_json();
         
-        return $this->history_model->add_history_log($this->id, $this->correct_quantity, $to_write);
+        $this->update_best_result($number_of_correct);
+        return $this->history_model->add_history_log($this->id, $number_of_correct, $to_write);
+    }
+    
+    public function update_best_result($correct)
+    {
+        if ($correct > $this->correct_quantity)
+            $this->user_quiz_model->update($this->id, [
+                self::CORRECT_QUANTITY => $correct
+            ]);
     }
     
     public function get_histories()
