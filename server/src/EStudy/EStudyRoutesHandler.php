@@ -145,6 +145,20 @@ class EStudyRoutesHandler implements IRoutes
         
         return $results;
     }
+    
+    public function restrict_admin($routes): array
+    {
+        $results = [];
+
+        foreach ($routes as $key => $route) {
+            $item = $route;
+            $item['permissions'] = true;
+
+            $results[$key] = $item;
+        }
+
+        return $results;
+    }
 
     public function getRoutes(): array
     {
@@ -187,6 +201,22 @@ class EStudyRoutesHandler implements IRoutes
         $admin_topic_routes = $this->required_login($admin_topic_routes);
         $admin_vocabulary_routes = $this->required_login($admin_vocabulary_routes);
         $admin_import_routes = $this->required_login($admin_import_routes);
+
+        /**
+         * Restrict only admin user
+         */
+        $admin_dashboard_routes = $this->restrict_admin($admin_dashboard_routes);
+        $admin_account_routes = $this->restrict_admin($admin_account_routes);
+        $admin_contact_us_routes = $this->restrict_admin($admin_contact_us_routes);
+        $admin_customer_routes = $this->restrict_admin($admin_customer_routes);
+        $admin_media_routes = $this->restrict_admin($admin_media_routes);
+        $admin_question_routes = $this->restrict_admin($admin_question_routes);
+        $admin_quiz_routes = $this->restrict_admin($admin_quiz_routes);
+        $admin_quiz_history_routes = $this->restrict_admin($admin_quiz_history_routes);
+        $admin_setting_routes = $this->restrict_admin($admin_setting_routes);
+        $admin_topic_routes = $this->restrict_admin($admin_topic_routes);
+        $admin_vocabulary_routes = $this->restrict_admin($admin_vocabulary_routes);
+        $admin_import_routes = $this->restrict_admin($admin_import_routes);
 
         return $client_routes +
             $admin_dashboard_routes +
@@ -591,6 +621,11 @@ class EStudyRoutesHandler implements IRoutes
 
     public function checkPermission($permission): ?bool
     {
-        return null;
+        $user = $this->authentication_helper->getUser();
+        
+        if (!($user instanceof UserEntity))
+            return false;
+        
+        return $user->{UserEntity::KEY_USER_TYPE} == UserEntity::ADMIN;
     }
 }

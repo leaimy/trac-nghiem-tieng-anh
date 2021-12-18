@@ -10,4 +10,9 @@ class EStudyBaseController extends NJBaseController
     {
         $this->view_handler->render('client/auth/sign_in.html.php');
     }
+    
+    public function handle_on_invalid_permission($args)
+    {
+        $this->view_handler->render('403.html.php');
+    }
 }
