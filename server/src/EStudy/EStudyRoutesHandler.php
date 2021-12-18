@@ -129,7 +129,7 @@ class EStudyRoutesHandler implements IRoutes
             &$this->quiz_history_model,
             &$this->user_quiz_model
         ]);
-        $this->user_quiz_model = new UserQuizModel($this->user_quiz_table);
+        $this->user_quiz_model = new UserQuizModel($this->user_quiz_table, $this->authentication_helper);
     }
 
     public function getRoutes(): array
