@@ -12,11 +12,13 @@ class QuizHistoryEntity
     const CLASS_NAME = '\\EStudy\\Entity\\Client\\QuizHistoryEntity';
 
     const KEY_ID = 'id';
+    const KEY_CORRECT = 'correct';
     const KEY_CONTENT = 'content';
     const KEY_USER_QUIZ_ID = 'user_quiz_id';
     const KEY_CREATED_AT = 'created_at';
 
     public $id;
+    public $correct;
     public $content;
     public $user_quiz_id;
     public $created_at;
