@@ -19,12 +19,13 @@ class QuizHistoryModel
         return $this->quiz_history_table->findById($id);
     }
     
-    public function add_history_log($quiz_id, $content)
+    public function add_history_log($quiz_id, $correct, $content)
     {
         $serialized = serialize($content);
         
         return $this->quiz_history_table->save([
             QuizHistoryEntity::KEY_USER_QUIZ_ID => $quiz_id,
+            QuizHistoryEntity::KEY_CORRECT => $correct,
             QuizHistoryEntity::KEY_CONTENT => $serialized
         ]);
     }

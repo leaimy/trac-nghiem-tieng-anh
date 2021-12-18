@@ -117,7 +117,7 @@ class QuizController extends NJBaseController
                 UserQuizEntity::FINISH_TIME => $now
             ]);
             
-            $history = $new_record->add_history($questions);
+            $history = $new_record->add_history($questions, $correct_count);
             
             $this->route_redirect('/quizzes/histories/show?quiz_history_id=' . $history->id);
         }
@@ -139,8 +139,10 @@ class QuizController extends NJBaseController
             
             $this->view_handler->render('client/quiz/history/show.html.php', [
                 'quiz_info' => $content['quiz']['quiz_detail'],
+                'quiz_result' => $content['quiz']['result'],
                 'questions' => $content['questions'],
-                'question_render_helper' => new QuestionRenderHelper()
+                'question_render_helper' => new QuestionRenderHelper(),
+                'absolutely_correct' => $content['quiz']['result']['correct'] == $content['quiz']['result']['total']
             ]);
         }
         catch (NinjaException $exception) {

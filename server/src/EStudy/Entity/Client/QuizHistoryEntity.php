@@ -2,6 +2,9 @@
 
 namespace EStudy\Entity\Client;
 
+use EStudy\Model\Admin\QuizModel;
+use EStudy\Model\Admin\UserModel;
+
 class QuizHistoryEntity
 {
     const PRIMARY_KEY = 'id';
@@ -9,11 +12,13 @@ class QuizHistoryEntity
     const CLASS_NAME = '\\EStudy\\Entity\\Client\\QuizHistoryEntity';
 
     const KEY_ID = 'id';
+    const KEY_CORRECT = 'correct';
     const KEY_CONTENT = 'content';
     const KEY_USER_QUIZ_ID = 'user_quiz_id';
     const KEY_CREATED_AT = 'created_at';
 
     public $id;
+    public $correct;
     public $content;
     public $user_quiz_id;
     public $created_at;
@@ -21,10 +26,5 @@ class QuizHistoryEntity
     public function get_content()
     {
         return unserialize($this->content);
-    }
-    
-    public function get_quiz()
-    {
-        
     }
 }
