@@ -11,8 +11,7 @@
                     Thông tin cá nhân
                 </a>
                 <a href="/me/quizzes" class="list-group-item list-group-item-action active">Lịch sử kiểm tra</a>
-                <a href="#" class="list-group-item list-group-item-action">Đổi mật khẩu</a>
-                <a href="#" class="list-group-item list-group-item-action">Đăng xuất</a>
+                <a href="/auth/logout" class="list-group-item list-group-item-action">Đăng xuất</a>
             </div>
         </div>
         <div class="col-lg-9">
