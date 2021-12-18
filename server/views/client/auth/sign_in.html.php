@@ -45,17 +45,16 @@
                         </p>
                     </div>
 
-                    <form action="#">
+                    <form action="" method="POST">
                         <div class="mb-3 row">
-                            <label for="email" class="col-sm-4 col-form-label"
-                            >Email</label
-                            >
+                            <label for="email" class="col-sm-4 col-form-label">Email</label>
                             <div class="col-sm-8">
                                 <input
-                                    type="email"
+                                    type="text"
                                     class="form-control"
                                     placeholder="Nhập tên người dùng"
                                     autocomplete="off"
+                                    name="user_name"
                                     id="email"
                                     required
                                 />
@@ -72,6 +71,7 @@
                                     class="form-control"
                                     placeholder="Nhập mật khẩu"
                                     id="password"
+                                    name="password"
                                     required
                                 />
                             </div>

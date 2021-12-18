@@ -73,6 +73,8 @@ class EStudyRoutesHandler implements IRoutes
 
     private $quiz_history_table;
     private $quiz_history_model;
+    
+    private $authentication_helper;
 
     public function __construct()
     {
@@ -126,6 +128,8 @@ class EStudyRoutesHandler implements IRoutes
             &$this->user_quiz_model
         ]);
         $this->user_quiz_model = new UserQuizModel($this->user_quiz_table);
+        
+        $this->authentication_helper = new Authentication($this->admin_user_table, UserEntity::KEY_USERNAME, UserEntity::KEY_PASSWORD);
     }
 
     public function getRoutes(): array
@@ -177,7 +181,7 @@ class EStudyRoutesHandler implements IRoutes
     {
         $controller = new HomeController($this->admin_topic_model, $this->admin_quiz_model);
         $quiz_controller = new QuizController($this->admin_quiz_model, $this->admin_topic_model, $this->admin_question_model, $this->user_quiz_model, $this->quiz_history_model);
-        $auth_controller = new AuthController();
+        $auth_controller = new AuthController($this->authentication_helper, $this->admin_user_model);
 
         return [
             '/' => [
@@ -218,12 +222,20 @@ class EStudyRoutesHandler implements IRoutes
                 'GET' => [
                     'controller' => $auth_controller,
                     'action' => 'sign_in'
+                ],
+                'POST' => [
+                    'controller' => $auth_controller,
+                    'action' => 'process_sign_in'
                 ]
             ],
             '/auth/sign-up' => [
                 'GET' => [
                     'controller' => $auth_controller,
                     'action' => 'sign_up'
+                ],
+                'POST' => [
+                    'controller' => $auth_controller,
+                    'action' => 'process_register'
                 ]
             ],
         ];
@@ -528,7 +540,7 @@ class EStudyRoutesHandler implements IRoutes
 
     public function getAuthentication(): ?Authentication
     {
-        return null;
+        return $this->authentication_helper;
     }
 
     public function checkPermission($permission): ?bool

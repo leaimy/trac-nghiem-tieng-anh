@@ -30,7 +30,7 @@
             >
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
+
     </nav>
 
     <div class="container my-5">
@@ -43,12 +43,12 @@
                         <div class="text-center mb-5">
                             <p>
                                 Để tiện lợi trong việc trải nghiệm trang web, cũng như xem
-                                lại các bài trắc nghiệm đã làm.<br />
+                                lại các bài trắc nghiệm đã làm.<br/>
                                 Bạn hãy đăng ký tài khoản ngay
                             </p>
                         </div>
 
-                        <form action="#">
+                        <form action="" method="POST">
                             <div class="mb-3 row">
                                 <label for="first-name" class="col-sm-4 col-form-label"
                                 >Tên</label
@@ -60,6 +60,7 @@
                                         placeholder="Nhập tên"
                                         autocomplete="off"
                                         id="first-name"
+                                        name="first_name"
                                         required
                                     />
                                 </div>
@@ -74,6 +75,7 @@
                                         type="text"
                                         class="form-control"
                                         placeholder="Nhập họ đệm"
+                                        name="last_name"
                                         autocomplete="off"
                                         id="last-name"
                                         required
@@ -83,7 +85,7 @@
 
                             <div class="mb-3 row">
                                 <label for="email" class="col-sm-4 col-form-label"
-                                >Email</label
+                                >Tên đăng nhập</label
                                 >
                                 <div class="col-sm-8">
                                     <input
@@ -92,7 +94,7 @@
                                         placeholder="Nhập email"
                                         autocomplete="off"
                                         id="user_name"
-                                        name = "user_name"
+                                        name="user_name"
                                         required
                                     />
                                 </div>
@@ -124,6 +126,7 @@
                                         class="form-control"
                                         placeholder="Nhập lại mật khẩu để xác nhận"
                                         id="re-password"
+                                        name="re_password"
                                         required
                                     />
                                 </div>
@@ -137,12 +140,10 @@
                                         class="btn btn-primary w-100 my-3"
                                     />
 
-                                    <hr />
+                                    <hr/>
 
                                     <p class="text-center">Bạn đã có tài khoản?</p>
-                                    <a href="/auth/sign-in" class="btn btn-secondary w-100"
-                                    >Đăng nhập ngay</a
-                                    >
+                                    <a href="/auth/sign-in" class="btn btn-secondary w-100">Đăng nhập ngay</a>
                                 </div>
                             </div>
                         </form>
@@ -151,11 +152,11 @@
             </div>
         </div>
     </div>
-<script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-    crossorigin="anonymous"
-></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"
+    ></script>
 </body>
 
 

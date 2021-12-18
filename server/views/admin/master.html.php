@@ -29,7 +29,10 @@
         <?php if ($is_logged_in) : ?>
             <div class="d-sm-flex">
                 <div class="nav-item text-nowrap">
-                    <a class="nav-link px-3" href="">Xin chào <?= $logged_in_user->display_name ?></a>
+                    <a class="nav-link px-3" href="">Xin chào <?= $logged_in_user->fullname ?></a>
+                </div>
+                <div class="nav-item text-nowrap">
+                    <a class="nav-link px-3" href="">Tài khoản của tôi</a>
                 </div>
                 <div class="nav-item text-nowrap">
                     <a class="nav-link px-3" href="/auth/logout">Đăng xuất</a>

@@ -35,84 +35,47 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a
-                        class="nav-link active"
-                        aria-current="page"
-                        href="/"
-                    >Trang chủ</a
-                    >
+                    <a class="nav-link active" aria-current="page" href="/">Trang chủ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin" target="_blank">Admin</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item ms-auto">
-                  <a class="nav-link" href="#">Đăng nhập</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Tạo tài khoản</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a
-                        class="nav-link dropdown-toggle"
-                        href="#"
-                        id="navbarDropdown"
-                        role="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                    >
-                        Xin chào Nguyễn Thị Hà
-                    </a>
-                    <ul class="dropdown-menu d" aria-labelledby="navbarDropdown">
-                        <li>
-                            <a
-                                class="dropdown-item"
-                                href="/giao-dien/client/nguoi-dung/trang-ca-nhan/thong-tin-ca-nhan.html"
-                            >Tài khoản</a
-                            >
-                        </li>
-                        <li>
-                            <a
-                                class="dropdown-item"
-                                href="/giao-dien/client/nguoi-dung/trang-ca-nhan/lich-su-kiem-tra.html"
-                            >Lịch sử kiểm tra</a
-                            >
-                        </li>
-                        <li>
-                            <a
-                                class="dropdown-item"
-                                href="/giao-dien/client/nguoi-dung/trang-ca-nhan/doi-mat-khau.html"
-                            >Đổi mật khẩu</a
-                            >
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider"/>
-                        </li>
-                        <li>
-                            <a
-                                class="dropdown-item"
-                                href="/giao-dien/client/nguoi-dung/dang-nhap.html"
-                            >Đăng xuất</a
-                            >
-                        </li>
-                    </ul>
-                </li>
-                <li
-                    class="
-                nav-item
-                ms-2
-                d-flex
-                justify-content-center
-                align-items-center
-              "
-                >
-                    <a href="#">
-                        <img
-                            src="https://picsum.photos/200/200"
-                            height="35"
-                            class="rounded-circle"
-                            alt="Avatar"
-                        />
-                    </a>
-                </li>
+                <?php if ($is_logged_in): ?>
+                    <li class="nav-item dropdown">
+                        <a
+                            class="nav-link dropdown-toggle"
+                            href="#"
+                            id="navbarDropdown"
+                            role="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                        >
+                            Xin chào <?= $logged_in_user->fullname ?>
+                        </a>
+                        <ul class="dropdown-menu d" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item" href="">Tài khoản</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="">Lịch sử kiểm tra</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider"/>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="">Đăng xuất</a></li>
+                        </ul>
+                    </li>
+                <?php else: ?>
+                    <li class="nav-item ms-auto">
+                        <a class="nav-link" href="/auth/sign-in">Đăng nhập</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/auth/sign-up">Tạo tài khoản</a>
+                    </li>
+                <?php endif; ?>
             </ul>
         </div>
     </div>
