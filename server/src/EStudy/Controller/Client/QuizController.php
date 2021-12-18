@@ -139,6 +139,7 @@ class QuizController extends NJBaseController
             
             $this->view_handler->render('client/quiz/history/show.html.php', [
                 'quiz_info' => $content['quiz']['quiz_detail'],
+                'quiz_result' => $content['quiz']['result'],
                 'questions' => $content['questions'],
                 'question_render_helper' => new QuestionRenderHelper()
             ]);

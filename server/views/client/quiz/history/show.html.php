@@ -11,7 +11,7 @@
             <div class="card">
                 <div class="card-header">Thông tin đề</div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Số lượng câu hỏi: <?= $quiz_info['question_quantity'] ?></li>
+                    <li class="list-group-item">Kết quả: <?= $quiz_result['correct'] ?> / <?= $quiz_result['total'] ?></li>
                 </ul>
             </div>
         </div>

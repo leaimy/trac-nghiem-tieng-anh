@@ -3,6 +3,7 @@
 namespace EStudy\Entity\Client\Pivot;
 
 use EStudy\Entity\Admin\QuizEntity;
+use EStudy\Entity\Admin\UserEntity;
 use EStudy\Model\Admin\QuizModel;
 use EStudy\Model\Admin\UserModel;
 use EStudy\Model\Client\QuizHistoryModel;
@@ -81,9 +82,21 @@ class UserQuizEntity
                 QuizEntity::KEY_DESCRIPTION => $quiz->{QuizEntity::KEY_DESCRIPTION} ?? '',
                 QuizEntity::KEY_QUESTION_QUANTITY => $quiz->{QuizEntity::KEY_QUESTION_QUANTITY} ?? 0,
                 QuizEntity::KEY_AUTHOR_ID => $quiz->{QuizEntity::KEY_AUTHOR_ID} ?? 1 // TODO: Check user id
+            ],
+            'user' => [
+                UserEntity::KEY_ID => $user->{UserEntity::KEY_ID} ?? '',
+                UserEntity::KEY_EMAIL => $user->{UserEntity::KEY_EMAIL} ?? '',
+                UserEntity::KEY_USERNAME => $user->{UserEntity::KEY_USERNAME} ?? '',
+                UserEntity::KEY_FULL_NAME => $user->{UserEntity::KEY_FULL_NAME}
+            ],
+            'result' => [
+                'correct' => $this->correct_quantity ?? 0,
+                'total' => $quiz->{QuizEntity::KEY_QUESTION_QUANTITY} ?? 0
             ]
         ];
+        
         $to_write['questions'] = [];
+        
         foreach ($question_entities as $question_entity)
             $to_write['questions'][] = $question_entity->to_json();
         
