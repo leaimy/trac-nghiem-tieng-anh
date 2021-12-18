@@ -56,9 +56,6 @@ class AdminQuizController extends NJBaseController
                 QuizEntity::KEY_TITLE => $title,
                 QuizEntity::KEY_DESCRIPTION => $description,
                 QuizEntity::KEY_QUESTION_QUANTITY => count($question_ids),
-                
-                // TODO: get logged in user id
-                QuizEntity::KEY_AUTHOR_ID => 1,
             ]);
             
             foreach ($question_ids as $question_id) 

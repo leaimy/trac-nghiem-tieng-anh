@@ -78,6 +78,11 @@ class EStudyRoutesHandler implements IRoutes
 
     public function __construct()
     {
+        $this->admin_user_table = new DatabaseTable(UserEntity::TABLE, UserEntity::PRIMARY_KEY, UserEntity::CLASS_NAME);
+        $this->admin_user_model = new UserModel($this->admin_user_table);
+
+        $this->authentication_helper = new Authentication($this->admin_user_table, UserEntity::KEY_USERNAME, UserEntity::KEY_PASSWORD);
+        
         $this->admin_topic_table = new DatabaseTable(TopicEntity::TABLE, TopicEntity::PRIMARY_KEY, TopicEntity::CLASS_NAME, [
             &$this->admin_media_model
         ]);
@@ -113,10 +118,7 @@ class EStudyRoutesHandler implements IRoutes
             &$this->admin_user_model,
             &$this->admin_media_model
         ]);
-        $this->admin_quiz_model = new QuizModel($this->admin_quiz_table, $this->admin_question_model, $this->admin_question_quiz_model);
-
-        $this->admin_user_table = new DatabaseTable(UserEntity::TABLE, UserEntity::PRIMARY_KEY, UserEntity::CLASS_NAME);
-        $this->admin_user_model = new UserModel($this->admin_user_table);
+        $this->admin_quiz_model = new QuizModel($this->admin_quiz_table, $this->admin_question_model, $this->admin_question_quiz_model, $this->authentication_helper);
 
         $this->quiz_history_table = new DatabaseTable(QuizHistoryEntity::TABLE, QuizHistoryEntity::PRIMARY_KEY, QuizHistoryEntity::CLASS_NAME);
         $this->quiz_history_model = new QuizHistoryModel($this->quiz_history_table);
@@ -128,8 +130,6 @@ class EStudyRoutesHandler implements IRoutes
             &$this->user_quiz_model
         ]);
         $this->user_quiz_model = new UserQuizModel($this->user_quiz_table);
-        
-        $this->authentication_helper = new Authentication($this->admin_user_table, UserEntity::KEY_USERNAME, UserEntity::KEY_PASSWORD);
     }
 
     public function getRoutes(): array
@@ -180,7 +180,7 @@ class EStudyRoutesHandler implements IRoutes
     public function get_client_routes(): array
     {
         $controller = new HomeController($this->admin_topic_model, $this->admin_quiz_model);
-        $quiz_controller = new QuizController($this->admin_quiz_model, $this->admin_topic_model, $this->admin_question_model, $this->user_quiz_model, $this->quiz_history_model);
+        $quiz_controller = new QuizController($this->admin_quiz_model, $this->admin_topic_model, $this->admin_question_model, $this->user_quiz_model, $this->quiz_history_model, $this->authentication_helper);
         $auth_controller = new AuthController($this->authentication_helper, $this->admin_user_model);
 
         return [

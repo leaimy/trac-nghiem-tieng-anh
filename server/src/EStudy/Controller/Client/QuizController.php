@@ -10,6 +10,7 @@ use EStudy\Model\Admin\TopicModel;
 use EStudy\Model\Client\Pivot\UserQuizModel;
 use EStudy\Model\Client\QuizHistoryModel;
 use EStudy\Utils\QuestionRenderHelper;
+use Ninja\Authentication;
 use Ninja\NinjaException;
 use Ninja\NJBaseController\NJBaseController;
 
@@ -22,7 +23,9 @@ class QuizController extends NJBaseController
     private $user_quiz_model;
     private $quiz_history_model;
     
-    public function __construct(QuizModel $quiz_model, TopicModel $topic_model, QuestionModel $question_model, UserQuizModel $user_quiz_model, QuizHistoryModel $quiz_history_model)
+    private $authentication_helper;
+    
+    public function __construct(QuizModel $quiz_model, TopicModel $topic_model, QuestionModel $question_model, UserQuizModel $user_quiz_model, QuizHistoryModel $quiz_history_model, Authentication $authentication_helper)
     {
         parent::__construct();
         
@@ -31,6 +34,8 @@ class QuizController extends NJBaseController
         $this->question_model = $question_model;
         $this->user_quiz_model = $user_quiz_model;
         $this->quiz_history_model = $quiz_history_model;
+        
+        $this->authentication_helper = $authentication_helper;
     }
 
     public function index()
@@ -91,8 +96,9 @@ class QuizController extends NJBaseController
             if (empty($quiz))
                 throw new NinjaException('Bài trắc nghiệm không tồn tại');
            
-            // TODO: replace with logged in user
-            $user_id = 1;
+            $user_id = null;
+            if ($this->authentication_helper->isLoggedIn())
+                $user_id = $this->authentication_helper->getUserId();
             
             $answers_with_one_correct = $_POST['answers-' . QuestionEntity::TYPE_TEXT_WITH_ONE_CORRECT] ?? [];
             $now = new \DateTime();

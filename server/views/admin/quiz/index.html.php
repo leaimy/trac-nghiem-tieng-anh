@@ -93,7 +93,7 @@
                 <td><?= $quiz->title ?></td>
                 <td><?= $quiz->question_quantity ?></td>
                 <td><?= implode("<br>", $quiz->get_topic_titles()) ?></td>
-                <td><?= $quiz->author_id ?></td>
+                <td><?= $quiz->get_author()->fullname ?></td>
                 <td>
                     <a href="/admin/quiz/edit?id=<?= $quiz->id ?>" class="me-2 text-decoration-none">
                         <i data-feather="edit-2" class="text-warning"></i>

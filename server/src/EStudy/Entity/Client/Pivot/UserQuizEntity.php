@@ -71,7 +71,6 @@ class UserQuizEntity
         
         $quiz = $this->get_quiz();
         
-        // TODO: write user information
          $user = $this->get_user();
          
          if (is_null($number_of_correct))
@@ -88,7 +87,7 @@ class UserQuizEntity
                 QuizEntity::KEY_TITLE => $quiz->{QuizEntity::KEY_TITLE} ?? '',
                 QuizEntity::KEY_DESCRIPTION => $quiz->{QuizEntity::KEY_DESCRIPTION} ?? '',
                 QuizEntity::KEY_QUESTION_QUANTITY => $quiz->{QuizEntity::KEY_QUESTION_QUANTITY} ?? 0,
-                QuizEntity::KEY_AUTHOR_ID => $quiz->{QuizEntity::KEY_AUTHOR_ID} ?? 1 // TODO: Check user id
+                QuizEntity::KEY_AUTHOR_ID => $quiz->{QuizEntity::KEY_AUTHOR_ID} ?? ''
             ],
             'user' => [
                 UserEntity::KEY_ID => $user->{UserEntity::KEY_ID} ?? '',

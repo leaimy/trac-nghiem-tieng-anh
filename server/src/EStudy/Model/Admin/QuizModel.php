@@ -6,6 +6,7 @@ use EStudy\Entity\Admin\QuestionEntity;
 use EStudy\Entity\Admin\QuizEntity;
 use EStudy\Entity\Admin\TopicEntity;
 use EStudy\Model\Admin\Pivot\QuestionQuizModel;
+use Ninja\Authentication;
 use Ninja\DatabaseTable;
 use Ninja\NinjaException;
 
@@ -15,12 +16,14 @@ class QuizModel
 
     private $question_model;
     private $question_quiz_model;
+    private $authentication_helper;
 
-    function __construct(DatabaseTable $quiz_table, QuestionModel $question_model, QuestionQuizModel $question_quiz_model)
+    function __construct(DatabaseTable $quiz_table, QuestionModel $question_model, QuestionQuizModel $question_quiz_model, Authentication $authentication_helper)
     {
         $this->quiz_table = $quiz_table;
         $this->question_model = $question_model;
         $this->question_quiz_model = $question_quiz_model;
+        $this->authentication_helper = $authentication_helper;
     }
     
     function get_all()
@@ -61,6 +64,7 @@ class QuizModel
         if (is_null($args[QuizEntity::KEY_TITLE]))
             throw new NinjaException('Vui lòng nhập tiêu đề');
 
+        $args[QuizEntity::KEY_AUTHOR_ID] = $this->authentication_helper->getUserId();
         return $this->quiz_table->save($args);
     }
 
@@ -178,9 +182,7 @@ class QuizModel
             QuizEntity::KEY_TITLE => $title,
             QuizEntity::KEY_DESCRIPTION => implode("<br>", $quiz_descriptions),
             QuizEntity::KEY_QUESTION_QUANTITY => $quantity,
-            
-            // TODO: Get logged in user id
-            QuizEntity::KEY_AUTHOR_ID => 1, 
+            QuizEntity::KEY_AUTHOR_ID => $this->authentication_helper->getUserId(), 
         ]);
         
         foreach ($results as $question_id => $question) {
