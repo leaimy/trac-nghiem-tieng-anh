@@ -16,7 +16,7 @@ class UserQuizModel
         $this->user_quiz_table = $user_quiz_table;
         $this->authentication_helper = $authentication_helper;
     }
-    
+
     public function get_all_completed_by_user($user_id)
     {
         return $this->user_quiz_table->find(UserQuizEntity::KEY_USER_ID, $user_id);
@@ -57,5 +57,13 @@ class UserQuizModel
     {
         $args[UserQuizEntity::KEY_ID] = $id;
         $this->user_quiz_table->save($args);
+    }
+
+    public function test_sql()
+    {
+        $sql = 'call AnalyseQuizzesQuantityByAuthor()';
+        
+        $query = $this->user_quiz_table->raw($sql);
+        return $query->fetchObject();
     }
 }

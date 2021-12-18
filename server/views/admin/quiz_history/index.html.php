@@ -8,6 +8,12 @@
     <h1 class="h2">Danh sách các bài kiểm tra đã thực hiện</h1>
 </div>
 
+<div class="row my-4">
+    <div class="col">
+        <a href="/admin/quiz-history/statistic" class="btn btn-primary">Thống kê</a>
+    </div>
+</div>
+
 <div class="min-vh-100">
     <table class="table">
         <thead>

@@ -509,7 +509,13 @@ class EStudyRoutesHandler implements IRoutes
                     'controller' => $controller,
                     'action' => 'index'
                 ]
-            ]
+            ],
+            '/admin/quiz-history/statistic' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'show_statistic'
+                ]
+            ],
         ];
     }
 

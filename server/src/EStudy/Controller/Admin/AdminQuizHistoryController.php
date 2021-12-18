@@ -26,4 +26,13 @@ class AdminQuizHistoryController extends EStudyBaseController
             'number_of_page' => 10
         ]);
     }
+    
+    public function show_statistic()
+    {
+        $result = $this->user_quiz_model->test_sql();
+        
+        $this->view_handler->render('/admin/quiz_history/statistic.html.php', [
+            'result' => $result
+        ]);
+    }
 }

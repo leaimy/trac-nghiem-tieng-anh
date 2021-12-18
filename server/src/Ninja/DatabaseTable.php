@@ -201,6 +201,11 @@ class DatabaseTable
 
         $query = $this->query($query, $parameters);
     }
+    
+    public function raw($sql)
+    {
+        return $this->query($sql);
+    }
 
     private function query($sql, $parameters = [])
     {
