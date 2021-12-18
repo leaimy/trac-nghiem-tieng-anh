@@ -2,6 +2,9 @@
 
 namespace EStudy\Entity\Client;
 
+use EStudy\Model\Admin\QuizModel;
+use EStudy\Model\Admin\UserModel;
+
 class QuizHistoryEntity
 {
     const PRIMARY_KEY = 'id';
@@ -21,10 +24,5 @@ class QuizHistoryEntity
     public function get_content()
     {
         return unserialize($this->content);
-    }
-    
-    public function get_quiz()
-    {
-        
     }
 }

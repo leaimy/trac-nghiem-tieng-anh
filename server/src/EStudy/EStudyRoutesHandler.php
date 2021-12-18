@@ -371,7 +371,7 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_admin_quiz_history_routes(): array
     {
-        $controller = new AdminQuizHistoryController();
+        $controller = new AdminQuizHistoryController($this->user_quiz_model);
 
         return [
             '/admin/quiz-history' => [

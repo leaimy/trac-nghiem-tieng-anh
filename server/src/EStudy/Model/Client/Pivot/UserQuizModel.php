@@ -24,4 +24,9 @@ class UserQuizModel
             UserQuizEntity::CORRECT_QUANTITY => $args[UserQuizEntity::CORRECT_QUANTITY]
         ]);
     }
+    
+    public function get_all()
+    {
+        return $this->user_quiz_table->findAll();
+    }
 }

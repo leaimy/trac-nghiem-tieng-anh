@@ -94,8 +94,4 @@ class UserQuizEntity
     {
         return $this->history_model->get_histories_by_user_quiz_id($this->id);
     }
-    
-    public function to_json()
-    {
-    }
 }
