@@ -52,22 +52,15 @@ class EntryPoint
             exit();
         }
 
-        $controller = $routes[$this->route][$this->method]['controller'] ?? new NJBaseController();
+        $controller = $routes[$this->route][$this->method]['controller'] ?? null;
+
+        if (is_null($controller))
+            if (method_exists($this->route_handler, 'getBaseController'))
+                $controller = $this->route_handler->getBaseController();
+            else
+                $controller = new NJBaseController();
+        
         $action = $routes[$this->route][$this->method]['action'] ?? null;
-
-        if (!$controller || !$action) {
-            if (method_exists($controller, 'handle_on_page_not_found')) {
-                $controller->handle_on_page_not_found([
-                    'route' => $this->route,
-                    'method' => $this->method
-                ]);
-                exit();
-            } else
-                throw new NinjaException("Đường dẫn: {$this->route} không tồn tại");
-        }
-
-        if (!method_exists($controller, $action))
-            throw new NinjaException("Action: $action không tồn tại trên Controller");
 
         if (method_exists($controller, 'get_entrypoint_args'))
             if ($authentication instanceof Authentication) {
@@ -88,6 +81,19 @@ class EntryPoint
                 ]);
             }
 
+        if (!$controller || !$action) {
+            if (method_exists($controller, 'handle_on_page_not_found')) {
+                $controller->handle_on_page_not_found([
+                    'route' => $this->route,
+                    'method' => $this->method
+                ]);
+                exit();
+            } else
+                throw new NinjaException("Đường dẫn: {$this->route} không tồn tại");
+        }
+
+        if (!method_exists($controller, $action))
+            throw new NinjaException("Action: $action không tồn tại trên Controller");
 
         $login_required = $routes[$this->route]['login'] ?? false;
         if ($login_required) {

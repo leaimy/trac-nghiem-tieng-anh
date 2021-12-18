@@ -16,6 +16,7 @@ use EStudy\Controller\Admin\AdminVocabularyController;
 use EStudy\Controller\Client\AuthController;
 use EStudy\Controller\Client\HomeController;
 use EStudy\Controller\Client\QuizController;
+use EStudy\Controller\EStudyBaseController;
 use EStudy\Entity\Admin\MediaEntity;
 use EStudy\Entity\Admin\Pivot\QuestionQuizEntity;
 use EStudy\Entity\Admin\QuizEntity;
@@ -627,5 +628,10 @@ class EStudyRoutesHandler implements IRoutes
             return false;
         
         return $user->{UserEntity::KEY_USER_TYPE} == UserEntity::ADMIN;
+    }
+    
+    public function getBaseController()
+    {
+        return new EStudyBaseController();
     }
 }

@@ -15,4 +15,9 @@ class EStudyBaseController extends NJBaseController
     {
         $this->view_handler->render('403.html.php');
     }
+
+    public function handle_on_page_not_found($args)
+    {
+        $this->view_handler->render('404.html.php');
+    }
 }
