@@ -8,10 +8,53 @@ use Ninja\DatabaseTable;
 
 class LacViet
 {
+    private $part;
+
+    public function set_part($part)
+    {
+        $this->part = $part;
+    }
+
     public function populate()
     {
-        $myfile = fopen(__DIR__ . '/json/lacvietdata.json', "r") or die("Unable to open json/lac_viet.json file!");
-        $json_raw = fread($myfile, filesize(__DIR__ . '/json/lacvietdata.json'));
+        $file_path = null;
+
+        switch ($this->part) {
+            case 'en_0':
+                $file_path = __DIR__ . '/json/lacviet_en_0.json';
+                break;
+
+            case 'en_1':
+                $file_path = __DIR__ . '/json/lacviet_en_1.json';
+                break;
+
+            case 'en_2':
+                $file_path = __DIR__ . '/json/lacviet_en_2.json';
+                break;
+
+            case 'en_3':
+                $file_path = __DIR__ . '/json/lacviet_en_3.json';
+                break;
+
+            case 'en_4':
+                $file_path = __DIR__ . '/json/lacviet_en_4.json';
+                break;
+
+            case 'vi_1':
+                $file_path = __DIR__ . '/json/lacviet_vi_1.json';
+                break;
+
+            case 'vi_2':
+                $file_path = __DIR__ . '/json/lacviet_vi_2.json';
+                break;
+
+            default:
+                $file_path = null;
+                break;
+        }
+
+        $myfile = fopen($file_path, "r") or die("Unable to open $file_path file!");
+        $json_raw = fread($myfile, filesize($file_path));
 
         fclose($myfile);
 
@@ -28,67 +71,73 @@ class LacViet
 
             $content = $this->clean_string($content);
 
-            preg_match($unicodeRegexp, $content, $match_emos);
+            preg_match_all($unicodeRegexp, $content, $match_emos);
 
-            $is_contain = in_array('✪', $match_emos);
+            $is_contain = in_array('✪', $match_emos[0]);
 
-            $topic_id = 999;
+            $topic_ids = [];
+
             if ($is_contain) {
                 if (preg_match('/danh từ/', $content)) {
-                    $topic_id = 1;
+                    $topic_ids[] = 1;
                 }
 
                 if (preg_match('/động từ/', $content)) {
-                    $topic_id = 2;
+                    $topic_ids[] = 2;
                 }
 
                 if (preg_match('/tính từ/', $content)) {
-                    $topic_id = 3;
+                    $topic_ids[] = 3;
                 }
 
                 if (preg_match('/giới từ/', $content)) {
-                    $topic_id = 4;
+                    $topic_ids[] = 4;
                 }
 
                 if (preg_match('/phó từ/', $content)) {
-                    $topic_id = 5;
+                    $topic_ids[] = 5;
                 }
 
                 if (preg_match('/liên từ/', $content)) {
-                    $topic_id = 6;
+                    $topic_ids[] = 6;
                 }
 
                 if (preg_match('/thán từ/', $content)) {
-                    $topic_id = 7;
+                    $topic_ids[] = 7;
                 }
 
                 if (preg_match('/đại từ/', $content)) {
-                    $topic_id = 8;
+                    $topic_ids[] = 8;
                 }
 
                 if (preg_match('/thành ngữ/', $content)) {
-                    $topic_id = 9;
+                    $topic_ids[] = 9;
                 }
 
                 if (preg_match('/viết tắt/', $content)) {
-                    $topic_id = 10;
+                    $topic_ids[] = 10;
                 }
-                
+
                 if (preg_match('/hậu tố/', $content)) {
-                    $topic_id = 11;
+                    $topic_ids[] = 11;
                 }
             }
+
+            if (count($topic_ids) == 0)
+                $topic_ids[] = 12; // Default
 
             $vocabulary = $vocabulary_table->save([
                 VocabularyEntity::KEY_ENGLISH => $key,
                 VocabularyEntity::KEY_DESCRIPTION => $content,
                 VocabularyEntity::KEY_VIETNAMESE => '',
             ]);
-            
-            $topic_vocabulary_table->save([
-                TopicVocabulary::KEY_TOPIC_ID => $topic_id,
-                TopicVocabulary::KEY_VOCABULARY_ID => $vocabulary->id
-            ]);
+
+            foreach ($topic_ids as $topic_id) {
+                $topic_vocabulary_table->save([
+                    TopicVocabulary::KEY_TOPIC_ID => $topic_id,
+                    TopicVocabulary::KEY_VOCABULARY_ID => $vocabulary->id
+                ]);
+            }
         }
     }
 

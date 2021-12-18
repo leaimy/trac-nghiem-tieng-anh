@@ -67,7 +67,7 @@ class VocabularyEntity
      */
     public function get_topic_ids()
     {
-        $all_topic_vocabulary_entities = $this->topic_vocabulary_model->find_all_topic($this->id);
+        $all_topic_vocabulary_entities = $this->topic_vocabulary_model->get_topics_by_vocabulary($this->id);
 
         $results = [];
         foreach ($all_topic_vocabulary_entities as $item) {
@@ -80,10 +80,9 @@ class VocabularyEntity
     /**
      * Lấy danh sách topic entity thuộc về từ vựng hiện tại
      */
-    //TODO: Cần phải làm sớm để tập trung logic về 1 chỗ, tránh lặp code khi viết API
     public function get_topics()
     {
-        $all_topic_vocabulary_entities = $this->topic_vocabulary_model->find_all_topic($this->id);
+        $all_topic_vocabulary_entities = $this->topic_vocabulary_model->get_topics_by_vocabulary($this->id);
 
         $results = [];
         foreach ($all_topic_vocabulary_entities as $item) {
