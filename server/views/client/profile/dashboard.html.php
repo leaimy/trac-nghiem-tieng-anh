@@ -7,10 +7,10 @@
     <div class="row justify-content-center">
         <div class="col-sm-8 col-lg-3 mb-5 mb-lg-0">
             <div class="list-group">
-                <a href="/profile" class="list-group-item list-group-item-action active" aria-current="true">
+                <a href="/me" class="list-group-item list-group-item-action active" aria-current="true">
                     Thông tin cá nhân
                 </a>
-                <a href="#" class="list-group-item list-group-item-action">Lịch sử kiểm tra</a>
+                <a href="/me/quizzes" class="list-group-item list-group-item-action">Lịch sử kiểm tra</a>
                 <a href="#" class="list-group-item list-group-item-action">Đổi mật khẩu</a>
                 <a href="#" class="list-group-item list-group-item-action">Đăng xuất</a>
             </div>

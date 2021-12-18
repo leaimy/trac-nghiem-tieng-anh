@@ -80,7 +80,9 @@ class EStudyRoutesHandler implements IRoutes
 
     public function __construct()
     {
-        $this->admin_user_table = new DatabaseTable(UserEntity::TABLE, UserEntity::PRIMARY_KEY, UserEntity::CLASS_NAME);
+        $this->admin_user_table = new DatabaseTable(UserEntity::TABLE, UserEntity::PRIMARY_KEY, UserEntity::CLASS_NAME, [
+            &$this->user_quiz_model
+        ]);
         $this->admin_user_model = new UserModel($this->admin_user_table);
 
         $this->authentication_helper = new Authentication($this->admin_user_table, UserEntity::KEY_USERNAME, UserEntity::KEY_PASSWORD);
@@ -292,6 +294,13 @@ class EStudyRoutesHandler implements IRoutes
                     'action' => 'process_update'
                 ],
                 'login' => true,
+            ],
+            '/me/quizzes' => [
+                'GET' => [
+                    'controller' => $profile_controller,
+                    'action' => 'show_quizzes'
+                ],
+                'loggin' => true
             ]
         ];
     }

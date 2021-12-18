@@ -48,4 +48,9 @@ class ProfileController extends EStudyBaseController
             die($exception->getMessage());
         }
     }
+    
+    public function show_quizzes()
+    {
+        $this->view_handler->render('client/profile/quizzes.html.php');
+    }
 }

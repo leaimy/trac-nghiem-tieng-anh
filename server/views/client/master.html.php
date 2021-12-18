@@ -61,7 +61,7 @@
                                 <a class="dropdown-item" href="/me">Tài khoản</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="">Lịch sử kiểm tra</a>
+                                <a class="dropdown-item" href="/me/quizzes">Lịch sử kiểm tra</a>
                             </li>
                             <li>
                                 <hr class="dropdown-divider"/>

@@ -16,6 +16,11 @@ class UserQuizModel
         $this->user_quiz_table = $user_quiz_table;
         $this->authentication_helper = $authentication_helper;
     }
+    
+    public function get_all_completed_by_user($user_id)
+    {
+        return $this->user_quiz_table->find(UserQuizEntity::KEY_USER_ID, $user_id);
+    }
 
     public function create_new_connection($user_id, $quiz_id, $args)
     {
