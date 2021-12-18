@@ -2,11 +2,11 @@
 
 namespace EStudy\Controller\Admin;
 
+use EStudy\Controller\EStudyBaseController;
 use EStudy\Model\Admin\QuestionModel;
 use EStudy\Model\Admin\TopicModel;
-use Ninja\NJBaseController\NJBaseController;
 
-class AdminQuestionController extends NJBaseController
+class AdminQuestionController extends EStudyBaseController
 {
     private $question_model;
     private $topic_model;

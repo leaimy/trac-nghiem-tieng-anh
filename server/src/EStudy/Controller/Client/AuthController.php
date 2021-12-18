@@ -2,13 +2,13 @@
 
 namespace EStudy\Controller\Client;
 
+use EStudy\Controller\EStudyBaseController;
 use EStudy\Entity\Admin\UserEntity;
 use EStudy\Model\Admin\UserModel;
 use Ninja\Authentication;
 use Ninja\NinjaException;
-use Ninja\NJBaseController\NJBaseController;
 
-class AuthController extends NJBaseController
+class AuthController extends EStudyBaseController
 {
     private $authentication_helper;
     private $user_model;

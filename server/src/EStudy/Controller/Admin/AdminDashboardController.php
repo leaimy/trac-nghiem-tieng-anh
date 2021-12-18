@@ -2,9 +2,9 @@
 
 namespace EStudy\Controller\Admin;
 
-use Ninja\NJBaseController\NJBaseController;
+use EStudy\Controller\EStudyBaseController;
 
-class AdminDashboardController extends NJBaseController
+class AdminDashboardController extends EStudyBaseController
 {
     public function index()
     {

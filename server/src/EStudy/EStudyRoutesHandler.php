@@ -131,6 +131,20 @@ class EStudyRoutesHandler implements IRoutes
         ]);
         $this->user_quiz_model = new UserQuizModel($this->user_quiz_table, $this->authentication_helper);
     }
+    
+    public function required_login($routes): array
+    {
+        $results = [];
+        
+        foreach ($routes as $key => $route) {
+            $item = $route;
+            $item['login'] = true;
+            
+            $results[$key] = $item;
+        }
+        
+        return $results;
+    }
 
     public function getRoutes(): array
     {
@@ -157,6 +171,22 @@ class EStudyRoutesHandler implements IRoutes
 
         $client_routes = $this->get_client_routes();
         $auth_routes = $this->get_auth_routes();
+
+        /**
+         * Login required
+         */
+        $admin_dashboard_routes = $this->required_login($admin_dashboard_routes);
+        $admin_account_routes = $this->required_login($admin_account_routes);
+        $admin_contact_us_routes = $this->required_login($admin_contact_us_routes);
+        $admin_customer_routes = $this->required_login($admin_customer_routes);
+        $admin_media_routes = $this->required_login($admin_media_routes);
+        $admin_question_routes = $this->required_login($admin_question_routes);
+        $admin_quiz_routes = $this->required_login($admin_quiz_routes);
+        $admin_quiz_history_routes = $this->required_login($admin_quiz_history_routes);
+        $admin_setting_routes = $this->required_login($admin_setting_routes);
+        $admin_topic_routes = $this->required_login($admin_topic_routes);
+        $admin_vocabulary_routes = $this->required_login($admin_vocabulary_routes);
+        $admin_import_routes = $this->required_login($admin_import_routes);
 
         return $client_routes +
             $admin_dashboard_routes +
@@ -269,7 +299,7 @@ class EStudyRoutesHandler implements IRoutes
                 'GET' => [
                     'controller' => $controller,
                     'action' => 'index'
-                ]
+                ],
             ]
         ];
     }

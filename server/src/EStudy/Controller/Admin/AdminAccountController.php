@@ -2,10 +2,10 @@
 
 namespace EStudy\Controller\Admin;
 
+use EStudy\Controller\EStudyBaseController;
 use EStudy\Model\Admin\UserModel;
-use Ninja\NJBaseController\NJBaseController;
 
-class AdminAccountController extends NJBaseController
+class AdminAccountController extends EStudyBaseController
 {
     private $user_model;
     

@@ -2,6 +2,7 @@
 
 namespace EStudy\Controller\Client;
 
+use EStudy\Controller\EStudyBaseController;
 use EStudy\Entity\Admin\QuestionEntity;
 use EStudy\Entity\Client\Pivot\UserQuizEntity;
 use EStudy\Model\Admin\QuestionModel;
@@ -12,9 +13,8 @@ use EStudy\Model\Client\QuizHistoryModel;
 use EStudy\Utils\QuestionRenderHelper;
 use Ninja\Authentication;
 use Ninja\NinjaException;
-use Ninja\NJBaseController\NJBaseController;
 
-class QuizController extends NJBaseController
+class QuizController extends EStudyBaseController
 {
     private $quiz_model;
     private $topic_model;

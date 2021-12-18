@@ -2,13 +2,13 @@
 
 namespace EStudy\Controller\Admin;
 
+use EStudy\Controller\EStudyBaseController;
 use EStudy\Model\Import\QuestionBank\ICT;
 use EStudy\Model\Import\QuestionBank\Quizlet;
 use EStudy\Model\Import\Vocabulary\LacViet;
-use Ninja\NJBaseController\NJBaseController;
 use EStudy\Model\Import\User\FullName;
 
-class AdminImportController extends NJBaseController
+class AdminImportController extends EStudyBaseController
 {
     public function index()
     {

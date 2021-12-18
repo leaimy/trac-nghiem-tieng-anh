@@ -2,11 +2,11 @@
 
 namespace EStudy\Controller\Client;
 
+use EStudy\Controller\EStudyBaseController;
 use EStudy\Model\Admin\QuizModel;
 use EStudy\Model\Admin\TopicModel;
-use Ninja\NJBaseController\NJBaseController;
 
-class HomeController extends NJBaseController
+class HomeController extends EStudyBaseController
 {
     private $topic_model;
     private $quiz_model;

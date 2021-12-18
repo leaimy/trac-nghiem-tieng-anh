@@ -2,15 +2,14 @@
 
 namespace EStudy\Controller\Admin;
 
+use EStudy\Controller\EStudyBaseController;
 use EStudy\Entity\Admin\QuizEntity;
 use EStudy\Model\Admin\QuestionModel;
 use EStudy\Model\Admin\QuizModel;
 use EStudy\Model\Admin\TopicModel;
-use http\Exception\InvalidArgumentException;
 use Ninja\NinjaException;
-use Ninja\NJBaseController\NJBaseController;
 
-class AdminQuizController extends NJBaseController
+class AdminQuizController extends EStudyBaseController
 {
     private $quiz_model;
     private $question_model;

@@ -2,10 +2,10 @@
 
 namespace EStudy\Controller\Admin;
 
+use EStudy\Controller\EStudyBaseController;
 use EStudy\Model\Client\Pivot\UserQuizModel;
-use Ninja\NJBaseController\NJBaseController;
 
-class AdminQuizHistoryController extends NJBaseController
+class AdminQuizHistoryController extends EStudyBaseController
 {
     private $user_quiz_model;
     

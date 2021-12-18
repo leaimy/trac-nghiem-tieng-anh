@@ -45,7 +45,7 @@
                         </p>
                     </div>
 
-                    <form action="" method="POST">
+                    <form action="/auth/sign-in" method="POST">
                         <div class="mb-3 row">
                             <label for="email" class="col-sm-4 col-form-label">Email</label>
                             <div class="col-sm-8">

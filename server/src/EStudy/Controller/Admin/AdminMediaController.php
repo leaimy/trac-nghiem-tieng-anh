@@ -2,14 +2,17 @@
 
 namespace EStudy\Controller\Admin;
 
+use EStudy\Controller\EStudyBaseController;
 use EStudy\Model\Admin\MediaModel;
-use Ninja\NJBaseController\NJBaseController;
 
-class AdminMediaController extends NJBaseController
+class AdminMediaController extends EStudyBaseController
 {
     private $media_model;
+    
     public function __construct(MediaModel $media_model)
     {
+        parent::__construct();
+        
         $this->media_model = $media_model;
     }
 

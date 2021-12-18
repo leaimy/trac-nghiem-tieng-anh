@@ -2,22 +2,26 @@
 
 namespace EStudy\Controller\Admin;
 
+use EStudy\Controller\EStudyBaseController;
 use EStudy\Entity\Admin\TopicEntity;
 use EStudy\Model\Admin\MediaModel;
 use EStudy\Model\Admin\TopicModel;
 use Exception;
 use Ninja\NinjaException;
-use Ninja\NJBaseController\NJBaseController;
 
-class AdminTopicController extends NJBaseController
+class AdminTopicController extends EStudyBaseController
 {
     private $topic_model;
     private $media_model;
+    
     public function __construct(TopicModel $topic_model, MediaModel $media_model)
     {
+        parent::__construct();
+        
         $this->topic_model = $topic_model;
         $this->media_model = $media_model;
     }
+    
     public function index()
     {
         $topic_all = $this->topic_model->get_all_topic();

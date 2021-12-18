@@ -2,6 +2,7 @@
 
 namespace EStudy\Controller\Admin;
 
+use EStudy\Controller\EStudyBaseController;
 use EStudy\Entity\Admin\VocabularyEntity;
 use EStudy\Model\Admin\MediaModel;
 use EStudy\Model\Admin\TopicModel;
@@ -9,9 +10,8 @@ use EStudy\Model\Admin\TopicVocabularyModel;
 use EStudy\Model\Admin\VocabularyModel;
 use Exception;
 use Ninja\NinjaException;
-use Ninja\NJBaseController\NJBaseController;
 
-class AdminVocabularyController extends NJBaseController
+class AdminVocabularyController extends EStudyBaseController
 {
     private $vocabulary_model;
     private $topic_model;
