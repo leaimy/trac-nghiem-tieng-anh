@@ -23,7 +23,7 @@
         <?php foreach ($histories as $idx => $history): ?>
             <tr>
                 <th scope="row"><?= $idx + 1 ?></th>
-                <td><?= $history->get_user()->fullname ?></td>
+                <td><?= $history->get_user() ? $history->get_user()->fullname : 'Ẩn danh' ?></td>
                 <td>
                     <a class="text-decoration-none" href="/admin/quiz/edit?id=<?= $history->get_quiz()->id ?>"
                        target="_blank"><?= $history->get_quiz()->title ?>
