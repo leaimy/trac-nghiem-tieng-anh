@@ -54,18 +54,11 @@ class UserModel
 
     public function update_user($user_id, $args)
     {
-        if (empty($args[UserEntity::KEY_USERNAME]))
-            throw new NinjaException('Vui lòng nhập đủ tên người dùng');
-        if (empty($args[UserEntity::KEY_PASSWORD]))
-            throw new NinjaException('Vui lòng nhập đủ mật khẩu');
         if (empty($args[UserEntity::KEY_FULL_NAME]))
             throw new NinjaException('Vui lòng nhập đủ tên');
 
-
         return $this->user_table->save([
             UserEntity::KEY_ID => $user_id,
-            UserEntity::KEY_USERNAME => $args[UserEntity::KEY_USERNAME],
-            UserEntity::KEY_PASSWORD => $args[UserEntity::KEY_PASSWORD],
             UserEntity::KEY_FULL_NAME => $args[UserEntity::KEY_FULL_NAME],
             UserEntity::KEY_EMAIL => $args[UserEntity::KEY_EMAIL] ?? null,
         ]);

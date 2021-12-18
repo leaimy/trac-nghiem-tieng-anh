@@ -15,6 +15,7 @@ use EStudy\Controller\Admin\AdminTopicController;
 use EStudy\Controller\Admin\AdminVocabularyController;
 use EStudy\Controller\Client\AuthController;
 use EStudy\Controller\Client\HomeController;
+use EStudy\Controller\Client\ProfileController;
 use EStudy\Controller\Client\QuizController;
 use EStudy\Controller\EStudyBaseController;
 use EStudy\Entity\Admin\MediaEntity;
@@ -244,6 +245,7 @@ class EStudyRoutesHandler implements IRoutes
     {
         $controller = new HomeController($this->admin_topic_model, $this->admin_quiz_model);
         $quiz_controller = new QuizController($this->admin_quiz_model, $this->admin_topic_model, $this->admin_question_model, $this->user_quiz_model, $this->quiz_history_model, $this->authentication_helper);
+        $profile_controller = new ProfileController($this->admin_user_model);
         
         return [
             '/' => [
@@ -280,7 +282,17 @@ class EStudyRoutesHandler implements IRoutes
                     'action' => 'show_history'
                 ]
             ],
-            
+            '/profile' => [
+                'GET' => [
+                    'controller' => $profile_controller,
+                    'action' => 'show_dashboard'
+                ],
+                'POST' => [
+                    'controller' => $profile_controller,
+                    'action' => 'process_update'
+                ],
+                'login' => true,
+            ]
         ];
     }
     

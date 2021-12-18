@@ -58,7 +58,7 @@
                         </a>
                         <ul class="dropdown-menu d" aria-labelledby="navbarDropdown">
                             <li>
-                                <a class="dropdown-item" href="">Tài khoản</a>
+                                <a class="dropdown-item" href="/profile">Tài khoản</a>
                             </li>
                             <li>
                                 <a class="dropdown-item" href="">Lịch sử kiểm tra</a>
