@@ -3,7 +3,6 @@
 
 namespace EStudy\Model\Import\User;
 
-use EStudy\Entity\Admin\QuestionEntity;
 use EStudy\Entity\Admin\UserEntity;
 use Ninja\DatabaseTable;
 
