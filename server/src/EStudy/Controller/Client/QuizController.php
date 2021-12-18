@@ -141,7 +141,8 @@ class QuizController extends NJBaseController
                 'quiz_info' => $content['quiz']['quiz_detail'],
                 'quiz_result' => $content['quiz']['result'],
                 'questions' => $content['questions'],
-                'question_render_helper' => new QuestionRenderHelper()
+                'question_render_helper' => new QuestionRenderHelper(),
+                'absolutely_correct' => $content['quiz']['result']['correct'] == $content['quiz']['result']['total']
             ]);
         }
         catch (NinjaException $exception) {
