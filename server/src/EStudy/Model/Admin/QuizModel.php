@@ -28,6 +28,18 @@ class QuizModel
     
     function get_all()
     {
+        $all = $this->quiz_table->findAll();
+        
+        $filter = [];
+        foreach ($all as $item) 
+            if (is_null($item->{QuizEntity::KEY_RANDOM_AT}))
+                $filter[] = $item;
+            
+        return $filter;
+    }
+    
+    function get_all_include_random_quiz()
+    {
         return $this->quiz_table->findAll();
     }
 
