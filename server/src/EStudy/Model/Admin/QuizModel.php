@@ -117,7 +117,7 @@ class QuizModel
      * @param array $types array of question types
      * @throws NinjaException
      */
-    public function generate_from_question_bank(string $title, int $quantity, array $topics, array $types)
+    public function generate_from_question_bank(string $title, int $quantity, array $topics, array $types, bool $is_random = false)
     {
         if (empty($title))
             throw new NinjaException('Nhập tiêu đề cho bài kiểm tra');
@@ -182,14 +182,15 @@ class QuizModel
             QuizEntity::KEY_TITLE => $title,
             QuizEntity::KEY_DESCRIPTION => implode("<br>", $quiz_descriptions),
             QuizEntity::KEY_QUESTION_QUANTITY => $quantity,
-            QuizEntity::KEY_AUTHOR_ID => $this->authentication_helper->getUserId(), 
+            QuizEntity::KEY_AUTHOR_ID => $this->authentication_helper->isLoggedIn() ? $this->authentication_helper->getUserId() : null,
+            QuizEntity::KEY_RANDOM_AT => $is_random ? (new \DateTime()) : null
         ]);
         
         foreach ($results as $question_id => $question) {
             $this->question_quiz_model->create_new_connection($question_id, $new_quiz->id);
         }
         
-        return $results;
+        return $new_quiz;
     }
 
     private function filter_by_type(array $questions, $type): array

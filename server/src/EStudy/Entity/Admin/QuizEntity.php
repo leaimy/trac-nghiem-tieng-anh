@@ -20,6 +20,7 @@ class QuizEntity
     const KEY_MEDIA_ID = 'media_id';
     const KEY_DESCRIPTION = 'description';
     const KEY_AUTHOR_ID = 'author_id';
+    const KEY_RANDOM_AT = 'random_at';
     const KEY_CREATED_AT = 'created_at';
 
     public $id;
@@ -28,6 +29,7 @@ class QuizEntity
     public $media_id;
     public $description;
     public $author_id;
+    public $random_at;
     public $created_at;
     
     private $author_entity;

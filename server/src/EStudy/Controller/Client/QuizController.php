@@ -156,4 +156,31 @@ class QuizController extends EStudyBaseController
             die('Handle show quiz history detail');
         }
     }
+    
+    public function generate_random_quiz()
+    {
+        try {
+            $topic_ids = $_POST['topics'] ?? [];
+            $types = $_POST['types'] ?? [];
+            $question_quantity = $_POST['question_quantity'];
+            
+            if (count($topic_ids) == 0)
+                throw new NinjaException('Vui lòng chọn chủ đề');
+            
+            if (count($types) == 0)
+                throw new NinjaException('Vui lòng chọn Loại câu hỏi');
+            
+            if ($question_quantity <= 0 || $question_quantity > 100)
+                throw new NinjaException('Số lượng câu hỏi quá lớn');
+            
+            $title = 'Trắc nghiệm ngẫu nhiên: ' . (new \DateTime())->format('d-m-Y H:i:s');
+            $new_quiz = $this->quiz_model->generate_from_question_bank($title, $question_quantity, $topic_ids, $types, true);
+            
+            $this->route_redirect('/quizzes/take-quiz?quiz_id=' . $new_quiz->id);
+        }
+        catch (NinjaException $exception) {
+            // TODO: handle random quiz generation
+            die($exception->getMessage());
+        }
+    }
 }
