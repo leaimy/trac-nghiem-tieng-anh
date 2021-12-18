@@ -156,6 +156,7 @@ class EStudyRoutesHandler implements IRoutes
         $admin_import_routes = $this->get_admin_import_routes();
 
         $client_routes = $this->get_client_routes();
+        $auth_routes = $this->get_auth_routes();
 
         return $client_routes +
             $admin_dashboard_routes +
@@ -169,7 +170,8 @@ class EStudyRoutesHandler implements IRoutes
             $admin_setting_routes +
             $admin_topic_routes +
             $admin_vocabulary_routes +
-            $admin_import_routes;
+            $admin_import_routes +
+            $auth_routes;
     }
 
     public function get_all_api_routes(): array
@@ -181,8 +183,7 @@ class EStudyRoutesHandler implements IRoutes
     {
         $controller = new HomeController($this->admin_topic_model, $this->admin_quiz_model);
         $quiz_controller = new QuizController($this->admin_quiz_model, $this->admin_topic_model, $this->admin_question_model, $this->user_quiz_model, $this->quiz_history_model, $this->authentication_helper);
-        $auth_controller = new AuthController($this->authentication_helper, $this->admin_user_model);
-
+        
         return [
             '/' => [
                 'GET' => [
@@ -218,6 +219,15 @@ class EStudyRoutesHandler implements IRoutes
                     'action' => 'show_history'
                 ]
             ],
+            
+        ];
+    }
+    
+    public function get_auth_routes(): array
+    {
+        $auth_controller = new AuthController($this->authentication_helper, $this->admin_user_model);
+
+        return [
             '/auth/sign-in' => [
                 'GET' => [
                     'controller' => $auth_controller,
@@ -238,6 +248,12 @@ class EStudyRoutesHandler implements IRoutes
                     'action' => 'process_register'
                 ]
             ],
+            '/auth/logout' => [
+                'GET' => [
+                    'controller' => $auth_controller,
+                    'action' => 'log_user_out'
+                ]
+            ]
         ];
     }
 
