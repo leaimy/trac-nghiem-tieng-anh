@@ -16,6 +16,7 @@
             <th scope="col">Người dùng</th>
             <th scope="col">Bài trắc nghiệm</th>
             <th scope="col">Kết quả</th>
+            <th scope="col">Kết quả</th>
             <th scope="col"></th>
         </tr>
         </thead>
@@ -31,9 +32,17 @@
                 </td>
                 <td><?= $history->correct_quantity ?> / <?= $history->get_quiz()->question_quantity ?></td>
                 <td>
-                    <a href="" class="me-2 text-decoration-none">
-                        <i data-feather="edit-2" class="text-warning"></i>
-                    </a>
+                    <ul class="list-group list-group-flush">
+                        <?php foreach ($history->get_histories() as $c => $detail): ?>
+                            <li class="list-group-item">
+                                <a href="/quizzes/histories/show?quiz_history_id=<?= $detail->id ?>" target="_blank" class="text-decoration-none">
+                                    Lần: <?= $c + 1 ?>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </td>
+                <td>
                     <a href="#" class="text-decoration-none btn-delete-question">
                         <i data-feather="trash-2" class="text-danger"></i>
                     </a>
