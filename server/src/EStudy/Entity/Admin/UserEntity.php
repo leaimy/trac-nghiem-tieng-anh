@@ -26,7 +26,7 @@ class UserEntity
     public $password;
     public $fullname;
     public $email;
-    public $user_type;
+    public $type;
     public $created_at;
 
     private $user_quiz_entities;
@@ -39,12 +39,12 @@ class UserEntity
 
     public function is_admin()
     {
-        return $this->user_type == self::ADMIN;
+        return $this->type == self::ADMIN;
     }
 
     public function is_guest()
     {
-        return $this->user_type == self::GUEST;
+        return $this->type == self::GUEST;
     }
 
     public function get_completed_quizzes_logs()

@@ -300,7 +300,7 @@ class EStudyRoutesHandler implements IRoutes
                     'controller' => $profile_controller,
                     'action' => 'show_quizzes'
                 ],
-                'loggin' => true
+                'login' => true
             ]
         ];
     }
