@@ -109,7 +109,7 @@ class AdminVocabularyController extends EStudyBaseController
         try {
             $vocabulary = $_POST;
 
-            if (isset($_FILES['file_upload'])) {
+            if (!empty($_FILES['file_upload']['name'])) {
                 $new_media = $this->media_model->create_new_media($_FILES);
                 $media_id = $new_media->id;
                 $vocabulary[VocabularyEntity::KEY_MEDIA_ID] = $media_id;
@@ -126,7 +126,7 @@ class AdminVocabularyController extends EStudyBaseController
         } catch (NinjaException $e) {
             // Xử lý lỗi do mình tự ném ra
 
-            $this->view_handler->render('admin/vocabularies/create.html.php', [
+            $this->view_handler->render('admin/vocabulary/create.html.php', [
                 'english' => $_POST['english'] ?? null,
                 'vietnamese' => $_POST['vietnamese'] ?? null,
                 'description' => $_POST['description'] ?? null,
@@ -225,5 +225,13 @@ class AdminVocabularyController extends EStudyBaseController
         } catch (NinjaException $e){
             die($e->getMessage());
         }
+    }
+    
+    public function delete()
+    {
+        $id = $_GET['id'];
+        $this->vocabulary_model->delete_vocabulary($id);
+        $this->topic_vocabulary_model->clear_all_connections($id);
+        $this->route_redirect('/admin/vocabularies');
     }
 }

@@ -111,15 +111,19 @@
                     <th scope="row"><?= ($current_page - 1) * $limit + ($index + 1) ?></th>
                     <td><?= $vocabulary->english; ?></td>
                     <td>
-                        <span><?= str_replace("\n", "<br>", $vocabulary->get_truncate_description()); ?></span> &nbsp;
-                        <a class="text-sm text-info text-decoration-none" data-bs-toggle="collapse" href="#collapse-<?= $vocabulary->id ?>" role="button" aria-expanded="false">
-                            Xem thêm
-                        </a>
-                        <div class="collapse mt-2 w-100" id="collapse-<?= $vocabulary->id ?>">
-                            <div class="card card-body w-100">
-                                <?= str_replace("\n", "<br>", $vocabulary->description) ?>
+                        <?php if (strlen($vocabulary->description) > 30): ?>
+                            <span><?= str_replace("\n", "<br>", $vocabulary->get_truncate_description()); ?></span> &nbsp;
+                            <a class="text-sm text-info text-decoration-none" data-bs-toggle="collapse" href="#collapse-<?= $vocabulary->id ?>" role="button" aria-expanded="false">
+                                Xem thêm
+                            </a>
+                            <div class="collapse mt-2 w-100" id="collapse-<?= $vocabulary->id ?>">
+                                <div class="card card-body w-100">
+                                    <?= str_replace("\n", "<br>", $vocabulary->description) ?>
+                                </div>
                             </div>
-                        </div>
+                        <?php else: ?>
+                            <span><?= $vocabulary->description ?></span>
+                        <?php endif; ?>
                     </td>
                     <td>
                         <?php foreach ($vocabulary->get_topics() as $topic): ?>
