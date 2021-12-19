@@ -104,15 +104,17 @@ class EStudyRoutesHandler implements IRoutes
         $this->admin_media_table = new DatabaseTable(MediaEntity::TABLE, MediaEntity::PRIMARY_KEY, MediaEntity::CLASS_NAME);
         $this->admin_media_model = new MediaModel($this->admin_media_table);
 
-        $this->admin_vocabulary_table = new DatabaseTable(VocabularyEntity::TABLE, VocabularyEntity::PRIMARY_KEY, VocabularyEntity::CLASS_NAME, [
-            &$this->admin_media_model, &$this->admin_topic_vocabulary_model
-        ]);
-        $this->admin_vocabulary_model = new VocabularyModel($this->admin_vocabulary_table, $this->admin_topic_vocabulary_table);
-
         $this->admin_topic_vocabulary_table = new DatabaseTable(TopicVocabulary::TABLE, TopicVocabulary::PRIMARY_KEY, TopicVocabulary::CLASS_NAME, [
-            &$this->admin_topic_model
+            &$this->admin_topic_model,
+            &$this->admin_vocabulary_model
         ]);
         $this->admin_topic_vocabulary_model = new TopicVocabularyModel($this->admin_topic_vocabulary_table);
+        
+        $this->admin_vocabulary_table = new DatabaseTable(VocabularyEntity::TABLE, VocabularyEntity::PRIMARY_KEY, VocabularyEntity::CLASS_NAME, [
+            &$this->admin_media_model, 
+            &$this->admin_topic_vocabulary_model
+        ]);
+        $this->admin_vocabulary_model = new VocabularyModel($this->admin_vocabulary_table, $this->admin_topic_vocabulary_table);
 
         $this->admin_question_quiz_table = new DatabaseTable(QuestionQuizEntity::TABLE, QuestionQuizEntity::PRIMARY_KEY, QuestionQuizEntity::CLASS_NAME, [
             &$this->admin_question_model,

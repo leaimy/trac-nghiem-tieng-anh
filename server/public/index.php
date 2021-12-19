@@ -43,7 +43,7 @@ try {
 
     echo load_template($template_name, $template_args);
 } catch (\Exception $exception) {
-    $template_args = [
+    $template_args = [  
         'title' => 'Lỗi hệ thống',
         'error_message' => $exception->getMessage(),
         'error_stack_trace' => $exception->getTrace()
