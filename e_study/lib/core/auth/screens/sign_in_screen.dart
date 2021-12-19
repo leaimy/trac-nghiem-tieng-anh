@@ -44,7 +44,8 @@ class _SignInScreenState extends State<SignInScreen> {
               }
               if (model.isLoginSuccess != null) {
                 if (model.isLoginSuccess == true) {
-                  Navigator.pushNamed(context, Routes.rootScreen);
+                  Navigator.pushNamedAndRemoveUntil(context, Routes.rootScreen,
+                      (Route<dynamic> route) => false);
                 } else {
                   showErrorPopUp(context, model, size, 'Đăng nhập thất bại');
                 }
@@ -106,7 +107,8 @@ class _SignInScreenState extends State<SignInScreen> {
                     size: size,
                     onTap: () async {
                       model.checkInput();
-                      if (!model.isError) { // bắt lỗi input
+                      if (!model.isError) {
+                        // bắt lỗi input
                         await model.signInDio();
                       } else {
                         showErrorPopUp(
