@@ -7,7 +7,7 @@ use EStudy\Model\Admin\UserModel;
 
 class AdminAccountController extends EStudyBaseController
 {
-    private $user_model;
+    private $user_model; 
     
     public function __construct(UserModel $user_model)
     {
@@ -38,7 +38,19 @@ class AdminAccountController extends EStudyBaseController
         $this->view_handler->render('admin/admin_account/create.html.php');
     }
     
-    public function create_new_user() {
-        
+    public function statistics() {
+        $total_user = $this->user_model->get_total_users();
+        $total_admin= $this->user_model->get_total_admin();
+        $total_guest = $this->user_model->get_total_guest();
+        $total_male = $this->user_model->get_total_male_user();
+        $total_total_married_females = $this->user_model->get_total_married_females();
+        $this->view_handler->render('admin/admin_account/statistics.html.php',[
+            'total_user' => $total_user,
+            'total_admin' => $total_admin,
+            'total_guest' => $total_guest,
+            'total_male' => $total_male,
+            'total_total_married_females' => $total_total_married_females,
+            
+        ]);
     }
 }

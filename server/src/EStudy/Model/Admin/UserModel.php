@@ -37,10 +37,10 @@ class UserModel
     {
         if (empty($args[UserEntity::KEY_USERNAME]))
             throw new NinjaException('Vui lòng nhập đủ tên người dùng');
-        
+
         if (empty($args[UserEntity::KEY_PASSWORD]))
             throw new NinjaException('Vui lòng nhập đủ mật khẩu');
-        
+
         if (empty($args[UserEntity::KEY_FULL_NAME]))
             throw new NinjaException('Vui lòng nhập đủ tên');
 
@@ -73,4 +73,41 @@ class UserModel
     {
         return $this->user_table->find(UserEntity::KEY_USERNAME, $username)[0] ?? null;
     }
+
+    public function get_total_users()
+    {
+        $sql = "SELECT COUNT(*) FROM user";
+        return $this->user_table->raw($sql, DatabaseTable::FETCH_ASSOC_SINGLE)[0];
+    }
+
+    public function get_total_admin()
+    {
+        $sql = "SELECT COUNT(*) FROM user WHERE type = 'ADMIN'";
+        return $this->user_table->raw($sql, DatabaseTable::FETCH_ASSOC_SINGLE)[0];
+    }
+
+    public function get_total_guest()
+    {
+        $sql = "SELECT COUNT(*) FROM user WHERE `type` = 'GUEST'";
+        return $this->user_table->raw($sql, DatabaseTable::FETCH_ASSOC_SINGLE)[0];
+    }
+
+    public function get_total_male_user()
+    {
+        $sql = "SELECT COUNT(*) FROM user 
+        WHERE `fullname` NOT LIKE 'Mrs%' 
+          AND `fullname` NOT LIKE 'Miss%' 
+          AND `fullname` NOT LIKE 'Ms%' 
+          AND `fullname` NOT LIKE 'Madame%' 
+          AND `fullname` NOT LIKE 'Mademoiselle%' ";
+        return $this->user_table->raw($sql, DatabaseTable::FETCH_ASSOC_SINGLE)[0];
+
+    }
+    public function get_total_married_females()
+    {
+        $sql = "SELECT COUNT(*) FROM user 
+        WHERE `fullname` LIKE 'Miss%' ";
+        return $this->user_table->raw($sql, DatabaseTable::FETCH_ASSOC_SINGLE)[0];
+    }
+   
 }

@@ -4,6 +4,7 @@ namespace EStudy;
 
 use EStudy\Api\TopicApi;
 use EStudy\Api\VocabularyApi;
+use EStudy\API\AuthAPI;
 use EStudy\Controller\Admin\AdminAccountController;
 use EStudy\Controller\Admin\AdminContactUsController;
 use EStudy\Controller\Admin\AdminDashboardController;
@@ -106,7 +107,7 @@ class EStudyRoutesHandler implements IRoutes
         $this->admin_vocabulary_table = new DatabaseTable(VocabularyEntity::TABLE, VocabularyEntity::PRIMARY_KEY, VocabularyEntity::CLASS_NAME, [
             &$this->admin_media_model, &$this->admin_topic_vocabulary_model
         ]);
-        $this->admin_vocabulary_model = new VocabularyModel($this->admin_vocabulary_table);
+        $this->admin_vocabulary_model = new VocabularyModel($this->admin_vocabulary_table, $this->admin_topic_vocabulary_table);
 
         $this->admin_topic_vocabulary_table = new DatabaseTable(TopicVocabulary::TABLE, TopicVocabulary::PRIMARY_KEY, TopicVocabulary::CLASS_NAME, [
             &$this->admin_topic_model
@@ -124,7 +125,7 @@ class EStudyRoutesHandler implements IRoutes
             &$this->admin_user_model,
             &$this->admin_media_model
         ]);
-        $this->admin_quiz_model = new QuizModel($this->admin_quiz_table, $this->admin_question_model, $this->admin_question_quiz_model, $this->authentication_helper);
+        $this->admin_quiz_model = new QuizModel($this->admin_quiz_table, $this->admin_question_model, $this->admin_question_quiz_model, $this->authentication_helper, $this->admin_vocabulary_model);
 
         $this->quiz_history_table = new DatabaseTable(QuizHistoryEntity::TABLE, QuizHistoryEntity::PRIMARY_KEY, QuizHistoryEntity::CLASS_NAME);
         $this->quiz_history_model = new QuizHistoryModel($this->quiz_history_table);
@@ -244,8 +245,21 @@ class EStudyRoutesHandler implements IRoutes
     {
         $topic_api = new TopicApi($this->admin_topic_model);
         $vocabulary_api = new VocabularyApi($this->admin_vocabulary_model);
+        $auth_api = new AuthAPI($this->authentication_helper,$this->admin_user_model);
         
         return [
+            '/api/v1/auth/login'=> [
+                'POST' => [
+                    'controller' => $auth_api,
+                    'action' => 'login',
+                ]
+            ],
+            '/api/v1/auth/register'=> [
+                'POST' => [
+                    'controller' => $auth_api,
+                    'action' => 'register',
+                ]
+            ],
             '/api/v1/topics' => [
                 'GET' => [
                     'controller' => $topic_api,
@@ -428,7 +442,13 @@ class EStudyRoutesHandler implements IRoutes
                     'controller' => $controller,
                     'action' => 'create_new_user'
                 ]
-            ]
+                ],
+                '/admin/accounts/statistics' => [
+                    'GET' => [
+                        'controller' => $controller,
+                        'action' => 'statistics'
+                    ],
+                ]
         ];
     }
 
