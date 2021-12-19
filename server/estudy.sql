@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 18, 2021 at 04:41 AM
+-- Generation Time: Dec 18, 2021 at 05:16 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.25
 
@@ -20,6 +20,42 @@ SET time_zone = "+00:00";
 --
 -- Database: `estudy`
 --
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `AnalyseQuizzesQuantityByAuthor` ()  BEGIN
+	DECLARE total INT DEFAULT 0;
+	DECLARE total_by_anonymous INT DEFAULT 0;
+	DECLARE total_by_admin INT DEFAULT 0;
+	
+	SELECT COUNT(*) INTO total FROM quiz;
+	SELECT COUNT(*) INTO total_by_anonymous FROM quiz WHERE quiz.random_at IS NULL;
+	
+	SET total_by_admin = total - total_by_anonymous;
+	
+	SELECT total AS 'total', total_by_anonymous AS 'by_anonymous', total_by_admin AS 'by_admin';
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllProducts` ()  BEGIN
+	SELECT *  FROM quiz;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllQuizzes` ()  BEGIN
+	DECLARE total INT DEFAULT 0;
+	DECLARE total_by_anonymous INT DEFAULT 0;
+	DECLARE total_by_admin INT DEFAULT 0;
+	
+	SELECT COUNT(*) INTO total FROM quiz;
+	SELECT COUNT(*) INTO total_by_anonymous FROM quiz WHERE quiz.random_at IS NULL;
+	
+	SET total_by_admin = total - total_by_anonymous;
+	
+	SELECT total AS 'total', total_by_anonymous AS 'by_anonymous', total_by_admin AS 'by_admin';
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -92,7 +128,8 @@ CREATE TABLE `quiz` (
   `question_quantity` int(11) NOT NULL DEFAULT 0,
   `media_id` int(11) DEFAULT NULL,
   `description` text DEFAULT NULL,
-  `author_id` int(11) NOT NULL,
+  `author_id` int(11) DEFAULT NULL,
+  `random_at` datetime DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -180,7 +217,7 @@ CREATE TABLE `user` (
 
 CREATE TABLE `user_quiz` (
   `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `quiz_id` int(11) NOT NULL,
   `begin_time` datetime DEFAULT NULL,
   `finish_time` datetime DEFAULT NULL,
