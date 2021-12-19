@@ -56,5 +56,64 @@ class TopicEntity
         return $entity->{MediaEntity::KEY_MEDIA_ORIGIN_NAME};
     }
 
-    
+    public function get_html_box()
+    {
+        $common_class = "d-block m-2 badge rounded-pill py-2 px-3 text-capitalize text-light";
+        $box_color = 'red';
+        
+        switch (mb_strtolower($this->title)) {
+            case 'danh từ':
+                $box_color = '#42e3f5';
+                break;
+                
+            case 'động từ':
+                $box_color = '#51f542';
+                break;
+
+            case 'tính từ':
+                $box_color = '#f58142';
+                break;
+
+            case 'giới từ':
+                $box_color = '#42bff5';
+                break;
+
+            case 'phó từ':
+                $box_color = '#e2a1f7';
+                break;
+
+            case 'liên từ':
+                $box_color = '#f7cea1';
+                break;
+
+            case 'thán từ':
+                $box_color = '#f7a1af';
+                break;
+
+            case 'đại từ':
+                $box_color = '#9645ed';
+                break;
+
+            case 'thành ngữ':
+                $box_color = '#45edc0';
+                break;
+
+            case 'viết tắt':
+                $box_color = '#e0195f';
+                break;
+
+            case 'hậu tố':
+                $box_color = '#177332';
+                break;
+                
+            default:
+                $box_color = '#cf3a75';
+                break;
+        }
+        
+        $style = "background-color: $box_color;";
+        ?>
+        <div class="<?= $common_class ?>" style="<?= $style ?>"><?= $this->title ?></div>
+        <?php
+    }
 }

@@ -8,10 +8,57 @@
     <h1 class="h2">Quản lý từ vựng</h1>
 </div>
 
-<div class="min-vh-100">
-    <div class="d-flex justify-content-end">
-        <a href="/admin/vocabularies/create" type="button" class="btn btn-outline-success">Thêm mới</a>
+<div class="row my-4">
+    <div class="col-md-6">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Nhập từ khóa" autocomplete="off">
+            <button class="btn btn-outline-primary" type="button"><i data-feather="search"></i></button>
+        </div>
     </div>
+    <div class="col-md-6 d-flex justify-content-end align-items-start">
+        <a href="/admin/vocabularies" class="btn btn-outline-danger me-2">Xem toàn bộ</a>
+        <a href="/admin/vocabularies/create" class="btn btn-outline-success">Thêm mới</a>
+    </div>
+</div>
+
+<div class="row my-4">
+    <div class="col">
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Lọc nâng cao
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                     data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="row col-md-4">
+                            <form action="/admin/vocabularies" method="GET">
+                                <input type="hidden" name="filter_by" value="topic">
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Chọn loại từ</label>
+                                    <select name="topic_id" id="" class="form-select">
+                                        <?php foreach ($topic_all as $topic): ?>
+                                            <option value="<?= $topic->id ?>"><?= $topic->title ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <input type="submit" class="btn btn-info w-100" value="Lọc">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="min-vh-100">
     <table class="table">
         <thead>
         <tr>
@@ -31,7 +78,7 @@
                 <td><?= str_replace("\n", "<br>", $vocabulary->description); ?></td>
                 <td>
                     <?php foreach ($vocabulary->get_topics() as $topic): ?>
-                        <div class="d-block m-2 badge rounded-pill py-2 px-3 bg-primary"><?= $topic->title ?></div>
+                        <?= $topic->get_html_box() ?>
                     <?php endforeach; ?>
                 </td>
                 <td>
@@ -55,7 +102,7 @@
         <ul class="pagination justify-content-center flex-wrap">
             <?php for ($i = 0; $i <= $number_of_page; $i++): ?>
                 <li class="page-item <?= ($i + 1) == $current_page ? 'active' : '' ?>">
-                    <a class="page-link" href="/admin/vocabularies?page=<?= $i + 1 ?>"><?= $i + 1 ?></a>
+                    <a class="page-link" href="/admin/vocabularies?<?= $parameters ?>&page=<?= $i + 1 ?>"><?= $i + 1 ?></a>
                 </li>
             <?php endfor; ?>
         </ul>

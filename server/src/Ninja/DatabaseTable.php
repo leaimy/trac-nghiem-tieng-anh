@@ -4,6 +4,10 @@ namespace Ninja;
 
 class DatabaseTable
 {
+    const FETCH_RAW_MULTIPLE = 0;
+    const FETCH_RAW_SINGLE = 1;
+    const FETCH_ASSOC_SINGLE = 2;
+
     private \PDO $pdo;
     private string $table;
     private string $primaryKey;
@@ -202,9 +206,20 @@ class DatabaseTable
         $query = $this->query($query, $parameters);
     }
     
-    public function raw($sql)
+    public function raw($sql, $type = null)
     {
-        return $this->query($sql);
+        $query = $this->query($sql);
+
+        if ($type == self::FETCH_RAW_MULTIPLE)
+            return $query->fetchAll(\PDO::FETCH_CLASS, $this->className, $this->constructorArgs);
+        
+        if ($type == self::FETCH_RAW_SINGLE)
+            return $query->fetchObject($this->className, $this->constructorArgs);
+        
+        if ($type == self::FETCH_ASSOC_SINGLE)
+            return $query->fetch();
+
+        return null;
     }
 
     private function query($sql, $parameters = [])

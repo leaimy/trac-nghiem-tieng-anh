@@ -606,7 +606,15 @@ class EStudyRoutesHandler implements IRoutes
                     'controller' => $controller,
                     'action' => 'update'
                 ]
-            ]
+            ],
+
+            '/admin/vocabularies/filter/topic' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'filter_by_topic'
+                ]
+            ],
+
         ];
     }
 

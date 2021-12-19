@@ -74,4 +74,46 @@ class VocabularyModel
     {
        $this->vocabulary_table->delete($id);
     }
+
+    public function filter_by_topic_get_total($topic_id)
+    {
+        $sql = "
+            SELECT
+                COUNT(*)
+            FROM
+                (
+                    (
+                        topic_vocabulary
+                    INNER JOIN topic ON topic_vocabulary.topic_id = topic.id
+                    )
+                INNER JOIN vocabulary ON topic_vocabulary.vocabulary_id = vocabulary.id
+                )
+            WHERE
+                topic.id = $topic_id
+        ";
+
+        return $this->vocabulary_table->raw($sql, DatabaseTable::FETCH_ASSOC_SINGLE)[0];
+    }
+    
+    public function filter_by_topic($topic_id, $limit, $offset)
+    {
+        $sql = "
+            SELECT
+                vocabulary.*
+            FROM
+                (
+                    (
+                        topic_vocabulary
+                    INNER JOIN topic ON topic_vocabulary.topic_id = topic.id
+                    )
+                INNER JOIN vocabulary ON topic_vocabulary.vocabulary_id = vocabulary.id
+                )
+            WHERE
+                topic.id = $topic_id
+            LIMIT $limit
+            OFFSET $offset
+        ";
+        
+        return $this->vocabulary_table->raw($sql, DatabaseTable::FETCH_RAW_MULTIPLE);
+    }
 }
