@@ -36,21 +36,51 @@ class AdminVocabularyController extends EStudyBaseController
         $vocabulary_all = $this->vocabulary_model->get_all_vocabulary(null, null, $page_limit, ($page_number - 1) * $page_limit);
         $parameters = '';
         
-        $filter_action = $_GET['filter_by'] ?? null;
+        $action = $_GET['action'] ?? null;
         
-        if ($filter_action == 'topic') {
-            $topic_id = $_GET['topic_id'] ?? null;
+        if ($action == 'search') {
+            $keyword = $_GET['keyword'] ?? null;
             
-            if (!is_null($topic_id)) {
-                $vocabulary_all = $this->vocabulary_model->filter_by_topic($topic_id, $page_limit, ($page_limit - 1) * $page_limit);
-                $total = $this->vocabulary_model->filter_by_topic_get_total($topic_id);  
-                $parameters = 'filter_by=topic&topic_id=' . $topic_id;
+            if (!is_null($keyword)) {
+                
+                $search_by = $_GET['by'] ?? null;
+                
+                if ($search_by == 'english') {
+                    $vocabulary_all = $this->vocabulary_model->search_english($keyword, $page_limit,($page_number - 1) * $page_limit);
+                    $total = $this->vocabulary_model->search_english_get_total($keyword) ?? 0;
+                    $parameters = 'action=search&by=english&keyword=' . $keyword;
+                }
+                else if ($search_by == 'vietnamese') {
+                    $vocabulary_all = $this->vocabulary_model->fulltextsearch_vocabulary($keyword, $page_limit, ($page_number - 1) * $page_limit);
+                    $total = $this->vocabulary_model->fulltextsearch_vocabulary_get_total($keyword) ?? 0;
+                    $parameters = 'action=search&by=vietnamese&keyword=' . $keyword;
+                }
             }
         }
-        else if ($filter_action == 'first_character') {
-            // Filter by first character
-        }
+        else if ($action == 'filter') {
+            $filter_action = $_GET['by'] ?? null;
 
+            if ($filter_action == 'topic') {
+                $topic_id = $_GET['topic_id'] ?? null;
+
+                if (!is_null($topic_id)) {
+                    $vocabulary_all = $this->vocabulary_model->filter_by_topic($topic_id, $page_limit, ($page_number - 1) * $page_limit);
+                    $total = $this->vocabulary_model->filter_by_topic_get_total($topic_id) ?? 0;
+                    $parameters = 'action=filter&by=topic&topic_id=' . $topic_id;
+                }
+            }
+            else if ($filter_action == 'first_character') {
+                // Filter by first character
+                $char = $_GET['first_character'] ?? null;
+                
+                if (!is_null($char)) {
+                    $vocabulary_all = $this->vocabulary_model->filter_by_first_character($char, $page_limit, ($page_number - 1) * $page_limit);
+                    $total = $this->vocabulary_model->filter_by_first_character_get_total($char) ?? 0;
+                    $parameters = 'action=filter&by=first_character&first_character=' . $char;
+                }
+            }
+        }
+        
         $number_of_page = floor($total / $page_limit);
         
         $topic_all = $this->topic_model->get_all_topic();
@@ -79,7 +109,7 @@ class AdminVocabularyController extends EStudyBaseController
         try {
             $vocabulary = $_POST;
 
-            if (isset($_FILES['file_upload'])) {
+            if (!empty($_FILES['file_upload']['name'])) {
                 $new_media = $this->media_model->create_new_media($_FILES);
                 $media_id = $new_media->id;
                 $vocabulary[VocabularyEntity::KEY_MEDIA_ID] = $media_id;
@@ -96,7 +126,7 @@ class AdminVocabularyController extends EStudyBaseController
         } catch (NinjaException $e) {
             // Xử lý lỗi do mình tự ném ra
 
-            $this->view_handler->render('admin/vocabularies/create.html.php', [
+            $this->view_handler->render('admin/vocabulary/create.html.php', [
                 'english' => $_POST['english'] ?? null,
                 'vietnamese' => $_POST['vietnamese'] ?? null,
                 'description' => $_POST['description'] ?? null,
@@ -195,5 +225,13 @@ class AdminVocabularyController extends EStudyBaseController
         } catch (NinjaException $e){
             die($e->getMessage());
         }
+    }
+    
+    public function delete()
+    {
+        $id = $_GET['id'];
+        $this->vocabulary_model->delete_vocabulary($id);
+        $this->topic_vocabulary_model->clear_all_connections($id);
+        $this->route_redirect('/admin/vocabularies');
     }
 }

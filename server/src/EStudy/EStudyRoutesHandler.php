@@ -2,6 +2,8 @@
 
 namespace EStudy;
 
+use EStudy\Api\TopicApi;
+use EStudy\Api\VocabularyApi;
 use EStudy\Controller\Admin\AdminAccountController;
 use EStudy\Controller\Admin\AdminContactUsController;
 use EStudy\Controller\Admin\AdminDashboardController;
@@ -75,7 +77,7 @@ class EStudyRoutesHandler implements IRoutes
 
     private $quiz_history_table;
     private $quiz_history_model;
-    
+
     private $authentication_helper;
 
     public function __construct()
@@ -86,7 +88,7 @@ class EStudyRoutesHandler implements IRoutes
         $this->admin_user_model = new UserModel($this->admin_user_table);
 
         $this->authentication_helper = new Authentication($this->admin_user_table, UserEntity::KEY_USERNAME, UserEntity::KEY_PASSWORD);
-        
+
         $this->admin_topic_table = new DatabaseTable(TopicEntity::TABLE, TopicEntity::PRIMARY_KEY, TopicEntity::CLASS_NAME, [
             &$this->admin_media_model
         ]);
@@ -135,21 +137,21 @@ class EStudyRoutesHandler implements IRoutes
         ]);
         $this->user_quiz_model = new UserQuizModel($this->user_quiz_table, $this->authentication_helper);
     }
-    
+
     public function required_login($routes): array
     {
         $results = [];
-        
+
         foreach ($routes as $key => $route) {
             $item = $route;
             $item['login'] = true;
-            
+
             $results[$key] = $item;
         }
-        
+
         return $results;
     }
-    
+
     public function restrict_admin($routes): array
     {
         $results = [];
@@ -240,7 +242,45 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_all_api_routes(): array
     {
-        return [];
+        $topic_api = new TopicApi($this->admin_topic_model);
+        $vocabulary_api = new VocabularyApi($this->admin_vocabulary_model);
+        
+        return [
+            '/api/v1/topics' => [
+                'GET' => [
+                    'controller' => $topic_api,
+                    'action' => 'get_all'
+                ],
+                'POST' => [
+                    'controller' => $topic_api,
+                    'action' => 'create_new_topic'
+                ]
+            ],
+            '/api/v1/vocabularies' => [
+                'GET' => [
+                    'controller' => $vocabulary_api,
+                    'action' => 'get_all'
+                ]
+            ],
+            '/api/v1/vocabularies/show' => [
+                'GET' => [
+                    'controller' => $vocabulary_api,
+                    'action' => 'get_detail'
+                ]
+            ],
+            '/api/v1/vocabularies/search/english' => [
+                'GET' => [
+                    'controller' => $vocabulary_api,
+                    'action' => 'search_by_english'
+                ]
+            ],
+            '/api/v1/vocabularies/search/vietnamese' => [
+                'GET' => [
+                    'controller' => $vocabulary_api,
+                    'action' => 'search_by_vietnamese'
+                ]
+            ]
+        ];
     }
 
     public function get_client_routes(): array
@@ -248,7 +288,7 @@ class EStudyRoutesHandler implements IRoutes
         $controller = new HomeController($this->admin_topic_model, $this->admin_quiz_model, $this->admin_question_model);
         $quiz_controller = new QuizController($this->admin_quiz_model, $this->admin_topic_model, $this->admin_question_model, $this->user_quiz_model, $this->quiz_history_model, $this->authentication_helper);
         $profile_controller = new ProfileController($this->admin_user_model);
-        
+
         return [
             '/' => [
                 'GET' => [
@@ -316,7 +356,7 @@ class EStudyRoutesHandler implements IRoutes
             ]
         ];
     }
-    
+
     public function get_auth_routes(): array
     {
         $auth_controller = new AuthController($this->authentication_helper, $this->admin_user_model);
@@ -613,6 +653,12 @@ class EStudyRoutesHandler implements IRoutes
                     'action' => 'update'
                 ]
             ],
+            '/admin/vocabularies/delete' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'delete'
+                ]
+            ],
 
             '/admin/vocabularies/filter/topic' => [
                 'GET' => [
@@ -620,7 +666,6 @@ class EStudyRoutesHandler implements IRoutes
                     'action' => 'filter_by_topic'
                 ]
             ],
-
         ];
     }
 
@@ -676,13 +721,13 @@ class EStudyRoutesHandler implements IRoutes
     public function checkPermission($permission): ?bool
     {
         $user = $this->authentication_helper->getUser();
-        
+
         if (!($user instanceof UserEntity))
             return false;
-        
+
         return $user->{UserEntity::KEY_USER_TYPE} == UserEntity::ADMIN;
     }
-    
+
     public function getBaseController()
     {
         return new EStudyBaseController();

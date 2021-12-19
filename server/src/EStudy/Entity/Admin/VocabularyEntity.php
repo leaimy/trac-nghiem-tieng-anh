@@ -5,6 +5,7 @@ namespace EStudy\Entity\Admin;
 
 use EStudy\Model\Admin\MediaModel;
 use EStudy\Model\Admin\TopicVocabularyModel;
+use Ninja\Utils\NJStringUtils;
 
 class VocabularyEntity
 {
@@ -98,5 +99,10 @@ class VocabularyEntity
     public function add_topic($topic_id)
     {
         $this->topic_vocabulary_model->add_connection($topic_id, $this->id);
+    }
+
+    function get_truncate_description()
+    {
+        return NJStringUtils::truncate($this->description, 150);
     }
 }
