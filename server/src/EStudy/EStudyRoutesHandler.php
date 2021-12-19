@@ -4,7 +4,7 @@ namespace EStudy;
 
 use EStudy\Api\TopicApi;
 use EStudy\Api\VocabularyApi;
-use EStudy\API\AuthAPI;
+use EStudy\Api\AuthAPI;
 use EStudy\Controller\Admin\AdminAccountController;
 use EStudy\Controller\Admin\AdminContactUsController;
 use EStudy\Controller\Admin\AdminDashboardController;
