@@ -32,19 +32,37 @@ class AdminVocabularyController extends EStudyBaseController
     {
         $page_number = $_GET['page'] ?? 1;
         $page_limit = $_GET['limit'] ?? 50;
-
         $total = $this->vocabulary_model->count();
+        $vocabulary_all = $this->vocabulary_model->get_all_vocabulary(null, null, $page_limit, ($page_number - 1) * $page_limit);
+        $parameters = '';
+        
+        $filter_action = $_GET['filter_by'] ?? null;
+        
+        if ($filter_action == 'topic') {
+            $topic_id = $_GET['topic_id'] ?? null;
+            
+            if (!is_null($topic_id)) {
+                $vocabulary_all = $this->vocabulary_model->filter_by_topic($topic_id, $page_limit, ($page_limit - 1) * $page_limit);
+                $total = $this->vocabulary_model->filter_by_topic_get_total($topic_id);  
+                $parameters = 'filter_by=topic&topic_id=' . $topic_id;
+            }
+        }
+        else if ($filter_action == 'first_character') {
+            // Filter by first character
+        }
 
         $number_of_page = floor($total / $page_limit);
         
-        $vocabulary_all = $this->vocabulary_model->get_all_vocabulary(null, null, $page_limit, ($page_number - 1) * $page_limit);
+        $topic_all = $this->topic_model->get_all_topic();
 
         $this->view_handler->render('admin/vocabulary/index.html.php', [
             'vocabulary_all' => $vocabulary_all,
+            'topic_all' => $topic_all,
             'total' => $total,
             'number_of_page' => $number_of_page,
             'current_page' => $page_number,
-            'limit' => $page_limit
+            'limit' => $page_limit,
+            'parameters' => $parameters
         ]);
     }
 
@@ -142,6 +160,40 @@ class AdminVocabularyController extends EStudyBaseController
             ]);
         } catch (Exception $e) {
             // Xử lý lỗi từ hệ thống server / PHP
+        }
+    }
+    
+    public function filter_by_topic()
+    {
+        try {
+            $id = $_GET['topic_id'] ?? null;
+            $topic_all = $this->topic_model->get_all_topic();
+
+            if (is_null($id))
+                throw new NinjaException('Vui lòng chọn chủ đề');
+
+            // Trang hien tai la trang nao
+            $current_page = $_GET['page'] ?? 1;
+            
+            // Moi trang co bao nhieu phan tu
+            $limit = 50;
+            
+            // Tong so phan tu 
+            $total = $this->vocabulary_model->filter_by_topic_get_total($id);
+            
+            $filter_vocabularies = $this->vocabulary_model->filter_by_topic($id, $limit, $limit * ($current_page - 1));
+            
+            $this->view_handler->render('admin/vocabulary/filter.html.php',[
+                'filter_vocabularies' => $filter_vocabularies,
+                'topic_all' => $topic_all,
+                'number_of_page' => floor($total / $limit),
+                'current_page' => $current_page,
+                'filtered_topic_id' => $id,
+                'limit' => $limit
+            ]);
+            
+        } catch (NinjaException $e){
+            die($e->getMessage());
         }
     }
 }
