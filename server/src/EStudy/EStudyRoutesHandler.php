@@ -620,7 +620,7 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_admin_import_routes(): array
     {
-        $controller = new AdminImportController();
+        $controller = new AdminImportController($this->admin_vocabulary_table);
 
         return [
             '/admin/import-sample-data' => [
@@ -651,6 +651,12 @@ class EStudyRoutesHandler implements IRoutes
                 'POST' => [
                     'controller' => $controller,
                     'action' => 'import_fullname'
+                ]
+            ],
+            '/admin/import-sample-data/vocabulary/attach_simple_vietnamese' => [
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'attach_simple_vietnamese'
                 ]
             ]
         ];

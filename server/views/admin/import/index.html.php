@@ -30,6 +30,10 @@
         <input class="btn btn-warning mb-2" type="submit" value="Nhập từ điển Lạc Việt (Việt - Anh) - 1" name="vi_1">
         <input class="btn btn-warning mb-2" type="submit" value="Nhập từ điển Lạc Việt (Việt - Anh) - 2" name="vi_2">
     </form>
+
+    <form action="/admin/import-sample-data/vocabulary/attach_simple_vietnamese" method="POST">
+        <input type="submit" class="btn btn-info mb-2" value="Trích xuất nghĩa tiếng Việt đơn giản và gắn vào từ vựng">
+    </form>
   
     <hr>
 
