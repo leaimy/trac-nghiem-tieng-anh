@@ -28,6 +28,7 @@ use EStudy\Entity\Client\Pivot\UserQuizEntity;
 use EStudy\Entity\Client\QuizHistoryEntity;
 use EStudy\Model\Admin\Pivot\QuestionQuizModel;
 use EStudy\Model\Admin\QuestionModel;
+use EStudy\API\AuthAPI;
 
 use EStudy\Model\Admin\QuizModel;
 use EStudy\Model\Admin\TopicVocabularyModel;
@@ -240,7 +241,22 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_all_api_routes(): array
     {
-        return [];
+        $controller = new AuthAPI($this->authentication_helper,$this->admin_user_model);
+        return [
+            '/api/v1/auth/login'=> [
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'login',
+                ]
+            ],
+            '/api/v1/auth/register'=> [
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'register',
+                ]
+            ],
+            
+        ];
     }
 
     public function get_client_routes(): array
@@ -382,6 +398,12 @@ class EStudyRoutesHandler implements IRoutes
                     'controller' => $controller,
                     'action' => 'create_new_user'
                 ]
+            ],
+            '/admin/accounts/statistics' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'statistics'
+                ],
             ]
         ];
     }
