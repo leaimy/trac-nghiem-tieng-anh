@@ -91,8 +91,11 @@ class VocabularyModel
             WHERE
                 topic.id = $topic_id
         ";
+        
+        $results = $this->vocabulary_table->raw($sql, DatabaseTable::FETCH_ASSOC_SINGLE);
+        if (!is_array($results)) return 0;
 
-        return $this->vocabulary_table->raw($sql, DatabaseTable::FETCH_ASSOC_SINGLE)[0];
+        return count($results) > 0 ? $results[0] : 0;
     }
     
     public function filter_by_topic($topic_id, $limit, $offset)
@@ -116,4 +119,106 @@ class VocabularyModel
         
         return $this->vocabulary_table->raw($sql, DatabaseTable::FETCH_RAW_MULTIPLE);
     }
+    
+    public function  fulltextsearch_vocabulary($string, $limit, $offset)
+    {
+        $sql = "  
+            SELECT
+            *
+            FROM
+                    vocabulary
+                WHERE
+                    MATCH (vocabulary.description) AGAINST('\"$string\"' IN BOOLEAN MODE)
+                LIMIT $limit
+                OFFSET $offset
+        ";
+        
+        return $this->vocabulary_table->raw($sql, DatabaseTable::FETCH_RAW_MULTIPLE);
+    }
+
+    public function  fulltextsearch_vocabulary_get_total($string)
+    {
+        $sql = "  
+            SELECT
+            COUNT(*)
+            FROM
+                    vocabulary
+                WHERE
+                    MATCH (vocabulary.description) AGAINST('\"$string\"' IN BOOLEAN MODE)
+                
+        ";
+        
+        $results = $this->vocabulary_table->raw($sql, DatabaseTable::FETCH_ASSOC_SINGLE);
+        if (!is_array($results)) return 0;
+
+        return count($results) > 0 ? $results[0] : 0;
+    }
+    
+    public function  filter_by_first_character_get_total($char)
+    {
+        $sql ="
+            SELECT
+                COUNT(*)
+            FROM
+                vocabulary
+            WHERE
+                vocabulary.english LIKE '$char%'    
+        ";
+        
+        $results = $this->vocabulary_table->raw($sql, DatabaseTable::FETCH_ASSOC_SINGLE);
+        if (!is_array($results)) return 0;
+        
+        return count($results) > 0 ? $results[0] : 0;
+    }
+
+    public function  filter_by_first_character($char, $limit, $offset)
+    {
+        $sql ="
+            SELECT
+                *
+            FROM
+                vocabulary
+            WHERE
+                vocabulary.english LIKE '$char%'   
+            LIMIT $limit
+            OFFSET $offset
+        ";
+
+        return $this->vocabulary_table->raw($sql, DatabaseTable::FETCH_RAW_MULTIPLE);
+    }
+
+    public function  search_english_get_total($string)
+    {
+        $sql ="
+            SELECT
+                COUNT(*)
+            FROM
+                vocabulary
+            WHERE
+                vocabulary.english LIKE '$string'    
+        ";
+        
+        $results = $this->vocabulary_table->raw($sql, DatabaseTable::FETCH_ASSOC_SINGLE);
+        if (!is_array($results)) return 0;
+
+        return count($results) > 0 ? $results[0] : 0;
+    }
+
+    public function  search_english($string, $limit, $offset)
+    {
+        $sql ="
+            SELECT
+                *
+            FROM
+                vocabulary
+            WHERE
+                vocabulary.english LIKE '$string'   
+            LIMIT $limit
+            OFFSET $offset
+        ";
+
+        return $this->vocabulary_table->raw($sql, DatabaseTable::FETCH_RAW_MULTIPLE);
+    }
+    
+    
 }
