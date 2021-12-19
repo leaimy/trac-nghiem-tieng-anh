@@ -4,18 +4,16 @@ import 'package:e_study/constants/app_constants.dart';
 import 'package:flutter/cupertino.dart';
 
 class ErrorBox extends StatelessWidget {
-  const ErrorBox(
-      {Key? key,
-      required this.size,
-      required this.errorMessage,
-      this.close,
-      this.goSignIn})
-      : super(key: key);
+  const ErrorBox({
+    Key? key,
+    required this.size,
+    required this.errorMessage,
+    this.close,
+  }) : super(key: key);
 
   final Size size;
   final String errorMessage;
   final VoidCallback? close;
-  final bool? goSignIn;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +21,7 @@ class ErrorBox extends StatelessWidget {
       margin: const EdgeInsets.all(AppConstants.primaryPadding),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(22),
-        color: LightTheme.white,
+        color: LightTheme.lightBlue,
       ),
       height: size.height / 8,
       alignment: Alignment.center,
@@ -36,6 +34,7 @@ class ErrorBox extends StatelessWidget {
           ),
           CupertinoButton(
               child: const Text('OK'),
+              
               onPressed: () {
                 if (close != null) {
                   close!();

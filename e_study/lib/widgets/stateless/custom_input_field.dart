@@ -37,21 +37,21 @@ class CustomInputField extends StatelessWidget {
         Container(
           height: size.height / 20,
           child: TextField(
-              onChanged: onChange,
-              keyboardType: keyboardType,
-              controller: controller,
-              obscureText: isObsecure == null ? false : true,
-              inputFormatters: hasLimit == null
-                  ? null
-                  : [
-                      LengthLimitingTextInputFormatter(10),
-                    ],
-              decoration: InputDecoration(
-                  hintText: description,
-                  border: InputBorder.none,
-                  hintStyle: CustomTextStyle.heading4Grey)),
+            onChanged: onChange,
+            keyboardType: keyboardType,
+            controller: controller,
+            obscureText: isObsecure == null ? false : true,
+            inputFormatters: hasLimit == null
+                ? null
+                : [
+                    LengthLimitingTextInputFormatter(10),
+                  ],
+            decoration: InputDecoration(
+                hintText: description,
+                border: InputBorder.none,
+                hintStyle: CustomTextStyle.heading4Grey),
+          ),
           decoration: const BoxDecoration(
-            // color: Colors.red,
             border: Border(
               bottom: BorderSide(color: LightTheme.grey, width: 2),
             ),

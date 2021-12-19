@@ -1,6 +1,6 @@
 import 'package:e_study/config/routes/routes.dart';
 import 'package:e_study/constants/app_constants.dart';
-import 'package:e_study/modules/common_widget/widgets/common_widget_button.dart';
+import 'package:e_study/widgets/stateless/gradient_button.dart';
 import 'package:flutter/material.dart';
 
 class CommonWidgetScreen extends StatelessWidget {
@@ -20,13 +20,13 @@ class CommonWidgetScreen extends StatelessWidget {
               horizontal: AppConstants.regularPadding),
           child: Column(
             children: [
-              CommonWidgetButton(
+              BaseButton(
                   size: size,
                   content: 'Components',
                   onTap: () {
                     Navigator.pushNamed(context, Routes.componentsScreen);
                   }),
-              CommonWidgetButton(
+              BaseButton(
                   size: size,
                   content: 'Screens',
                   onTap: () {

@@ -1,6 +1,7 @@
 import 'package:e_study/config/routes/routes.dart';
 import 'package:e_study/constants/app_constants.dart';
-import 'package:e_study/modules/common_widget/widgets/common_widget_button.dart';
+import 'package:e_study/widgets/stateless/gradient_button.dart';
+
 import 'package:flutter/material.dart';
 
 class ScreensList extends StatelessWidget {
@@ -10,7 +11,11 @@ class ScreensList extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
 
-    final List<String> screens = [Routes.homeScreen];
+    final List<String> screens = [
+      Routes.signInScreen,
+      Routes.signUpScreen,
+      Routes.homeScreen,
+    ];
 
     return Scaffold(
       appBar: AppBar(
@@ -23,7 +28,7 @@ class ScreensList extends StatelessWidget {
           child: Column(
               children: screens
                   .map((e) => Builder(
-                      builder: (context) => CommonWidgetButton(
+                      builder: (context) => BaseButton(
                           content: e,
                           onTap: () {
                             Navigator.pushNamed(context, e);

@@ -4,7 +4,6 @@ import 'package:e_study/shared/provider/api_provider.dart';
 import 'package:e_study/shared/provider/log_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 import '../http_service.dart';
 
 class AuthService {
@@ -65,7 +64,7 @@ class AuthService {
       rethrow;
     }
   }
-  
+
   Future<dynamic> signUp(User user) async {
     try {
       final response = await _apiProvider.post('/auth/register', data: user);
@@ -74,7 +73,6 @@ class AuthService {
         return response.data;
       }
     } catch (e) {
-      // logger.log(e.toString());
       rethrow;
     }
   }

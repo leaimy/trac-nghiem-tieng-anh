@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
                 fontFamily: 'avenirnext'),
             darkTheme: ThemeData.dark(),
             themeMode: settingsController.themeMode,
-            initialRoute: Routes.homeScreen,
+            initialRoute: Routes.commonWidgetScreen,
             onGenerateRoute: router.Router.generateRoute);
       },
     );

@@ -15,5 +15,12 @@ class AppConstants {
   static const String phoneNumber = 'Số điện thoại';
   static const String enterPhoneNumber = 'Nhập số điện thoại của bạn';
   static const String password = 'Mật khẩu';
+  static const String confirmPassword = 'Nhập lại mật khẩu';
+  static const String enterConfirmPassword = 'Nhập lại mật khẩu';
   static const String enterPassword = 'Nhập mật khẩu';
+  static const String username = 'Tên người dùng';
+  static const String enterUsername = 'Nhập tên người dùng';
+  static const String fullname = 'Họ và tên';
+  static const String enterFullname = 'Họ và tên';
+
 }

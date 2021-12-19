@@ -8,10 +8,7 @@ class AppData {
   String apiUrl = '';
   String dbName = '';
 
-  String openWeatherMapURL = 'api.openweathermap.org';
-  String openWeatherApiKey = '1f265597ec6308021c410fde44fd3f60';
-
-  String baseUrl = '';
+  String baseUrl = 'https://stpm2021.dalathub.com/api/v1';
 
   double widthScreen = 0;
   double heightScreen = 0;

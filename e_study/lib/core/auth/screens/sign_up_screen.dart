@@ -1,7 +1,6 @@
-import 'package:e_study/config/routes/routes.dart';
 import 'package:e_study/config/themes/text_theme.dart';
 import 'package:e_study/constants/app_constants.dart';
-import 'package:e_study/core/auth/provider/sign_in_screen_model.dart';
+import 'package:e_study/core/auth/provider/sign_up_screen_model.dart';
 import 'package:e_study/widgets/stateless/custom_input_field.dart';
 import 'package:e_study/widgets/stateless/error_box.dart';
 import 'package:e_study/widgets/stateless/gradient_button.dart';
@@ -10,14 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-class SignInScreen extends StatefulWidget {
-  const SignInScreen({Key? key}) : super(key: key);
+class SignUpScreen extends StatelessWidget {
+  const SignUpScreen({Key? key}) : super(key: key);
 
-  @override
-  State<SignInScreen> createState() => _SignInScreenState();
-}
-
-class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -31,22 +25,18 @@ class _SignInScreenState extends State<SignInScreen> {
           },
         ),
       ),
-      body: ChangeNotifierProvider<SignInScreenModel>(
-        create: (_) => SignInScreenModel(),
+      body: ChangeNotifierProvider<SignUpScreenModel>(
+        create: (_) => SignUpScreenModel(),
         builder: (context, child) {
-          return Consumer<SignInScreenModel>(builder: (context, model, child) {
+          return Consumer<SignUpScreenModel>(builder: (context, model, child) {
             Future.delayed(Duration.zero, () {
-              if (model.busy) {
-                onLoadingStatus();
-              }
-              if (model.isError) {
-                showErrorPopUp(context, model, size, model.errorMessage);
-              }
-              if (model.isLoginSuccess != null) {
-                if (model.isLoginSuccess == true) {
-                  Navigator.pushNamed(context, Routes.rootScreen);
+              if (model.isSignUpSuccess != null) {
+                if (model.isSignUpSuccess == true) {
+                  // Navigator.pushNamed(context, Routes.onboardingScreen);
+                  showErrorPopUp(context, model, size, 'Đăng ký thành công');
                 } else {
-                  showErrorPopUp(context, model, size, 'Đăng nhập thất bại');
+                  showErrorPopUp(
+                      context, model, size, 'Vui lòng nhập đẩy đủ thông tin');
                 }
               }
             });
@@ -67,20 +57,28 @@ class _SignInScreenState extends State<SignInScreen> {
                     child: Row(
                       children: [
                         const Text(
-                          AppConstants.dontHaveAccount,
+                          AppConstants.alreadyHave,
                           style: CustomTextStyle.heading3,
                         ),
                         GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(context, Routes.signUpScreen);
+                            Navigator.pop(context);
                           },
                           child: const Text(
-                            AppConstants.signUp,
+                            AppConstants.signIn,
                             style: CustomTextStyle.heading3BlueBold,
                           ),
                         )
                       ],
                     ),
+                  ),
+                  blank(),
+                  CustomInputField(
+                    content: AppConstants.fullname,
+                    description: AppConstants.enterFullname,
+                    size: size,
+                    isObsecure: true,
+                    controller: model.password,
                   ),
                   blank(),
                   CustomInputField(
@@ -98,6 +96,14 @@ class _SignInScreenState extends State<SignInScreen> {
                     isObsecure: true,
                     controller: model.password,
                   ),
+                  blank(),
+                  CustomInputField(
+                    content: AppConstants.confirmPassword,
+                    description: AppConstants.enterConfirmPassword,
+                    size: size,
+                    isObsecure: true,
+                    controller: model.password,
+                  ),
                   SizedBox(
                     height: size.height / 16,
                   ),
@@ -106,8 +112,8 @@ class _SignInScreenState extends State<SignInScreen> {
                     size: size,
                     onTap: () async {
                       model.checkInput();
-                      if (!model.isError) { // bắt lỗi input
-                        await model.signInDio();
+                      if (!model.isError) {
+                        await model.signUpDio();
                       } else {
                         showErrorPopUp(
                             context, model, size, model.errorMessage);
@@ -130,26 +136,12 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   void showErrorPopUp(
-      context, SignInScreenModel model, Size size, String error) {
+      context, SignUpScreenModel model, Size size, String error) {
     showCupertinoModalPopup(
       context: context,
       builder: (_) => Center(
-        child: ErrorBox(
-            size: size,
-            errorMessage: error,
-            close: () {
-              model.setLoginStatus(null);
-              Navigator.pop(context);
-            }),
+        child: ErrorBox(size: size, errorMessage: error),
       ),
     );
-  }
-
-  void onLoadingStatus() {
-    showCupertinoModalPopup(
-        context: context,
-        builder: (_) {
-          return const Center(child: CircularProgressIndicator());
-        });
   }
 }

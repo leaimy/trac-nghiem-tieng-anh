@@ -1,11 +1,10 @@
 import 'package:e_study/config/routes/routes.dart';
+import 'package:e_study/core/auth/screens/sign_in_screen.dart';
+import 'package:e_study/core/auth/screens/sign_up_screen.dart';
 import 'package:e_study/modules/common_widget/screens/common_widget_screen.dart';
 import 'package:e_study/modules/common_widget/screens/components_screen.dart';
 import 'package:e_study/modules/common_widget/screens/screens_list.dart';
 import 'package:e_study/modules/home/home_screen.dart';
-import 'package:e_study/modules/question%20pack/list_question_pack_screen.dart';
-import 'package:e_study/modules/question_detail/question_detail.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Router {
@@ -27,15 +26,15 @@ class Router {
         {
           return MaterialPageRoute(builder: (_) => const HomeScreen());
         }
-      case Routes.listQuestionPackScreen:
+      case Routes.signInScreen:
         {
           return MaterialPageRoute(
-              builder: (_) => const ListQuestionPackScreen());
+              builder: (_) => const SignInScreen());
         }
-      case Routes.questionDetailScreen:
+      case Routes.signUpScreen:
         {
           return MaterialPageRoute(
-              builder: (_) => const QuestionDetailScreen());
+              builder: (_) => const SignUpScreen());
         }
       default:
         {

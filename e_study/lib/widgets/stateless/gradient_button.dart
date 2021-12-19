@@ -46,18 +46,18 @@ BoxDecoration pinkGradientWithRadius(double radius) {
 }
 
 
-class GradientButton extends StatelessWidget {
+class BaseButton extends StatelessWidget {
   final Size size;
   final String content;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final bool isDisable;
 
-  const GradientButton(
+  const BaseButton(
       {Key? key,
       this.isDisable = false,
       required this.size,
       required this.content,
-      required this.onTap})
+      this.onTap})
       : super(key: key);
 
   @override
@@ -71,9 +71,8 @@ class GradientButton extends StatelessWidget {
         alignment: Alignment.center,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(22),
-            gradient: const LinearGradient(
-              colors: <Color>[LightTheme.darkBlue, LightTheme.darkBlue],
-            )),
+            color: LightTheme.darkBlue
+            ),
         child: Text(
           content,
           style: CustomTextStyle.heading3White,
