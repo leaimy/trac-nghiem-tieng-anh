@@ -5,6 +5,7 @@ namespace EStudy\Model\Admin;
 use EStudy\Entity\Admin\QuestionEntity;
 use EStudy\Entity\Admin\QuizEntity;
 use EStudy\Entity\Admin\TopicEntity;
+use EStudy\Entity\Admin\VocabularyEntity;
 use EStudy\Model\Admin\Pivot\QuestionQuizModel;
 use Ninja\Authentication;
 use Ninja\DatabaseTable;
@@ -15,15 +16,17 @@ class QuizModel
     private $quiz_table;
 
     private $question_model;
+    private $vocabulary_model;
     private $question_quiz_model;
     private $authentication_helper;
 
-    function __construct(DatabaseTable $quiz_table, QuestionModel $question_model, QuestionQuizModel $question_quiz_model, Authentication $authentication_helper)
+    function __construct(DatabaseTable $quiz_table, QuestionModel $question_model, QuestionQuizModel $question_quiz_model, Authentication $authentication_helper, VocabularyModel $vocabulary_model)
     {
         $this->quiz_table = $quiz_table;
         $this->question_model = $question_model;
         $this->question_quiz_model = $question_quiz_model;
         $this->authentication_helper = $authentication_helper;
+        $this->vocabulary_model = $vocabulary_model;
     }
     
     function get_all()
@@ -202,6 +205,96 @@ class QuizModel
             $this->question_quiz_model->create_new_connection($question_id, $new_quiz->id);
         }
         
+        return $new_quiz;
+    }
+
+    /**
+     * @throws NinjaException
+     */
+    public function generate_from_vocabulary_bank(string $title, int $quantity, array $topics, array $types, bool $is_random = false)
+    {
+        if (empty($title))
+            throw new NinjaException('Nhập tiêu đề cho bài kiểm tra');
+
+        if ($quantity <= 0)
+            throw new NinjaException('Số lượng câu hỏi không hợp lệ');
+
+        if (count($types) == 0)
+            throw new NinjaException('Vui lòng chọn loại câu hỏi');
+
+        if (count($topics) == 0)
+            throw new NinjaException('Vui lòng chọn chủ đề của câu hỏi');
+
+        $questions = [];
+
+        $total = 0;
+        foreach ($topics as $topic_id) {
+            if (!array_key_exists($topic_id, $questions))
+                $questions[$topic_id] = [];
+
+            $vocabulary = $this->vocabulary_model->get_random_vocabulary_by_topic($topic_id);
+            $answers = 
+            
+            $this->question_model->create_new_question([
+                QuestionEntity::KEY_RANDOM_AT => new \DateTime(),
+                QuestionEntity::KEY_TITLE => $vocabulary->{VocabularyEntity::KEY_ENGLISH},
+                QuestionEntity::KEY_CORRECTS => $vocabulary->{VocabularyEntity::KEY_VIETNAMESE},
+                QuestionEntity::KEY_TOPIC => $topic_id,
+                QuestionEntity::KEY_QUESTION_TYPE => QuestionEntity::TYPE_TEXT_WITH_ONE_CORRECT,
+                QuestionEntity::KEY_ANSWERS => []
+            ]);
+            
+            foreach ($types as $type_id) {
+                $questions[$topic_id][$type_id] = $this->filter_by_type($results, $type_id);
+
+                $total += count($questions[$topic_id][$type_id]) ?? 0;
+            }
+        }
+
+        if ($total < $quantity)
+            throw new NinjaException('Số lượng câu hỏi trong ngân hàng câu hỏi không đủ');
+
+        $results = [];
+
+        while (true) {
+            foreach ($topics as $topic_id) {
+                foreach ($types as $type) {
+                    $question = $this->get_random_question_by_topic_and_type($questions, $topic_id, $type);
+                    if (is_null($question)) continue;
+
+                    $results[$question->id] = $question;
+                }
+            }
+
+            if (count(array_keys($results)) >= $quantity)
+                break;
+        }
+
+        $topic_titles = [];
+        foreach ($results as $question) {
+            $topic_entity = $question->get_topic() ?? null;
+            if (!$topic_entity) continue;
+
+            $topic_titles[$question->topic_id] = $topic_entity->{TopicEntity::KEY_TITLE};
+        }
+
+        $quiz_descriptions = [];
+        $quiz_descriptions[] = '<strong>Tiêu đề</strong>: ' . $title;
+        $quiz_descriptions[] = '<strong>Chủ đề</strong>: ' . implode(", ", $topic_titles);
+        $quiz_descriptions[] = '<strong>Số câu hỏi</strong>: ' . $quantity;
+
+        $new_quiz = $this->quiz_table->save([
+            QuizEntity::KEY_TITLE => $title,
+            QuizEntity::KEY_DESCRIPTION => implode("<br>", $quiz_descriptions),
+            QuizEntity::KEY_QUESTION_QUANTITY => $quantity,
+            QuizEntity::KEY_AUTHOR_ID => $this->authentication_helper->isLoggedIn() ? $this->authentication_helper->getUserId() : null,
+            QuizEntity::KEY_RANDOM_AT => $is_random ? (new \DateTime()) : null
+        ]);
+
+        foreach ($results as $question_id => $question) {
+            $this->question_quiz_model->create_new_connection($question_id, $new_quiz->id);
+        }
+
         return $new_quiz;
     }
 

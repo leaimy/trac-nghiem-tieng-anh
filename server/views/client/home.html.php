@@ -149,6 +149,39 @@
     </div>
 </div>
 
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-body">
+            <h1 class="text-center my-4">
+                ôn tập từ vựng
+            </h1>
+
+            <div class="row mt-5 justify-content-center">
+                <div class="col-sm-10 col-md-8">
+                    <form action="/quizzes/vocabulary_practice" method="POST">
+                        <div class="mb-3">
+                            <label for="v_topic" class="form-label">Chọn chủ đề</label>
+                            <select name="topic" id="v_topic" class="form-select">
+                                <?php foreach ($topics as $topic): ?>
+                                    <option value="<?= $topic->id ?>"><?= $topic->title ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="question_quantity" class="form-label">Số câu hỏi</label>
+                            <input min="1" max="100" type="number" name="question_quantity" id="question_quantity"
+                                   class="form-control" value="10">
+                        </div>
+
+                        <button class="mt-4 mb-5 btn btn-success">Tạo và làm ngay</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container mt-5 mb-5">
     <div class="card">
         <div class="card-body">
@@ -179,6 +212,7 @@
 <script>
     $(document).ready(function () {
         $('#topics').select2();
+        $('#v_topic').select2();
         $('#types').select2();
     });
 </script>

@@ -21,6 +21,7 @@ class QuizEntity
     const KEY_DESCRIPTION = 'description';
     const KEY_AUTHOR_ID = 'author_id';
     const KEY_RANDOM_AT = 'random_at';
+    const KEY_IS_VOCABULARY_PRACTICE = 'is_vocabulary_practice';
     const KEY_CREATED_AT = 'created_at';
 
     public $id;
@@ -30,6 +31,7 @@ class QuizEntity
     public $description;
     public $author_id;
     public $random_at;
+    public $is_vocabulary_practice;
     public $created_at;
     
     private $author_entity;

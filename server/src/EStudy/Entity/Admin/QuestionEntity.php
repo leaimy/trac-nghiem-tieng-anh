@@ -37,6 +37,7 @@ class QuestionEntity
     const KEY_USER_ANSWERS = 'user_answers';
     const KEY_AUDIO_PATH = 'audio_path';
     const KEY_AUDIO_NAME = 'audio_name';
+    const KEY_RANDOM_AT = 'random_at';
     const KEY_CREATED_AT = 'created_at';
 
     public $id;
@@ -49,6 +50,7 @@ class QuestionEntity
     public $user_answers;
     public $audio_path;
     public $audio_name;
+    public $random_at;
     public $created_at;
 
     private $topic_entity;

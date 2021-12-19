@@ -3,6 +3,7 @@
 namespace EStudy\Entity\Admin;
 
 use EStudy\Model\Admin\TopicModel;
+use EStudy\Model\Admin\VocabularyModel;
 
 class TopicVocabulary
 {
@@ -21,14 +22,30 @@ class TopicVocabulary
     public $created_at;
     
     private $topic_model;
+    private $topic_entity;
     
-    public function __construct(TopicModel $topic_model)
+    private $vocabulary_model;
+    private $vocabulary_entity;
+    
+    public function __construct(TopicModel $topic_model, VocabularyModel $vocabulary_model)
     {
         $this->topic_model = $topic_model;
+        $this->vocabulary_model = $vocabulary_model;
     }
     
     public function get_topic()
     {
-        return $this->topic_model->get_by_id($this->topic_id);
+        if (!$this->topic_entity)
+            $this->topic_entity = $this->topic_model->get_by_id($this->topic_id);
+        
+        return $this->topic_entity;
+    }
+    
+    public function get_vocabulary()
+    {
+        if (!$this->vocabulary_entity)
+            $this->vocabulary_entity = $this->vocabulary_model->get_by_id($this->vocabulary_id);
+        
+        return $this->vocabulary_entity;
     }
 }

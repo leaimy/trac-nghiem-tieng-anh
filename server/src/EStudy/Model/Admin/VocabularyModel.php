@@ -2,6 +2,7 @@
 
 namespace EStudy\Model\Admin;
 
+use EStudy\Entity\Admin\TopicVocabulary;
 use EStudy\Entity\Admin\VocabularyEntity;
 use Ninja\DatabaseTable;
 use Ninja\NinjaException;
@@ -9,10 +10,12 @@ use Ninja\NinjaException;
 class VocabularyModel
 {
     private $vocabulary_table;
+    private $topic_vocabulary_table;
 
-    public function __construct(DatabaseTable $vocabulary_table)
+    public function __construct(DatabaseTable $vocabulary_table, DatabaseTable $topic_vocabulary_table)
     {
         $this->vocabulary_table = $vocabulary_table;
+        $this->topic_vocabulary_table = $topic_vocabulary_table;
     }
 
     public function get_all_vocabulary($orderBy = null, $orderDirection = null, $limit = null, $offset = null)
@@ -23,6 +26,42 @@ class VocabularyModel
     public function get_by_id($id)
     {
         return $this->vocabulary_table->findById($id);
+    }
+    
+    public function get_by_topic_id($topic_id)
+    {
+        $topic_vocabularies = $this->topic_vocabulary_table->find(TopicVocabulary::KEY_TOPIC_ID, $topic_id);
+        
+        $results = [];
+        foreach ($topic_vocabularies as $item) {
+            $results[] = $item->get_vocabulary();
+        }
+        
+        return $results;
+    }
+    
+    public function get_random_vocabulary()
+    {
+        $sql = "
+            SELECT column FROM table
+            ORDER BY RAND()
+            LIMIT 1
+        ";
+        
+        return $this->vocabulary_table->raw($sql, DatabaseTable::FETCH_RAW_SINGLE);
+    }
+    
+    private $vocabularies_cache;
+    
+    public function get_random_vocabulary_by_topic($topic_id)
+    {
+        if (!$this->vocabularies_cache[$topic_id])
+            $this->vocabularies_cache[$topic_id] = $this->get_by_topic_id($topic_id) ?? [];
+        
+        if (count($this->vocabularies_cache[$topic_id]) > 0)
+            return null;
+        
+        return array_rand($this->vocabularies_cache[$topic_id]);
     }
     
     public function count()

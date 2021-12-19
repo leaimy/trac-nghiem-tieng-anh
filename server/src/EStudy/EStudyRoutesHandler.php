@@ -284,6 +284,12 @@ class EStudyRoutesHandler implements IRoutes
                     'action' => 'generate_random_quiz'
                 ]
             ],
+            '/quizzes/vocabulary_practice' => [
+                'POST' => [
+                    'controller' => $quiz_controller,
+                    'action' => 'generate_practice_quiz'
+                ]
+            ],
             '/quizzes/histories/show' => [
                 'GET' => [
                     'controller' => $quiz_controller,
