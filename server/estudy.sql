@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 18, 2021 at 05:16 PM
+-- Generation Time: Dec 19, 2021 at 04:09 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.25
 
@@ -55,6 +55,24 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllQuizzes` ()  BEGIN
 	SELECT total AS 'total', total_by_anonymous AS 'by_anonymous', total_by_admin AS 'by_admin';
 END$$
 
+--
+-- Functions
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `SPLIT_STRING` (`s` VARCHAR(1024), `del` CHAR(1), `i` INT) RETURNS VARCHAR(1024) CHARSET utf8mb4 BEGIN
+
+        DECLARE n INT ;
+
+        -- get max number of items
+        SET n = LENGTH(s) - LENGTH(REPLACE(s, del, '')) + 1;
+
+        IF i > n THEN
+            RETURN NULL ;
+        ELSE
+            RETURN SUBSTRING_INDEX(SUBSTRING_INDEX(s, del, i) , del , -1 ) ;        
+        END IF;
+
+    END$$
+
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -99,6 +117,7 @@ CREATE TABLE `question` (
   `topic_id` int(11) NOT NULL,
   `audio_path` int(11) DEFAULT NULL,
   `audio_name` int(11) DEFAULT NULL,
+  `random_at` datetime DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `user_choices` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -130,6 +149,7 @@ CREATE TABLE `quiz` (
   `description` text DEFAULT NULL,
   `author_id` int(11) DEFAULT NULL,
   `random_at` datetime DEFAULT NULL,
+  `is_vocabulary_practice` tinyint(1) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
