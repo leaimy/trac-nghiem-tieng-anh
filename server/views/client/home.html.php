@@ -187,7 +187,7 @@
         <div class="card-body">
             <h1 class="text-center my-4">Giải đề trắc nghiệm</h1>
 
-            <div class="row mt-5 justify-content-center justify-content-lg-start">
+            <div class="row mt-5 justify-content-center">
                 <?php foreach ($quizzes as $index => $quiz): ?>
 
                     <div class="col-sm-10 col-md-6 col-lg-5 col-xxl-3 mb-3">

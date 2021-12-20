@@ -36,6 +36,16 @@
     </form>
   
     <hr>
+    
+    <form action="/admin/import-sample-data/generate_quiz_from_question_bank" method="POST">
+        <input class="btn btn-danger mb-2" type="submit" value="Tạo 1000 bộ trắc nghiệm từ câu hỏi" name="en_0">
+    </form>
+    
+    <form action="/admin/import-sample-data/generate_quiz_from_vocabulary_bank" method="POST">
+        <input class="btn btn-danger mb-2" type="submit" value="Tạo 1000 bộ trắc nghiệm từ từ vựng" name="en_0">
+    </form>
+
+    <hr>
 
     <form action="/admin/import-sample-data/fullname" method="POST">
         <input class="btn btn-success" type="submit" value="Nhập dữ liệu tên" name="import_fullname">

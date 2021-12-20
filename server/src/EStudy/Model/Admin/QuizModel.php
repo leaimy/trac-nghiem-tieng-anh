@@ -29,9 +29,9 @@ class QuizModel
         $this->vocabulary_model = $vocabulary_model;
     }
     
-    function get_all()
+    function get_all($orderBy = null, $orderDirection = null, $limit = null, $offset = null)
     {
-        $all = $this->quiz_table->findAll();
+        $all = $this->quiz_table->findAll($orderBy, $orderDirection, $limit, $offset);
         
         $filter = [];
         foreach ($all as $item) 

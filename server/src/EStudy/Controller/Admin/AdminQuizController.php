@@ -26,9 +26,13 @@ class AdminQuizController extends EStudyBaseController
 
     public function index()
     {
+        $page_number = $_GET['page'] ?? 1;
+        $page_limit = $_GET['limit'] ?? 50;
+        
         $question_types = $this->question_model->get_all_question_types();
         $topics = $this->topic_model->get_all_topic();
-        $quizzes = $this->quiz_model->get_all();
+        
+        $quizzes = $this->quiz_model->get_all(null, null, $page_limit, ($page_number - 1) * $page_limit);
 
         $this->view_handler->render('admin/quiz/index.html.php', [
             'question_types' => $question_types,
