@@ -116,6 +116,14 @@ class EStudyRoutesHandler implements IRoutes
         ]);
         $this->admin_vocabulary_model = new VocabularyModel($this->admin_vocabulary_table, $this->admin_topic_vocabulary_table);
 
+        $this->user_quiz_table = new DatabaseTable(UserQuizEntity::TABLE, UserQuizEntity::PRIMARY_KEY, UserQuizEntity::CLASS_NAME, [
+            &$this->admin_user_model,
+            &$this->admin_quiz_model,
+            &$this->quiz_history_model,
+            &$this->user_quiz_model
+        ]);
+        $this->user_quiz_model = new UserQuizModel($this->user_quiz_table, $this->authentication_helper);
+
         $this->admin_question_quiz_table = new DatabaseTable(QuestionQuizEntity::TABLE, QuestionQuizEntity::PRIMARY_KEY, QuestionQuizEntity::CLASS_NAME, [
             &$this->admin_question_model,
             &$this->admin_quiz_model
@@ -127,18 +135,11 @@ class EStudyRoutesHandler implements IRoutes
             &$this->admin_user_model,
             &$this->admin_media_model
         ]);
-        $this->admin_quiz_model = new QuizModel($this->admin_quiz_table, $this->admin_question_model, $this->admin_question_quiz_model, $this->authentication_helper, $this->admin_vocabulary_model, $this->admin_media_model);
+        $this->admin_quiz_model = new QuizModel($this->admin_quiz_table, $this->admin_question_model, $this->admin_question_quiz_model, $this->authentication_helper, $this->admin_vocabulary_model, $this->admin_media_model, $this->user_quiz_model);
 
         $this->quiz_history_table = new DatabaseTable(QuizHistoryEntity::TABLE, QuizHistoryEntity::PRIMARY_KEY, QuizHistoryEntity::CLASS_NAME);
         $this->quiz_history_model = new QuizHistoryModel($this->quiz_history_table);
 
-        $this->user_quiz_table = new DatabaseTable(UserQuizEntity::TABLE, UserQuizEntity::PRIMARY_KEY, UserQuizEntity::CLASS_NAME, [
-            &$this->admin_user_model,
-            &$this->admin_quiz_model,
-            &$this->quiz_history_model,
-            &$this->user_quiz_model
-        ]);
-        $this->user_quiz_model = new UserQuizModel($this->user_quiz_table, $this->authentication_helper);
     }
 
     public function required_login($routes): array

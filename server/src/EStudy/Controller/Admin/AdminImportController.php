@@ -5,7 +5,9 @@ namespace EStudy\Controller\Admin;
 use EStudy\Controller\EStudyBaseController;
 use EStudy\Entity\Admin\MediaEntity;
 use EStudy\Entity\Admin\QuestionEntity;
+use EStudy\Entity\Admin\QuizEntity;
 use EStudy\Entity\Admin\TopicEntity;
+use EStudy\Entity\Admin\UserEntity;
 use EStudy\Entity\Admin\VocabularyEntity;
 use EStudy\Model\Admin\MediaModel;
 use EStudy\Model\Admin\Pivot\QuestionQuizModel;
@@ -499,9 +501,47 @@ class AdminImportController extends EStudyBaseController
         }
     }
 
+    /**
+     * @throws NinjaException
+     */
     public function gen_quizzes_from_question_bank_by_random_user($quantity)
     {
+        $users = $this->user_model->get_all_user();
+        if (count($users) == 0)
+            throw new NinjaException('Vui lòng nhập người dùng vào trước');
 
+        $quizzes = $this->quiz_model->get_all();
+        if (count($quizzes) == 0)
+            throw new NinjaException('Vui lòng nhập bộ trắc nghiệm trước');
+
+        for ($i = 0; $i < $quantity; $i++) {
+            $random_index = array_rand($users);
+            $random_user = $users[$random_index];
+
+            if (!$random_user instanceof UserEntity) continue;
+
+            $random_q = array_rand($quizzes);
+            $random_quiz = $quizzes[$random_q];
+
+            if (!$random_quiz instanceof QuizEntity) continue;
+
+            $user_answers_list = [];
+
+            /* @var $question QuestionEntity */
+            foreach ($random_quiz->get_questions() as $question) {
+                $q_answers = $question->get_answers();
+
+                try {
+                    $r = random_int(0, count($q_answers) - 1);
+                } catch (\Exception $e) {
+                    $r = 0;
+                }
+                
+                $user_answers_list[$question->id] = [$q_answers[$r]];
+            }
+            
+            $this->quiz_model->process_exam($random_quiz->id, $user_answers_list, $random_user->id);
+        }
     }
 
     public function gen_random_quizzes_from_question_bank_by_random_user($quantity)

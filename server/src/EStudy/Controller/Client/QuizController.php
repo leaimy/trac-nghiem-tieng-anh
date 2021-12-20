@@ -112,30 +112,8 @@ class QuizController extends EStudyBaseController
                 $user_id = $this->authentication_helper->getUserId();
 
             $answers_with_one_correct = $_POST['answers-' . QuestionEntity::TYPE_TEXT_WITH_ONE_CORRECT] ?? [];
-            $now = new \DateTime();
-
-            $questions = [];
-            $correct_count = 0;
             
-            foreach ($quiz->get_questions() as $question) {
-                $questions[] = $question;
-                $corrects = $question->get_correct_answers();
-                
-                if (!isset($answers_with_one_correct[$question->id])) continue;
-
-                $question->user_answers = count($answers_with_one_correct[$question->id]) > 0 ? implode("\n", $answers_with_one_correct[$question->id]) : '';
-
-                if (json_encode($corrects) == json_encode($question->user_answers)) {
-                    $correct_count++;
-                }
-            }
-
-            $new_record = $this->user_quiz_model->create_new_connection($user_id, $quiz_id, [
-                UserQuizEntity::CORRECT_QUANTITY => $correct_count,
-                UserQuizEntity::FINISH_TIME => $now
-            ]);
-
-            $history = $new_record->add_history($questions, $correct_count);
+            $history = $this->quiz_model->process_exam($quiz->id, $answers_with_one_correct, $user_id);
 
             $this->route_redirect('/quizzes/histories/show?quiz_history_id=' . $history->id);
         } catch (NinjaException $exception) {

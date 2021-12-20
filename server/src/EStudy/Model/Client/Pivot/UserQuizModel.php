@@ -48,9 +48,14 @@ class UserQuizModel
         ]);
     }
 
-    public function get_all()
+    public function get_all($orderBy = null, $orderDirection = null, $limit = null, $offset = null)
     {
-        return $this->user_quiz_table->findAll();
+        return $this->user_quiz_table->findAll($orderBy, $orderDirection, $limit, $offset);
+    }
+    
+    public function count()
+    {
+        return $this->user_quiz_table->total();
     }
 
     public function update($id, $args)

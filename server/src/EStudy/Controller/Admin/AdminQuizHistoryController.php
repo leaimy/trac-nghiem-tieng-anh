@@ -18,12 +18,21 @@ class AdminQuizHistoryController extends EStudyBaseController
 
     public function index()
     {
-        $histories = $this->user_quiz_model->get_all();
+        $page_number = $_GET['page'] ?? 1;
+        $page_limit = $_GET['limit'] ?? 50;
+
+        $histories = $this->user_quiz_model->get_all(null, null, $page_limit, ($page_number - 1) * $page_limit);
+
+        $total = $this->user_quiz_model->count();
+
+        $number_of_page = floor($total / $page_limit);
+
         $this->view_handler->render('admin/quiz_history/index.html.php', [
             'histories' => $histories,
-            'current_page' => 1,
-            'limit' => 50,
-            'number_of_page' => 10
+            'total' => $total,
+            'number_of_page' => $number_of_page,
+            'current_page' => $page_number,
+            'limit' => $page_limit
         ]);
     }
     

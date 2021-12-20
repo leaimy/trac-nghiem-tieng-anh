@@ -28,7 +28,7 @@
         <tbody>
         <?php foreach ($histories as $idx => $history): ?>
             <tr>
-                <th scope="row"><?= $idx + 1 ?></th>
+                <th scope="row"><?= ($current_page - 1) * $limit + ($idx + 1) ?></th>
                 <td><?= $history->get_user() ? $history->get_user()->fullname : 'Ẩn danh' ?></td>
                 <td>
                     <a class="text-decoration-none" href="/admin/quiz/edit?id=<?= $history->get_quiz()->id ?>"
@@ -51,6 +51,16 @@
         <?php endforeach; ?>
         </tbody>
     </table>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center flex-wrap">
+            <?php for ($i = 0; $i <= $number_of_page; $i++): ?>
+                <li class="page-item <?= ($i + 1) == $current_page ? 'active' : '' ?>">
+                    <a class="page-link" href="/admin/quiz-history?page=<?= $i + 1 ?>"><?= $i + 1 ?></a>
+                </li>
+            <?php endfor; ?>
+        </ul>
+    </nav>
 </div>
 
 {% endblock %}
