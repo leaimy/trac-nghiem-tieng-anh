@@ -85,6 +85,45 @@
     <div class="card">
         <div class="card-body">
             <h1 class="text-center my-4">
+                Tra cứu từ vựng
+            </h1>
+
+            <div class="row my-4 justify-content-center">
+                <div class="col-md-6">
+                    <form action="/" method="GET" class="input-group mb-3">
+                        <input type="hidden" name="action" value="search">
+                        <input type="hidden" name="by" value="english">
+                        <input type="text" class="form-control me-2" name="keyword"
+                               placeholder="Nhập từ khóa tiếng anh..." autocomplete="off">
+                        <button class="btn btn-outline-danger" type="submit">Tìm kiếm</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row my-4 justify-content-center">
+                <div class="col-md-6">
+                    <div class="list-group">
+                        <?php foreach ($vocabulary_all as $vocabulary): ?>
+                            <a href="/vocabulary/show?id=<?= $vocabulary->id ?>"
+                               class="text-decoration-none"><div class="alert alert-primary d-flex align-items-center" role="alert">
+                                    <img class="me-3" src="<?= $vocabulary->get_media_path() == null ? '/uploads/macdinh.jpg' : $vocabulary->get_media_path() ?>" width="50" height="50" alt="">
+                                    <div>
+                                        <?= ucfirst($vocabulary->english) ?>
+                                    </div>
+                                </div></a>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-body">
+            <h1 class="text-center my-4">
                 Chủ đề
             </h1>
 

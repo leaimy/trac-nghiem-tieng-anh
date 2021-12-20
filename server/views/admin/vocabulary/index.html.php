@@ -13,12 +13,12 @@
         <form action="/admin/vocabularies" method="GET" class="input-group mb-3">
             <input type="hidden" name="action" value="search">
             <input type="hidden" name="by" value="english">
-            <input type="text" class="form-control" name="keyword" placeholder="Nhập từ khóa" autocomplete="off">
-            <button class="btn btn-outline-primary" type="submit"><i data-feather="search"></i></button>
+            <input type="text" class="form-control me-2" name="keyword" placeholder="Nhập từ khóa tiếng anh..." autocomplete="off">
+            <button class="btn btn-outline-danger" type="submit">Tìm kiếm</button>
         </form>
     </div>
     <div class="col-md-6 d-flex justify-content-end align-items-start">
-        <a href="/admin/vocabularies" class="btn btn-outline-danger me-2">Xem toàn bộ</a>
+        <a href="/admin/vocabularies" class="btn btn-outline-secondary me-2">Xem toàn bộ</a>
         <a href="/admin/vocabularies/create" class="btn btn-outline-success">Thêm mới</a>
     </div>
 </div>
@@ -28,7 +28,7 @@
         <div class="accordion" id="accordionExample">
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingOne">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                    <button class="accordion-button fw-bold text-secondary" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                         Lọc nâng cao
                     </button>
@@ -66,19 +66,19 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <input type="submit" class="btn btn-info w-100" value="Lọc">
+                                    <input type="submit" class="btn btn-warning w-100" value="Lọc">
                                 </div>
                             </form>
                             <form class="col-md-4" action="/admin/vocabularies" method="GET">
                                 <input type="hidden" name="action" value="search">
                                 <input type="hidden" name="by" value="vietnamese">
                                 <div class="mb-3">
-                                    <label for="" class="form-label">Nhập mô tả tiếng Việt</label>
+                                    <label for="" class="form-label">Nhập từ khóa tiếng Việt</label>
                                     <input type="text" class="form-control" name="keyword">
                                 </div>
 
                                 <div class="mb-3">
-                                    <input type="submit" class="btn btn-info w-100" value="Lọc">
+                                    <input type="submit" class="btn btn-primary w-100" value="Lọc">
                                 </div>
                             </form>
                         </div>
@@ -113,7 +113,8 @@
                     <td>
                         <?php if (strlen($vocabulary->description) > 30): ?>
                             <span><?= str_replace("\n", "<br>", $vocabulary->get_truncate_description()); ?></span> &nbsp;
-                            <a class="text-sm text-info text-decoration-none" data-bs-toggle="collapse" href="#collapse-<?= $vocabulary->id ?>" role="button" aria-expanded="false">
+                            <a class="text-sm text-info text-decoration-none" data-bs-toggle="collapse"
+                               href="#collapse-<?= $vocabulary->id ?>" role="button" aria-expanded="false">
                                 Xem thêm
                             </a>
                             <div class="collapse mt-2 w-100" id="collapse-<?= $vocabulary->id ?>">
@@ -136,7 +137,8 @@
                              alt="">
                     </td>
                     <td>
-                        <a class="text-info" href="#"><i data-feather="folder"></i></a>
+                        <a class="text-info" href="/admin/vocabularies/show?id=<?= $vocabulary->id ?>"><i
+                                data-feather="folder"></i></a>
                         <a class="text-warning" href="/admin/vocabularies/edit?id=<?= $vocabulary->id ?>"><i
                                 data-feather="edit"></i></a>
                         <a class="text-danger" href="/admin/vocabularies/delete?id=<?= $vocabulary->id ?>"><i
