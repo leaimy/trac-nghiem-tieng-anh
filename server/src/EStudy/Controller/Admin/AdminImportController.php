@@ -189,15 +189,15 @@ class AdminImportController extends EStudyBaseController
                     break;
 
                 case 'gen_1000_quizzes':
-                    $this->gen_quizzes_from_question_bank_by_random_user(1000);
+                    $this->gen_random_exams_from_existing_quizzes(1000);
                     break;
 
                 case 'gen_1000_quizzes_from_questions':
-                    $this->gen_random_quizzes_from_question_bank_by_random_user(1000);
+                    $this->gen_random_exams_from_question_bank_by_random_user(1000);
                     break;
 
                 case 'gen_1000_quizzes_from_vocabularies':
-                    $this->gen_random_quizzes_from_vocabularies_by_random_user(1000);
+                    $this->gen_random_exams_from_vocabularies_by_random_user(1000);
                     break;
 
                 case 'delete_data':
@@ -504,13 +504,20 @@ class AdminImportController extends EStudyBaseController
     /**
      * @throws NinjaException
      */
-    public function gen_quizzes_from_question_bank_by_random_user($quantity)
+    public function gen_random_exams_from_existing_quizzes($quantity)
     {
         $users = $this->user_model->get_all_user();
         if (count($users) == 0)
             throw new NinjaException('Vui lòng nhập người dùng vào trước');
 
-        $quizzes = $this->quiz_model->get_all();
+        $results = $this->quiz_model->get_all();
+        $quizzes = [];
+
+        /* @var $result QuizEntity */
+        foreach ($results as $result)
+            if (empty($result->random_at))
+                $quizzes[] = $result;
+
         if (count($quizzes) == 0)
             throw new NinjaException('Vui lòng nhập bộ trắc nghiệm trước');
 
@@ -536,20 +543,58 @@ class AdminImportController extends EStudyBaseController
                 } catch (\Exception $e) {
                     $r = 0;
                 }
-                
+
                 $user_answers_list[$question->id] = [$q_answers[$r]];
             }
-            
+
             $this->quiz_model->process_exam($random_quiz->id, $user_answers_list, $random_user->id);
         }
     }
 
-    public function gen_random_quizzes_from_question_bank_by_random_user($quantity)
+    /**
+     * @throws NinjaException
+     */
+    public function gen_random_exams_from_question_bank_by_random_user($quantity)
     {
+        $users = $this->user_model->get_all_user();
+        if (count($users) == 0)
+            throw new NinjaException('Vui lòng nhập người dùng vào trước');
 
+        for ($i = 0; $i < $quantity; $i++) {
+            $random_user_index = array_rand($users);
+            $random_user = $users[$random_user_index];
+
+            if (!$random_user instanceof UserEntity) continue;
+
+            $q_title = 'Bài trắc nghiệm ngẫu nhiên tạo bởi: @' . $random_user->fullname . ' #' . uniqid();
+            try {
+                $q_question_quantity = random_int(5, 30);
+            } catch (\Exception $e) {
+                $q_question_quantity = 10;
+            }
+
+            $new_quiz = $this->quiz_model->generate_from_question_bank($q_title, $q_question_quantity, [12], [QuestionEntity::TYPE_TEXT_WITH_ONE_CORRECT], true, $random_user->id);
+
+            $user_answers_list = [];
+
+            /* @var $question QuestionEntity */
+            foreach ($new_quiz->get_questions() as $question) {
+                $q_answers = $question->get_answers();
+
+                try {
+                    $r = random_int(0, count($q_answers) - 1);
+                } catch (\Exception $e) {
+                    $r = 0;
+                }
+
+                $user_answers_list[$question->id] = [$q_answers[$r]];
+            }
+
+            $this->quiz_model->process_exam($new_quiz->id, $user_answers_list, $random_user->id);
+        }
     }
 
-    public function gen_random_quizzes_from_vocabularies_by_random_user($quantity)
+    public function gen_random_exams_from_vocabularies_by_random_user($quantity)
     {
 
     }

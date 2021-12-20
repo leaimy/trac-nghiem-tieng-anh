@@ -76,6 +76,11 @@ class QuizModel
 
         return $filtered;
     }
+    
+    function find($column_name, $value)
+    {
+        return $this->quiz_table->find($column_name, $value);
+    }
 
     /**
      * @throws NinjaException
