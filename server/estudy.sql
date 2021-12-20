@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 19, 2021 at 04:09 PM
+-- Generation Time: Dec 20, 2021 at 03:14 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.25
 
@@ -88,19 +88,6 @@ CREATE TABLE `media` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `media`
---
-
-INSERT INTO `media` (`id`, `media_origin_name`, `media_path`, `created_at`) VALUES
-(1, 'cat9.png', '/uploads/61bae4119557dcat9.png', '2021-12-16 14:00:33'),
-(2, 'shiba-inu.png', '/uploads/61bae51d9ad10shiba-inu.png', '2021-12-16 14:05:01'),
-(3, 'dolphin.png', '/uploads/61bae534cd18ddolphin.png', '2021-12-16 14:05:24'),
-(4, 'tree (1).png', '/uploads/61bae54e97382tree (1).png', '2021-12-16 14:05:50'),
-(5, 'beach.png', '/uploads/61bae57acaa8cbeach.png', '2021-12-16 14:06:34'),
-(6, 'responsive.png', '/uploads/61bae98033f7cresponsive.png', '2021-12-16 14:23:44'),
-(7, 'more.png', '/uploads/61baea2bbe0eamore.png', '2021-12-16 14:26:35');
-
 -- --------------------------------------------------------
 
 --
@@ -176,29 +163,10 @@ CREATE TABLE `quiz_history` (
 CREATE TABLE `topic` (
   `id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
-  `description` text NOT NULL,
+  `description` text DEFAULT NULL,
   `media_id` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `topic`
---
-
-INSERT INTO `topic` (`id`, `title`, `description`, `media_id`, `created_at`) VALUES
-(1, 'danh từ', '', 1, '2021-12-16 23:02:28'),
-(2, 'động từ', '', 1, '2021-12-16 23:02:28'),
-(3, 'tính từ', '', 1, '2021-12-16 23:02:28'),
-(4, 'giới từ', '', 1, '2021-12-16 23:02:28'),
-(5, 'phó từ', '', 1, '2021-12-16 23:02:28'),
-(6, 'liên từ', '', 1, '2021-12-16 23:02:28'),
-(7, 'thán từ', '', 1, '2021-12-16 23:02:28'),
-(8, 'đại từ', '', 1, '2021-12-16 23:02:28'),
-(9, 'thành ngữ', '', 1, '2021-12-16 23:02:28'),
-(10, 'viết tắt', '', 1, '2021-12-16 23:02:28'),
-(11, 'hậu tố', '', 1, '2021-12-16 23:02:28'),
-(12, 'tổng hợp', '', 1, '2021-12-16 23:02:28'),
-(13, 'ict', '', 3, '2021-12-17 16:37:48');
 
 -- --------------------------------------------------------
 
@@ -228,6 +196,13 @@ CREATE TABLE `user` (
   `type` enum('ADMIN','GUEST') NOT NULL DEFAULT 'GUEST',
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `username`, `password`, `fullname`, `email`, `type`, `created_at`) VALUES
+(1, 'tronghieu', '$2y$10$srS/QoMr298GrBgR00HobOgLyJRty0AexFLMRACRNr7tjMQPW3nh6', 'Nguyễn Trọng Hiếu', NULL, 'ADMIN', '2021-12-20 17:35:42');
 
 -- --------------------------------------------------------
 
@@ -332,7 +307,7 @@ ALTER TABLE `vocabulary`
 -- AUTO_INCREMENT for table `media`
 --
 ALTER TABLE `media`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `question`
@@ -362,7 +337,7 @@ ALTER TABLE `quiz_history`
 -- AUTO_INCREMENT for table `topic`
 --
 ALTER TABLE `topic`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1000;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `topic_vocabulary`
@@ -374,7 +349,7 @@ ALTER TABLE `topic_vocabulary`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15003;
 
 --
 -- AUTO_INCREMENT for table `user_quiz`
