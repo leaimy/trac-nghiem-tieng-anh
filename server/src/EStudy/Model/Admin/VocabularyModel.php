@@ -125,6 +125,11 @@ class VocabularyModel
     {
         $this->vocabulary_table->delete($id);
     }
+    
+    public function show_vocabulary($id)
+    {
+       return $this->vocabulary_table->findById($id);
+    }
 
     public function filter_by_topic_get_total($topic_id)
     {

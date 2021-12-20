@@ -105,4 +105,6 @@ class VocabularyEntity
     {
         return NJStringUtils::truncate($this->description, 150);
     }
+
+    
 }

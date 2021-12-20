@@ -234,4 +234,15 @@ class AdminVocabularyController extends EStudyBaseController
         $this->topic_vocabulary_model->clear_all_connections($id);
         $this->route_redirect('/admin/vocabularies');
     }
+    
+    public function show()
+    {
+        $id = $_GET['id'];
+        $vocabulary = $this->vocabulary_model->show_vocabulary($id);
+        
+        $this->view_handler->render('admin/vocabulary/show.html.php',[
+            'vocabulary' => $vocabulary
+        ]);
+        
+    }
 }

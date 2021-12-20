@@ -20,6 +20,7 @@ use EStudy\Controller\Client\AuthController;
 use EStudy\Controller\Client\HomeController;
 use EStudy\Controller\Client\ProfileController;
 use EStudy\Controller\Client\QuizController;
+use EStudy\Controller\Client\VocabularyController;
 use EStudy\Controller\EStudyBaseController;
 use EStudy\Entity\Admin\MediaEntity;
 use EStudy\Entity\Admin\Pivot\QuestionQuizEntity;
@@ -302,7 +303,7 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_client_routes(): array
     {
-        $controller = new HomeController($this->admin_topic_model, $this->admin_quiz_model, $this->admin_question_model);
+        $controller = new HomeController($this->admin_topic_model, $this->admin_quiz_model, $this->admin_question_model, $this->admin_vocabulary_model);
         $quiz_controller = new QuizController($this->admin_quiz_model, $this->admin_topic_model, $this->admin_question_model, $this->user_quiz_model, $this->quiz_history_model, $this->authentication_helper);
         $profile_controller = new ProfileController($this->admin_user_model);
 
@@ -311,6 +312,12 @@ class EStudyRoutesHandler implements IRoutes
                 'GET' => [
                     'controller' => $controller,
                     'action' => 'index'
+                ]
+            ],
+            '/vocabulary/show' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'show_vocabulary'
                 ]
             ],
             '/quizzes' => [
@@ -371,6 +378,7 @@ class EStudyRoutesHandler implements IRoutes
                 ],
                 'login' => true
             ]
+           
         ];
     }
 
@@ -680,6 +688,13 @@ class EStudyRoutesHandler implements IRoutes
                 'GET' => [
                     'controller' => $controller,
                     'action' => 'delete'
+                ]
+            ],
+
+            '/admin/vocabularies/show' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'show'
                 ]
             ],
 
