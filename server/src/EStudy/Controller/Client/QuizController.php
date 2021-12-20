@@ -114,19 +114,20 @@ class QuizController extends EStudyBaseController
             $answers_with_one_correct = $_POST['answers-' . QuestionEntity::TYPE_TEXT_WITH_ONE_CORRECT] ?? [];
             $now = new \DateTime();
 
-            $correct_count = 0;
             $questions = [];
-
-            foreach ($answers_with_one_correct as $question_id => $answers) {
-                $question = $this->question_model->get_by_id($question_id);
+            $correct_count = 0;
+            
+            foreach ($quiz->get_questions() as $question) {
+                $questions[] = $question;
                 $corrects = $question->get_correct_answers();
-                $question->user_answers = count($answers) > 0 ? implode("\n", $answers) : '';
+                
+                if (!isset($answers_with_one_correct[$question->id])) continue;
 
-                if (json_encode($corrects) == json_encode($answers)) {
+                $question->user_answers = count($answers_with_one_correct[$question->id]) > 0 ? implode("\n", $answers_with_one_correct[$question->id]) : '';
+
+                if (json_encode($corrects) == json_encode($question->user_answers)) {
                     $correct_count++;
                 }
-
-                $questions[] = $question;
             }
 
             $new_record = $this->user_quiz_model->create_new_connection($user_id, $quiz_id, [
