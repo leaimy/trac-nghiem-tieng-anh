@@ -6,6 +6,7 @@ use EStudy\Controller\EStudyBaseController;
 use EStudy\Entity\Admin\MediaEntity;
 use EStudy\Entity\Admin\QuestionEntity;
 use EStudy\Entity\Admin\VocabularyEntity;
+use EStudy\Model\Admin\QuestionModel;
 use EStudy\Model\Admin\QuizModel;
 use EStudy\Model\Import\QuestionBank\ICT;
 use EStudy\Model\Import\QuestionBank\Quizlet;
@@ -19,33 +20,35 @@ class AdminImportController extends EStudyBaseController
     private $vocabulary_table;
     private $media_table;
     private $quiz_model;
+    private $question_model;
 
-    public function __construct(DatabaseTable $vocabulary_table, DatabaseTable $media_table, QuizModel $quiz_model)
+    public function __construct(DatabaseTable $vocabulary_table, DatabaseTable $media_table, QuizModel $quiz_model, QuestionModel $question_model)
     {
         parent::__construct();
 
         $this->vocabulary_table = $vocabulary_table;
         $this->media_table = $media_table;
         $this->quiz_model = $quiz_model;
+        $this->question_model = $question_model;
     }
 
     public function index()
     {
         $this->view_handler->render('admin/import/index.html.php');
     }
-    
+
     public function import_media()
     {
         $image_path = __DIR__ . '/../../../../sample_images';
-        
+
         $files = array_diff(scandir($image_path), array('.', '..'));
-        
+
         foreach ($files as $file) {
             $parts = explode(".", $file);
-            
+
             if (count($parts) < 2)
                 continue;
-            
+
             $extension = $parts[count($parts) - 1];
 
             try {
@@ -55,12 +58,12 @@ class AdminImportController extends EStudyBaseController
             }
 
             $random_name = bin2hex($bytes);
-            
+
             $new_media = $this->media_table->save([
                 MediaEntity::KEY_MEDIA_ORIGIN_NAME => $file,
                 MediaEntity::KEY_MEDIA_PATH => '/uploads/' . $random_name . '.' . $extension
             ]);
-           
+
             if ($new_media)
                 copy($image_path . '/' . $file, ROOT_DIR . '/public/uploads/' . $random_name . '.' . $extension);
         }
@@ -82,6 +85,36 @@ class AdminImportController extends EStudyBaseController
         $instance->populate();
 
         $this->route_redirect('/admin/import-sample-data');
+    }
+
+    public function attach_media_to_questions()
+    {
+        try {
+            $medias = $this->media_table->findAll();
+
+            if (count($medias) == 0)
+                throw new NinjaException('Chưa có ảnh nào trong CSDL, vui lòng chọn tính năng nhập ảnh trước');
+
+            $questions = $this->question_model->get_all_questions();
+
+            foreach ($questions as $question) {
+                try {
+                    $random_index = random_int(0, count($medias) - 1);
+                } catch (\Exception $e) {
+                    $random_index = 0;
+                }
+               
+                if ($random_index % 3 == 0) {
+                    $this->question_model->update_question($question->id, [
+                        QuestionEntity::KEY_MEDIA_ID => $medias[$random_index]->id
+                    ]);
+                }
+            }
+
+            $this->route_redirect('/admin/import-sample-data');
+        } catch (NinjaException $exception) {
+            die($exception->getMessage());
+        }
     }
 
     public function import_lacviet_vocabulary()
@@ -107,6 +140,48 @@ class AdminImportController extends EStudyBaseController
         $instance->populate();
 
         $this->route_redirect('/admin/import-sample-data');
+    }
+
+    public function attach_media_to_vocabulary()
+    {
+        try {
+            $medias = $this->media_table->findAll();
+
+            if (count($medias) == 0)
+                throw new NinjaException('Chưa có ảnh nào trong CSDL, vui lòng chọn tính năng nhập ảnh trước');
+
+            $total_vocabularies = $this->vocabulary_table->total();
+
+            $counter = 0;
+            $page = 0;
+            while (true) {
+                $vocabularies = $this->vocabulary_table->findAll(null, null, 1000, 1000 * $page);
+
+                foreach ($vocabularies as $vocabulary) {
+                    $counter += 1;
+
+                    try {
+                        $random_index = random_int(0, count($medias) - 1);
+                    } catch (\Exception $e) {
+                        $random_index = 0;
+                    }
+
+                    $this->vocabulary_table->save([
+                        VocabularyEntity::KEY_ID => $vocabulary->id,
+                        VocabularyEntity::KEY_MEDIA_ID => $medias[$random_index]->id,
+                    ]);
+                }
+
+                if ($counter >= $total_vocabularies)
+                    break;
+
+                $page += 1;
+            }
+
+            $this->route_redirect('/admin/import-sample-data');
+        } catch (NinjaException $exception) {
+            die($exception->getMessage());
+        }
     }
 
     public function import_fullname()

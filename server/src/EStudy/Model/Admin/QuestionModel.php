@@ -19,17 +19,17 @@ class QuestionModel
     {
         return $this->question_table->findAll($orderBy, $orderDirection, $limit, $offset);
     }
-    
+
     public function get_by_id($id)
     {
         return $this->question_table->findById($id);
     }
-    
+
     public function count()
     {
         return $this->question_table->total();
     }
-    
+
     public function get_all_question_types()
     {
         return [
@@ -44,7 +44,7 @@ class QuestionModel
     {
         return $this->question_table->find(QuestionEntity::KEY_QUESTION_TYPE, $type_id) ?? [];
     }
-    
+
     public function get_by_topic($topic_id)
     {
         return $this->question_table->find(QuestionEntity::KEY_TOPIC, $topic_id) ?? [];
@@ -57,7 +57,7 @@ class QuestionModel
     {
         if (empty($args[QuestionEntity::KEY_TITLE]))
             throw new NinjaException('Vui lòng nhập tiêu đề câu hỏi');
-        
+
         if (empty($args[QuestionEntity::KEY_ANSWERS]))
             throw new NinjaException('Vui lòng nhập danh sách câu trả lời câu hỏi');
 
@@ -74,5 +74,11 @@ class QuestionModel
             QuestionEntity::KEY_AUDIO_PATH => $args[QuestionEntity::KEY_AUDIO_PATH] ?? null,
             QuestionEntity::KEY_AUDIO_NAME => $args[QuestionEntity::KEY_AUDIO_NAME] ?? null,
         ]);
+    }
+
+    public function update_question($id, $args)
+    {
+        $args[QuestionEntity::PRIMARY_KEY] = $id;
+        $this->question_table->save($args);
     }
 }

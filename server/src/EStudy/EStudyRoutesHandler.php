@@ -693,7 +693,7 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_admin_import_routes(): array
     {
-        $controller = new AdminImportController($this->admin_vocabulary_table, $this->admin_media_table, $this->admin_quiz_model);
+        $controller = new AdminImportController($this->admin_vocabulary_table, $this->admin_media_table, $this->admin_quiz_model, $this->admin_question_model);
 
         return [
             '/admin/import-sample-data' => [
@@ -720,6 +720,12 @@ class EStudyRoutesHandler implements IRoutes
                     'action' => 'import_quizlet'
                 ]
             ],
+            '/admin/import-sample-data/questions/attach_media' => [
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'attach_media_to_questions'
+                ]
+            ],
             '/admin/import-sample-data/lac_viet' => [
                 'POST' => [
                     'controller' => $controller,
@@ -736,6 +742,12 @@ class EStudyRoutesHandler implements IRoutes
                 'POST' => [
                     'controller' => $controller,
                     'action' => 'attach_simple_vietnamese'
+                ]
+            ],
+            '/admin/import-sample-data/vocabulary/attach_media' => [
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'attach_media_to_vocabulary'
                 ]
             ],
             '/admin/import-sample-data/generate_quiz_from_question_bank' => [

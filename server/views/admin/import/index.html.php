@@ -19,10 +19,12 @@
         <input class="btn btn-primary" type="submit" value="Nhập bộ trắc nghiệm tin học ICT" name="import_ict">
     </form>
 
-    <hr>
-
     <form action="/admin/import-sample-data/quizlet" method="POST">
-        <input class="btn btn-success" type="submit" value="Nhập bộ trắc nghiệm tiếng Anh Quizlet" name="import_quizlet">
+        <input class="btn btn-success mt-2" type="submit" value="Nhập bộ trắc nghiệm tiếng Anh Quizlet" name="import_quizlet">
+    </form>
+
+    <form action="/admin/import-sample-data/questions/attach_media" method="POST">
+        <input class="btn btn-success mt-2" type="submit" value="Gắn ảnh vào câu hỏi (Tỉ lệ 1/3)" name="import_quizlet">
     </form>
 
     <hr>
@@ -40,15 +42,19 @@
     <form action="/admin/import-sample-data/vocabulary/attach_simple_vietnamese" method="POST">
         <input type="submit" class="btn btn-info mb-2" value="Trích xuất nghĩa tiếng Việt đơn giản và gắn vào từ vựng">
     </form>
+    
+    <form action="/admin/import-sample-data/vocabulary/attach_media" method="POST">
+        <input type="submit" class="btn btn-info mb-2" value="Gắn ảnh vào từ vựng">
+    </form>
   
     <hr>
     
     <form action="/admin/import-sample-data/generate_quiz_from_question_bank" method="POST">
-        <input class="btn btn-danger mb-2" type="submit" value="Tạo 1000 bộ trắc nghiệm từ câu hỏi" name="en_0">
+        <input class="btn btn-danger mb-2" type="submit" value="Tạo 1000 bộ trắc nghiệm từ ngân hàng câu hỏi" name="en_0">
     </form>
     
     <form action="/admin/import-sample-data/generate_quiz_from_vocabulary_bank" method="POST">
-        <input class="btn btn-danger mb-2" type="submit" value="Tạo 1000 bộ trắc nghiệm từ từ vựng" name="en_0">
+        <input class="btn btn-danger mb-2" type="submit" value="Tạo 1000 bộ trắc nghiệm từ kho từ vựng" name="en_0">
     </form>
 
     <hr>
