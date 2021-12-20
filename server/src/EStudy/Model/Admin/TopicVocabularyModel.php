@@ -60,5 +60,9 @@ class TopicVocabularyModel
     {
       return $this->topic_vocabulary_table->find(TopicVocabulary::KEY_VOCABULARY_ID, $vocabulary_id);
     }
-    
+
+    public function clear()
+    {
+        $this->topic_vocabulary_table->deleteAll();
+    }
 }

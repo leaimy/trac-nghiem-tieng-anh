@@ -199,7 +199,13 @@ class DatabaseTable
 
         $this->query($sql, $parameters);
     }
-
+    
+    public function deleteAll()
+    {
+        $sql = "TRUNCATE TABLE `{$this->table}`";
+        $this->query($sql);
+    }
+    
     public function deleteWhere($column, $value)
     {
         $query = "DELETE FROM `{$this->table}` WHERE `$column` = :value";

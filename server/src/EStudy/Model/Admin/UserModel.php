@@ -103,11 +103,16 @@ class UserModel
         return $this->user_table->raw($sql, DatabaseTable::FETCH_ASSOC_SINGLE)[0];
 
     }
+
     public function get_total_married_females()
     {
         $sql = "SELECT COUNT(*) FROM user 
         WHERE `fullname` LIKE 'Miss%' ";
         return $this->user_table->raw($sql, DatabaseTable::FETCH_ASSOC_SINGLE)[0];
     }
-   
+
+    public function clear()
+    {
+        $this->user_table->deleteWhere(UserEntity::KEY_USER_TYPE, UserEntity::GUEST);
+    }
 }

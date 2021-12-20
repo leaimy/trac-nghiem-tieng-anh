@@ -52,4 +52,9 @@ class QuestionQuizModel
 
         return $results;
     }
+    
+    public function clear()
+    {
+        $this->question_quiz_table->deleteAll();
+    }
 }

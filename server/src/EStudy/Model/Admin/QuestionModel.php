@@ -81,4 +81,9 @@ class QuestionModel
         $args[QuestionEntity::PRIMARY_KEY] = $id;
         $this->question_table->save($args);
     }
+
+    public function clear()
+    {
+        $this->question_table->deleteAll();
+    }
 }

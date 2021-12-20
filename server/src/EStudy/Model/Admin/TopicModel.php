@@ -24,7 +24,7 @@ class TopicModel
     {
         return $this->topic_table->findById($id);
     }
-    
+
     /**
      * @throws NinjaException
      */
@@ -32,7 +32,7 @@ class TopicModel
     {
         if (empty($args[TopicEntity::KEY_TITLE]))
             throw new NinjaException('Vui lòng nhập tiêu đề câu hỏi');
- 
+
         return $this->topic_table->save([
             TopicEntity::KEY_TITLE => $args[TopicEntity::KEY_TITLE],
             TopicEntity::KEY_DESCRIPTION => $args[TopicEntity::KEY_DESCRIPTION] ?? null,
@@ -57,9 +57,20 @@ class TopicModel
             TopicEntity::KEY_DESCRIPTION => $args[TopicEntity::KEY_DESCRIPTION] ?? null,
         ]);
     }
+    
+    public function update_topic_with_custom_args($id, $args)
+    {
+        $args[TopicEntity::KEY_ID] = $id;
+        $this->topic_table->save($args);
+    }
 
     public function delete_topic($id)
     {
-       $this->topic_table->delete($id);
+        $this->topic_table->delete($id);
+    }
+
+    public function clear()
+    {
+        $this->topic_table->deleteAll();
     }
 }

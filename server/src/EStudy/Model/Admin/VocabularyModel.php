@@ -27,24 +27,24 @@ class VocabularyModel
     {
         return $this->vocabulary_table->findById($id);
     }
-    
+
     public function get_by_topic_id($topic_id)
     {
         $topic_vocabularies = $this->topic_vocabulary_table->find(TopicVocabulary::KEY_TOPIC_ID, $topic_id);
-        
+
         $results = [];
         foreach ($topic_vocabularies as $item) {
             $results[] = $item->get_vocabulary();
         }
-        
+
         return $results;
     }
-    
+
     public function get_random_number_of_vocabularies($topic_ids, $number = 10)
     {
         $number = intval($number);
         $topics_string = implode(', ', $topic_ids);
-        
+
         $sql = "
             SELECT vocabulary.* FROM vocabulary
             INNER JOIN topic_vocabulary
@@ -53,28 +53,28 @@ class VocabularyModel
             ORDER BY RAND()
             LIMIT $number
         ";
-        
+
         return $this->vocabulary_table->raw($sql, DatabaseTable::FETCH_RAW_MULTIPLE);
     }
-    
+
     private $vocabularies_cache;
-    
+
     public function get_random_vocabulary_by_topic($topic_id)
     {
         if (!$this->vocabularies_cache[$topic_id])
             $this->vocabularies_cache[$topic_id] = $this->get_by_topic_id($topic_id) ?? [];
-        
+
         if (count($this->vocabularies_cache[$topic_id]) > 0)
             return null;
-        
+
         return array_rand($this->vocabularies_cache[$topic_id]);
     }
-    
+
     public function count()
     {
         return $this->vocabulary_table->total();
     }
-    
+
     /**
      * @throws NinjaException
      */
@@ -86,7 +86,7 @@ class VocabularyModel
             throw new NinjaException('Vui lòng nhập từ tiếng việt');
         if (empty($args[VocabularyEntity::KEY_DESCRIPTION]))
             throw new NinjaException('Vui lòng nhập mô tả tử');
-       
+
         return $this->vocabulary_table->save([
             VocabularyEntity::KEY_ENGLISH => $args[VocabularyEntity::KEY_ENGLISH],
             VocabularyEntity::KEY_VIETNAMESE => $args[VocabularyEntity::KEY_VIETNAMESE],
@@ -112,12 +112,18 @@ class VocabularyModel
             VocabularyEntity::KEY_ENGLISH => $args[VocabularyEntity::KEY_ENGLISH],
             VocabularyEntity::KEY_VIETNAMESE => $args[VocabularyEntity::KEY_VIETNAMESE],
             VocabularyEntity::KEY_DESCRIPTION => $args[VocabularyEntity::KEY_DESCRIPTION]
-            ]);
+        ]);
+    }
+
+    public function update_vocabulary_with_custom_args($id, $args)
+    {
+        $args[VocabularyEntity::KEY_ID] = $id;
+        return $this->vocabulary_table->save($args);
     }
 
     public function delete_vocabulary($id)
     {
-       $this->vocabulary_table->delete($id);
+        $this->vocabulary_table->delete($id);
     }
 
     public function filter_by_topic_get_total($topic_id)
@@ -136,13 +142,13 @@ class VocabularyModel
             WHERE
                 topic.id = $topic_id
         ";
-        
+
         $results = $this->vocabulary_table->raw($sql, DatabaseTable::FETCH_ASSOC_SINGLE);
         if (!is_array($results)) return 0;
 
         return count($results) > 0 ? $results[0] : 0;
     }
-    
+
     public function filter_by_topic($topic_id, $limit, $offset)
     {
         $sql = "
@@ -161,11 +167,11 @@ class VocabularyModel
             LIMIT $limit
             OFFSET $offset
         ";
-        
+
         return $this->vocabulary_table->raw($sql, DatabaseTable::FETCH_RAW_MULTIPLE);
     }
-    
-    public function  fulltextsearch_vocabulary($string, $limit, $offset)
+
+    public function fulltextsearch_vocabulary($string, $limit, $offset)
     {
         $sql = "  
             SELECT
@@ -177,11 +183,11 @@ class VocabularyModel
                 LIMIT $limit
                 OFFSET $offset
         ";
-        
+
         return $this->vocabulary_table->raw($sql, DatabaseTable::FETCH_RAW_MULTIPLE);
     }
 
-    public function  fulltextsearch_vocabulary_get_total($string)
+    public function fulltextsearch_vocabulary_get_total($string)
     {
         $sql = "  
             SELECT
@@ -192,16 +198,16 @@ class VocabularyModel
                     MATCH (vocabulary.description) AGAINST('\"$string\"' IN BOOLEAN MODE)
                 
         ";
-        
+
         $results = $this->vocabulary_table->raw($sql, DatabaseTable::FETCH_ASSOC_SINGLE);
         if (!is_array($results)) return 0;
 
         return count($results) > 0 ? $results[0] : 0;
     }
-    
-    public function  filter_by_first_character_get_total($char)
+
+    public function filter_by_first_character_get_total($char)
     {
-        $sql ="
+        $sql = "
             SELECT
                 COUNT(*)
             FROM
@@ -209,16 +215,16 @@ class VocabularyModel
             WHERE
                 vocabulary.english LIKE '$char%'    
         ";
-        
+
         $results = $this->vocabulary_table->raw($sql, DatabaseTable::FETCH_ASSOC_SINGLE);
         if (!is_array($results)) return 0;
-        
+
         return count($results) > 0 ? $results[0] : 0;
     }
 
-    public function  filter_by_first_character($char, $limit, $offset)
+    public function filter_by_first_character($char, $limit, $offset)
     {
-        $sql ="
+        $sql = "
             SELECT
                 *
             FROM
@@ -232,9 +238,9 @@ class VocabularyModel
         return $this->vocabulary_table->raw($sql, DatabaseTable::FETCH_RAW_MULTIPLE);
     }
 
-    public function  search_english_get_total($string)
+    public function search_english_get_total($string)
     {
-        $sql ="
+        $sql = "
             SELECT
                 COUNT(*)
             FROM
@@ -242,16 +248,16 @@ class VocabularyModel
             WHERE
                 vocabulary.english LIKE '$string'    
         ";
-        
+
         $results = $this->vocabulary_table->raw($sql, DatabaseTable::FETCH_ASSOC_SINGLE);
         if (!is_array($results)) return 0;
 
         return count($results) > 0 ? $results[0] : 0;
     }
 
-    public function  search_english($string, $limit, $offset)
+    public function search_english($string, $limit, $offset)
     {
-        $sql ="
+        $sql = "
             SELECT
                 *
             FROM
@@ -264,6 +270,9 @@ class VocabularyModel
 
         return $this->vocabulary_table->raw($sql, DatabaseTable::FETCH_RAW_MULTIPLE);
     }
-    
-    
+
+    public function clear()
+    {
+        $this->vocabulary_table->deleteAll();
+    }
 }

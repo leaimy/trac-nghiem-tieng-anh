@@ -693,75 +693,32 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_admin_import_routes(): array
     {
-        $controller = new AdminImportController($this->admin_vocabulary_table, $this->admin_media_table, $this->admin_quiz_model, $this->admin_question_model);
+        $controller = new AdminImportController(
+            $this->admin_media_model,
+            $this->admin_question_model,
+            $this->admin_quiz_model,
+            $this->admin_topic_model,
+            $this->admin_topic_vocabulary_model,
+            $this->admin_user_model,
+            $this->admin_vocabulary_model,
+            $this->admin_question_quiz_model,
+            $this->quiz_history_model,
+            $this->user_quiz_model,
+        );
 
         return [
+            '/generate-sample-data' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'process_sample_data_request'
+                ]
+            ],
             '/admin/import-sample-data' => [
                 'GET' => [
                     'controller' => $controller,
                     'action' => 'index'
                 ]
             ],
-            '/admin/import-sample-data/media' => [
-                'POST' => [
-                    'controller' => $controller,
-                    'action' => 'import_media'
-                ]
-            ],
-            '/admin/import-sample-data/ict' => [
-                'POST' => [
-                    'controller' => $controller,
-                    'action' => 'import_ict'
-                ]
-            ],
-            '/admin/import-sample-data/quizlet' => [
-                'POST' => [
-                    'controller' => $controller,
-                    'action' => 'import_quizlet'
-                ]
-            ],
-            '/admin/import-sample-data/questions/attach_media' => [
-                'POST' => [
-                    'controller' => $controller,
-                    'action' => 'attach_media_to_questions'
-                ]
-            ],
-            '/admin/import-sample-data/lac_viet' => [
-                'POST' => [
-                    'controller' => $controller,
-                    'action' => 'import_lacviet_vocabulary'
-                ]
-            ],
-            '/admin/import-sample-data/fullname' => [
-                'POST' => [
-                    'controller' => $controller,
-                    'action' => 'import_fullname'
-                ]
-            ],
-            '/admin/import-sample-data/vocabulary/attach_simple_vietnamese' => [
-                'POST' => [
-                    'controller' => $controller,
-                    'action' => 'attach_simple_vietnamese'
-                ]
-            ],
-            '/admin/import-sample-data/vocabulary/attach_media' => [
-                'POST' => [
-                    'controller' => $controller,
-                    'action' => 'attach_media_to_vocabulary'
-                ]
-            ],
-            '/admin/import-sample-data/generate_quiz_from_question_bank' => [
-                'POST' => [
-                    'controller' => $controller,
-                    'action' => 'generate_quiz_from_question_bank'
-                ]
-            ],
-            '/admin/import-sample-data/generate_quiz_from_vocabulary_bank' => [
-                'POST' => [
-                    'controller' => $controller,
-                    'action' => 'generate_quiz_from_vocabulary_bank'
-                ]
-            ]
         ];
     }
 

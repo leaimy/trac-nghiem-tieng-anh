@@ -66,4 +66,9 @@ class UserQuizModel
         $query = $this->user_quiz_table->raw($sql);
         return $query->fetchObject();
     }
+
+    public function clear()
+    {
+        $this->user_quiz_table->deleteAll();
+    }
 }

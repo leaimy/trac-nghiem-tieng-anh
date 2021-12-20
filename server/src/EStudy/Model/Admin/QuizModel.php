@@ -310,4 +310,9 @@ class QuizModel
         $idx = array_rand($questions, 1);
         return $questions[$idx];
     }
+
+    public function clear()
+    {
+        $this->quiz_table->deleteAll();
+    }
 }

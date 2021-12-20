@@ -71,6 +71,16 @@ class MediaModel
 
     public function delete_media($id)
     {
-        return $this->media_table->delete($id);
+        $this->media_table->delete($id);
+    }
+    
+    public function create_new_media_with_out_upload($args)
+    {
+        return $this->media_table->save($args);
+    }
+
+    public function clear()
+    {
+        $this->media_table->deleteAll();
     }
 }

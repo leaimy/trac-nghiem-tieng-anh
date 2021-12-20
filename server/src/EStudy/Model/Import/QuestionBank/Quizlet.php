@@ -24,11 +24,18 @@ class Quizlet
             $title = $item->question;
             $correct_code = $item->correct_answer;
             
+            if (empty($correct_code)) continue;
+            
             $tmp = [];
             foreach ($item->answers as $answer) {
+                if (array_key_exists($answer->key, $tmp))
+                    $tmp[$answer->key] = [];
+                
                 $tmp[$answer->key] = $answer->content;
             }
-
+            
+            if (!isset($tmp[$correct_code])) continue;
+            
             $question_table->save([
                 QuestionEntity::KEY_TOPIC => 12,
                 QuestionEntity::KEY_CREATED_AT => (new \DateTime()),
