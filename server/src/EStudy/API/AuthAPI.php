@@ -1,13 +1,12 @@
 <?php
 
-namespace EStudy\API;
+namespace EStudy\Api;
 
 use Ninja\NinjaException;
 use Ninja\NJTrait\Jsonable;
 use Ninja\Authentication;
 use EStudy\Entity\Admin\UserEntity;
 use EStudy\Model\Admin\UserModel;
-
 
 class AuthAPI
 {
@@ -96,7 +95,7 @@ class AuthAPI
                     'user' => $response_json
                 ]
             ]);
-        } catch (Exception $exception) {
+        } catch (NinjaException $exception) {
             $this->response_json([
                 'status' => 'fail',
                 'data' => null,
