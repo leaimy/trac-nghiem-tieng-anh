@@ -29,6 +29,11 @@ class DatabaseTable
         $this->constructorArgs = $constructorArgs;
     }
 
+    public function get_pdo()
+    {
+        return $this->pdo;
+    }
+    
     public function init_database()
     {
         $db_name = NJConfiguration::get('db_name') ?? null;

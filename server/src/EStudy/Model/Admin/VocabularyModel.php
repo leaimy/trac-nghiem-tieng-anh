@@ -40,15 +40,21 @@ class VocabularyModel
         return $results;
     }
     
-    public function get_random_vocabulary()
+    public function get_random_number_of_vocabularies($topic_ids, $number = 10)
     {
+        $number = intval($number);
+        $topics_string = implode(', ', $topic_ids);
+        
         $sql = "
-            SELECT column FROM table
+            SELECT vocabulary.* FROM vocabulary
+            INNER JOIN topic_vocabulary
+                ON vocabulary.id = topic_vocabulary.vocabulary_id
+            WHERE topic_vocabulary.topic_id IN ($topics_string)
             ORDER BY RAND()
-            LIMIT 1
+            LIMIT $number
         ";
         
-        return $this->vocabulary_table->raw($sql, DatabaseTable::FETCH_RAW_SINGLE);
+        return $this->vocabulary_table->raw($sql, DatabaseTable::FETCH_RAW_MULTIPLE);
     }
     
     private $vocabularies_cache;

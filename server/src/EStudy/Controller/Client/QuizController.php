@@ -204,7 +204,9 @@ class QuizController extends EStudyBaseController
                 throw new NinjaException('Số lượng câu hỏi không hợp lệ');
 
             $title = 'Ôn tập từ vựng: ' . (new \DateTime())->format('d-m-Y H:i:s');
-            $quiz = $this->quiz_model->generate_from_vocabulary_bank($title, $quantity, [$topic_id], [QuestionEntity::TYPE_TEXT_WITH_ONE_CORRECT], true, true);
+            $quiz = $this->quiz_model->generate_from_vocabulary_bank($title, $quantity, [intval($topic_id)], [QuestionEntity::TYPE_TEXT_WITH_ONE_CORRECT], true, true);
+            
+            $this->route_redirect('/quizzes/take-quiz?quiz_id=' . $quiz->id);
         } catch (NinjaException $exception) {
             // TODO: handle practice quiz generation
             die($exception->getMessage());

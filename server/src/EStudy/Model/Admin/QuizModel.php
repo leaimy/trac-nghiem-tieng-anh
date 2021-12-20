@@ -225,62 +225,53 @@ class QuizModel
         if (count($topics) == 0)
             throw new NinjaException('Vui lòng chọn chủ đề của câu hỏi');
 
+        $number_of_anwser_per_question = 4;
+
+        $vocabularies = $this->vocabulary_model->get_random_number_of_vocabularies($topics, $quantity * $number_of_anwser_per_question) ?? [];
+        
+        $real_number_of_question = floor(count($vocabularies) / $number_of_anwser_per_question);
+        $total_of_vocabularies = count($vocabularies);
+        
+        if ($real_number_of_question < $quantity)
+            throw new NinjaException('Số lượng từ vựng không đủ để tạo bài ôn tập');
+
         $questions = [];
-
-        $total = 0;
-        foreach ($topics as $topic_id) {
-            if (!array_key_exists($topic_id, $questions))
-                $questions[$topic_id] = [];
-
-            $vocabulary = $this->vocabulary_model->get_random_vocabulary_by_topic($topic_id);
-            $answers = 
+        
+        for ($i = 0; $i < $total_of_vocabularies; $i += $number_of_anwser_per_question) {
+            $question_args = [];
+            $answers = [];
+            $media_id = null;
             
-            $this->question_model->create_new_question([
-                QuestionEntity::KEY_RANDOM_AT => new \DateTime(),
-                QuestionEntity::KEY_TITLE => $vocabulary->{VocabularyEntity::KEY_ENGLISH},
-                QuestionEntity::KEY_CORRECTS => $vocabulary->{VocabularyEntity::KEY_VIETNAMESE},
-                QuestionEntity::KEY_TOPIC => $topic_id,
-                QuestionEntity::KEY_QUESTION_TYPE => QuestionEntity::TYPE_TEXT_WITH_ONE_CORRECT,
-                QuestionEntity::KEY_ANSWERS => []
-            ]);
-            
-            foreach ($types as $type_id) {
-                $questions[$topic_id][$type_id] = $this->filter_by_type($results, $type_id);
-
-                $total += count($questions[$topic_id][$type_id]) ?? 0;
+            try {
+                $correct_answer = random_int(0, $number_of_anwser_per_question - 1);
+            } catch (\Exception $e) {
+                $correct_answer = 0;
             }
-        }
 
-        if ($total < $quantity)
-            throw new NinjaException('Số lượng câu hỏi trong ngân hàng câu hỏi không đủ');
-
-        $results = [];
-
-        while (true) {
-            foreach ($topics as $topic_id) {
-                foreach ($types as $type) {
-                    $question = $this->get_random_question_by_topic_and_type($questions, $topic_id, $type);
-                    if (is_null($question)) continue;
-
-                    $results[$question->id] = $question;
+            for ($j = 0; $j < $number_of_anwser_per_question; $j++) {
+                $answers[] = $vocabularies[$i + $j]->vietnamese;
+                
+                if ($j == $correct_answer) {
+                    $question_args[QuestionEntity::KEY_TITLE] = $vocabularies[$i + $j]->english;
+                    $question_args[QuestionEntity::KEY_CORRECTS] = $vocabularies[$i + $j]->vietnamese;
+                    $media_id = $vocabularies[$i + $j]->media_id ?? null;
                 }
             }
-
-            if (count(array_keys($results)) >= $quantity)
-                break;
+            
+            shuffle($answers);
+            $question_args[QuestionEntity::KEY_ANSWERS] = implode("\n", $answers);
+            $question_args[QuestionEntity::KEY_QUESTION_TYPE] = QuestionEntity::TYPE_TEXT_WITH_ONE_CORRECT;
+            $question_args[QuestionEntity::KEY_TOPIC] = 14; // TODO: Topic ID for ôn tập từ vựng
+            $question_args[QuestionEntity::KEY_RANDOM_AT] = new \DateTime();
+            $question_args[QuestionEntity::KEY_MEDIA_ID] = $media_id;
+            $new_question = $this->question_model->create_new_question($question_args);
+            
+            $questions[] = $new_question;
         }
-
-        $topic_titles = [];
-        foreach ($results as $question) {
-            $topic_entity = $question->get_topic() ?? null;
-            if (!$topic_entity) continue;
-
-            $topic_titles[$question->topic_id] = $topic_entity->{TopicEntity::KEY_TITLE};
-        }
-
+        
         $quiz_descriptions = [];
         $quiz_descriptions[] = '<strong>Tiêu đề</strong>: ' . $title;
-        $quiz_descriptions[] = '<strong>Chủ đề</strong>: ' . implode(", ", $topic_titles);
+        $quiz_descriptions[] = '<strong>Chủ đề</strong>: ôn tập từ vựng' ;
         $quiz_descriptions[] = '<strong>Số câu hỏi</strong>: ' . $quantity;
 
         $new_quiz = $this->quiz_table->save([
@@ -291,8 +282,8 @@ class QuizModel
             QuizEntity::KEY_RANDOM_AT => $is_random ? (new \DateTime()) : null
         ]);
 
-        foreach ($results as $question_id => $question) {
-            $this->question_quiz_model->create_new_connection($question_id, $new_quiz->id);
+        foreach ($questions as $question) {
+            $this->question_quiz_model->create_new_connection($question->id, $new_quiz->id);
         }
 
         return $new_quiz;

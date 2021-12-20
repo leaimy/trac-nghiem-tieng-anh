@@ -118,6 +118,8 @@ class AdminImportController extends EStudyBaseController
             
             if ($counter >= $total_vocabularies)
                 break;
+            
+            $page += 1;
         }
 
         $this->route_redirect('/admin/import-sample-data');
