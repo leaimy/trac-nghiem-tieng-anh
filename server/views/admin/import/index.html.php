@@ -9,6 +9,12 @@
 </div>
 
 <div class="min-vh-100">
+    <form action="/admin/import-sample-data/media" method="POST">
+        <input class="btn btn-danger" type="submit" value="Cập nhật ảnh vào CSDL" name="import_ict">
+    </form>
+
+    <hr>
+    
     <form action="/admin/import-sample-data/ict" method="POST">
         <input class="btn btn-primary" type="submit" value="Nhập bộ trắc nghiệm tin học ICT" name="import_ict">
     </form>

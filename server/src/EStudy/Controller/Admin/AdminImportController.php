@@ -3,6 +3,7 @@
 namespace EStudy\Controller\Admin;
 
 use EStudy\Controller\EStudyBaseController;
+use EStudy\Entity\Admin\MediaEntity;
 use EStudy\Entity\Admin\QuestionEntity;
 use EStudy\Entity\Admin\VocabularyEntity;
 use EStudy\Model\Admin\QuizModel;
@@ -16,19 +17,55 @@ use Ninja\NinjaException;
 class AdminImportController extends EStudyBaseController
 {
     private $vocabulary_table;
+    private $media_table;
     private $quiz_model;
 
-    public function __construct(DatabaseTable $vocabulary_table, QuizModel $quiz_model)
+    public function __construct(DatabaseTable $vocabulary_table, DatabaseTable $media_table, QuizModel $quiz_model)
     {
         parent::__construct();
 
         $this->vocabulary_table = $vocabulary_table;
+        $this->media_table = $media_table;
         $this->quiz_model = $quiz_model;
     }
 
     public function index()
     {
         $this->view_handler->render('admin/import/index.html.php');
+    }
+    
+    public function import_media()
+    {
+        $image_path = __DIR__ . '/../../../../sample_images';
+        
+        $files = array_diff(scandir($image_path), array('.', '..'));
+        
+        foreach ($files as $file) {
+            $parts = explode(".", $file);
+            
+            if (count($parts) < 2)
+                continue;
+            
+            $extension = $parts[count($parts) - 1];
+
+            try {
+                $bytes = random_bytes(20);
+            } catch (\Exception $e) {
+                $bytes = uniqid();
+            }
+
+            $random_name = bin2hex($bytes);
+            
+            $new_media = $this->media_table->save([
+                MediaEntity::KEY_MEDIA_ORIGIN_NAME => $file,
+                MediaEntity::KEY_MEDIA_PATH => '/uploads/' . $random_name . '.' . $extension
+            ]);
+           
+            if ($new_media)
+                copy($image_path . '/' . $file, ROOT_DIR . '/public/uploads/' . $random_name . '.' . $extension);
+        }
+
+        $this->route_redirect('/admin/import-sample-data');
     }
 
     public function import_ict()

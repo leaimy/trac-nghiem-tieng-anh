@@ -693,13 +693,19 @@ class EStudyRoutesHandler implements IRoutes
 
     public function get_admin_import_routes(): array
     {
-        $controller = new AdminImportController($this->admin_vocabulary_table, $this->admin_quiz_model);
+        $controller = new AdminImportController($this->admin_vocabulary_table, $this->admin_media_table, $this->admin_quiz_model);
 
         return [
             '/admin/import-sample-data' => [
                 'GET' => [
                     'controller' => $controller,
                     'action' => 'index'
+                ]
+            ],
+            '/admin/import-sample-data/media' => [
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'import_media'
                 ]
             ],
             '/admin/import-sample-data/ict' => [
