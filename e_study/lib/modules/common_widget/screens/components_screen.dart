@@ -1,5 +1,3 @@
-import 'package:e_study/config/themes/text_theme.dart';
-
 import 'package:e_study/constants/app_constants.dart';
 import 'package:e_study/widgets/stateless/custom_input_field.dart';
 import 'package:e_study/widgets/stateless/error_box.dart';
@@ -19,7 +17,6 @@ class ComponentsScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Components Screen',
-          style: CustomTextStyle.heading1,
         ),
       ),
       body: SingleChildScrollView(

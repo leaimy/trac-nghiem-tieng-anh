@@ -15,6 +15,9 @@ class ScreensList extends StatelessWidget {
       Routes.signInScreen,
       Routes.signUpScreen,
       Routes.homeScreen,
+      Routes.practiceScreen,
+      Routes.resultScreen,
+      Routes.rootScreen
     ];
 
     return Scaffold(

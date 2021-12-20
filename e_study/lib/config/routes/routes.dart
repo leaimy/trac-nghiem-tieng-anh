@@ -12,4 +12,6 @@ class Routes {
 
   static const String signInScreen = 'SignInScreen';
   static const String signUpScreen = 'SignUpScreen';
+  static const String practiceScreen = 'PracticeScreen';
+  static const String resultScreen = 'ResultScreen';
 }

@@ -20,7 +20,7 @@ class ListQuestionPackScreen extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 16.0),
               child: InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, Routes.questionDetailScreen);
+                  Navigator.pushNamed(context, Routes.practiceScreen);
                 },
                 child: Container(
                   height: size.height / 8,

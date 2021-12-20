@@ -5,6 +5,10 @@ import 'package:e_study/modules/common_widget/screens/common_widget_screen.dart'
 import 'package:e_study/modules/common_widget/screens/components_screen.dart';
 import 'package:e_study/modules/common_widget/screens/screens_list.dart';
 import 'package:e_study/modules/home/home_screen.dart';
+import 'package:e_study/modules/practice/practice_screen.dart';
+import 'package:e_study/modules/question%20pack/list_question_pack_screen.dart';
+import 'package:e_study/modules/result/result_screen.dart';
+import 'package:e_study/modules/root_screen.dart';
 import 'package:flutter/material.dart';
 
 class Router {
@@ -22,19 +26,34 @@ class Router {
         {
           return MaterialPageRoute(builder: (_) => const ScreensList());
         }
+      case Routes.rootScreen:
+        {
+          return MaterialPageRoute(builder: (_) => const RootScreen());
+        }
       case Routes.homeScreen:
         {
           return MaterialPageRoute(builder: (_) => const HomeScreen());
         }
       case Routes.signInScreen:
         {
-          return MaterialPageRoute(
-              builder: (_) => const SignInScreen());
+          return MaterialPageRoute(builder: (_) => const SignInScreen());
         }
       case Routes.signUpScreen:
         {
+          return MaterialPageRoute(builder: (_) => const SignUpScreen());
+        }
+      case Routes.listQuestionPackScreen:
+        {
           return MaterialPageRoute(
-              builder: (_) => const SignUpScreen());
+              builder: (_) => const ListQuestionPackScreen());
+        }
+      case Routes.practiceScreen:
+        {
+          return MaterialPageRoute(builder: (_) => const PracticeScreen());
+        }
+      case Routes.resultScreen:
+        {
+          return MaterialPageRoute(builder: (_) => const ResultScreen());
         }
       default:
         {

@@ -21,7 +21,7 @@ class ErrorBox extends StatelessWidget {
       margin: const EdgeInsets.all(AppConstants.primaryPadding),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(22),
-        color: LightTheme.lightBlue,
+        color: LightTheme.white ,
       ),
       height: size.height / 8,
       alignment: Alignment.center,

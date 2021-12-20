@@ -37,21 +37,6 @@ class AuthService {
         .withPath(endpoint);
   }
 
-  Future<ResponseObject> signin(
-      {required String username,
-      required String pwd,
-      required Function(ResponseObject) onErrorCallback}) {
-    httpService
-        .withPath('login')
-        .makePost()
-        .withParam({"username": username, "password": pwd});
-    return httpService.execute().then((ResponseObject response) {
-      return response;
-    }).catchError((onError) {
-      onErrorCallback(onError);
-    });
-  }
-
   Future<dynamic> signIn(String username, String password) async {
     try {
       final response = await _apiProvider.post('/auth/login',
