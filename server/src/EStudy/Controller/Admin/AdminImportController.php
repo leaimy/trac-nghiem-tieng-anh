@@ -594,9 +594,63 @@ class AdminImportController extends EStudyBaseController
         }
     }
 
+    /**
+     * @throws NinjaException
+     */
     public function gen_random_exams_from_vocabularies_by_random_user($quantity)
     {
+        $users = $this->user_model->get_all_user();
+        if (count($users) == 0)
+            throw new NinjaException('Vui lòng nhập người dùng vào trước');
 
+        $topics = $this->topic_model->get_all_topic();
+        if (count($topics) == 0)
+            throw new NinjaException('Vui lòng nhập chủ đề vào trước');
+
+        for ($i = 0; $i < $quantity; $i++) {
+
+            $random_user_index = array_rand($users);
+            $random_user = $users[$random_user_index];
+
+            if (!$random_user instanceof UserEntity) continue;
+
+            try {
+                $random_topic_id = random_int(0, 11);
+            } catch (\Exception $e) {
+                $random_topic_id = 0;
+            }
+
+            $q_title = 'Ôn tập từ vựng tạo bởi: @' . $random_user->fullname . ' #' . uniqid();
+            try {
+                $q_question_quantity = random_int(5, 30);
+            } catch (\Exception $e) {
+                $q_question_quantity = 10;
+            }
+
+            try {
+                $new_quiz = $this->quiz_model->generate_from_vocabulary_bank($q_title, $q_question_quantity, [$topics[$random_topic_id]->id], [QuestionEntity::TYPE_TEXT_WITH_ONE_CORRECT], true, $random_user->id);
+            }
+            catch (\Exception $exception) {
+                continue;
+            }
+
+            $user_answers_list = [];
+
+            /* @var $question QuestionEntity */
+            foreach ($new_quiz->get_questions() as $question) {
+                $q_answers = $question->get_answers();
+
+                try {
+                    $r = random_int(0, count($q_answers) - 1);
+                } catch (\Exception $e) {
+                    $r = 0;
+                }
+
+                $user_answers_list[$question->id] = [$q_answers[$r]];
+            }
+
+            $this->quiz_model->process_exam($new_quiz->id, $user_answers_list, $random_user->id);
+        }
     }
 
     public function delete_all_user_data()

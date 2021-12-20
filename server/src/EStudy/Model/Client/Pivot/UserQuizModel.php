@@ -68,8 +68,7 @@ class UserQuizModel
     {
         $sql = 'call AnalyseQuizzesQuantityByAuthor()';
         
-        $query = $this->user_quiz_table->raw($sql);
-        return $query->fetchObject();
+        return $this->user_quiz_table->raw($sql, DatabaseTable::FETCH_RAW_SINGLE);
     }
 
     public function clear()

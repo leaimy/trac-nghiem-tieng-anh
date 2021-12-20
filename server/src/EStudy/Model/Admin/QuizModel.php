@@ -240,7 +240,7 @@ class QuizModel
     /**
      * @throws NinjaException
      */
-    public function generate_from_vocabulary_bank(string $title, int $quantity, array $topics, array $types, bool $is_random = false)
+    public function generate_from_vocabulary_bank(string $title, int $quantity, array $topics, array $types, bool $is_random = false, $author_id = null)
     {
         if (empty($title))
             throw new NinjaException('Nhập tiêu đề cho bài kiểm tra');
@@ -277,6 +277,7 @@ class QuizModel
                 $correct_answer = 0;
             }
 
+            $v_topics = [];
             for ($j = 0; $j < $number_of_anwser_per_question; $j++) {
                 $answers[] = $vocabularies[$i + $j]->vietnamese;
 
@@ -284,13 +285,14 @@ class QuizModel
                     $question_args[QuestionEntity::KEY_TITLE] = $vocabularies[$i + $j]->english;
                     $question_args[QuestionEntity::KEY_CORRECTS] = $vocabularies[$i + $j]->vietnamese;
                     $media_id = $vocabularies[$i + $j]->media_id ?? null;
+                    $v_topics = $vocabularies[$i + $j]->get_topic_ids() ?? [];
                 }
             }
 
             shuffle($answers);
             $question_args[QuestionEntity::KEY_ANSWERS] = implode("\n", $answers);
             $question_args[QuestionEntity::KEY_QUESTION_TYPE] = QuestionEntity::TYPE_TEXT_WITH_ONE_CORRECT;
-            $question_args[QuestionEntity::KEY_TOPIC] = 14; // TODO: Topic ID for ôn tập từ vựng
+            $question_args[QuestionEntity::KEY_TOPIC] = count($v_topics) > 0 ? $v_topics[0] : 12; 
             $question_args[QuestionEntity::KEY_RANDOM_AT] = new \DateTime();
             $question_args[QuestionEntity::KEY_MEDIA_ID] = $media_id;
             $new_question = $this->question_model->create_new_question($question_args);
@@ -302,14 +304,19 @@ class QuizModel
         $quiz_descriptions[] = '<strong>Tiêu đề</strong>: ' . $title;
         $quiz_descriptions[] = '<strong>Chủ đề</strong>: ôn tập từ vựng';
         $quiz_descriptions[] = '<strong>Số câu hỏi</strong>: ' . $quantity;
-
-        $new_quiz = $this->quiz_table->save([
+        
+        $quiz_args = [
             QuizEntity::KEY_TITLE => $title,
             QuizEntity::KEY_DESCRIPTION => implode("<br>", $quiz_descriptions),
             QuizEntity::KEY_QUESTION_QUANTITY => $quantity,
             QuizEntity::KEY_AUTHOR_ID => $this->authentication_helper->isLoggedIn() ? $this->authentication_helper->getUserId() : null,
             QuizEntity::KEY_RANDOM_AT => $is_random ? (new \DateTime()) : null
-        ]);
+        ];
+        
+        if (!empty($author_id))
+            $quiz_args[QuizEntity::KEY_AUTHOR_ID] = $author_id;
+
+        $new_quiz = $this->quiz_table->save($quiz_args);
 
         foreach ($questions as $question) {
             $this->question_quiz_model->create_new_connection($question->id, $new_quiz->id);
