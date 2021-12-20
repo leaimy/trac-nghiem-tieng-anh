@@ -19,14 +19,16 @@ class QuizModel
     private $vocabulary_model;
     private $question_quiz_model;
     private $authentication_helper;
+    private $media_model;
 
-    function __construct(DatabaseTable $quiz_table, QuestionModel $question_model, QuestionQuizModel $question_quiz_model, Authentication $authentication_helper, VocabularyModel $vocabulary_model)
+    function __construct(DatabaseTable $quiz_table, QuestionModel $question_model, QuestionQuizModel $question_quiz_model, Authentication $authentication_helper, VocabularyModel $vocabulary_model, MediaModel $media_model)
     {
         $this->quiz_table = $quiz_table;
         $this->question_model = $question_model;
         $this->question_quiz_model = $question_quiz_model;
         $this->authentication_helper = $authentication_helper;
         $this->vocabulary_model = $vocabulary_model;
+        $this->media_model = $media_model;
     }
     
     function get_all($orderBy = null, $orderDirection = null, $limit = null, $offset = null)
@@ -187,6 +189,16 @@ class QuizModel
             
             $topic_titles[$question->topic_id] = $topic_entity->{TopicEntity::KEY_TITLE}; 
         }
+
+        $medias = $this->media_model->get_all_media();
+        $media_id = null;
+        
+        $random_index = null;
+        if (count($medias) > 0)
+            $random_index = array_rand($medias) ?? null;
+        
+        if (!is_null($random_index))
+            $media_id = $medias[$random_index]->id;
         
         $quiz_descriptions = [];
         $quiz_descriptions[] = '<strong>Tiêu đề</strong>: ' . $title;
@@ -198,7 +210,8 @@ class QuizModel
             QuizEntity::KEY_DESCRIPTION => implode("<br>", $quiz_descriptions),
             QuizEntity::KEY_QUESTION_QUANTITY => $quantity,
             QuizEntity::KEY_AUTHOR_ID => $this->authentication_helper->isLoggedIn() ? $this->authentication_helper->getUserId() : null,
-            QuizEntity::KEY_RANDOM_AT => $is_random ? (new \DateTime()) : null
+            QuizEntity::KEY_RANDOM_AT => $is_random ? (new \DateTime()) : null,
+            QuizEntity::KEY_MEDIA_ID => $media_id 
         ]);
         
         foreach ($results as $question_id => $question) {

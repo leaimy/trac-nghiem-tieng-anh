@@ -481,7 +481,22 @@ class AdminImportController extends EStudyBaseController
 
     public function gen_quizzes_by_admin($quantity)
     {
+        for ($i = 0; $i < $quantity; $i++) {
+            $title = "Trắc nghiệm EStudy: " . uniqid();
 
+            try {
+                $question_quantity = random_int(5, 30);
+            } catch (\Exception $e) {
+                $question_quantity = 20;
+            }
+
+            try {
+                // Default topic ID = 12
+                $this->quiz_model->generate_from_question_bank($title, $question_quantity, [12], [QuestionEntity::TYPE_TEXT_WITH_ONE_CORRECT]);
+            } catch (NinjaException $e) {
+                continue;
+            }
+        }
     }
 
     public function gen_quizzes_from_question_bank_by_random_user($quantity)

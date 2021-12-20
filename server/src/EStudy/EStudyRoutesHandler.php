@@ -127,7 +127,7 @@ class EStudyRoutesHandler implements IRoutes
             &$this->admin_user_model,
             &$this->admin_media_model
         ]);
-        $this->admin_quiz_model = new QuizModel($this->admin_quiz_table, $this->admin_question_model, $this->admin_question_quiz_model, $this->authentication_helper, $this->admin_vocabulary_model);
+        $this->admin_quiz_model = new QuizModel($this->admin_quiz_table, $this->admin_question_model, $this->admin_question_quiz_model, $this->authentication_helper, $this->admin_vocabulary_model, $this->admin_media_model);
 
         $this->quiz_history_table = new DatabaseTable(QuizHistoryEntity::TABLE, QuizHistoryEntity::PRIMARY_KEY, QuizHistoryEntity::CLASS_NAME);
         $this->quiz_history_model = new QuizHistoryModel($this->quiz_history_table);
