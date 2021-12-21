@@ -116,4 +116,15 @@ class TopicEntity
         <div class="<?= $common_class ?>" style="<?= $style ?>"><?= $this->title ?></div>
         <?php
     }
+    
+    public function to_json()
+    {
+        return [
+            self::KEY_ID => $this->id,
+            self::KEY_MEDIA_ID => $this->media_id,
+            self::KEY_TITLE => $this->title,
+            self::KEY_CREATED_AT => $this->created_at,
+            self::KEY_DESCRIPTION => $this->description
+        ];
+    }
 }

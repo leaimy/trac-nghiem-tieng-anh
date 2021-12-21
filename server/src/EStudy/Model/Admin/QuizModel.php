@@ -57,7 +57,7 @@ class QuizModel
         return $this->quiz_table->findById($id);
     }
 
-    function get_by_topic($topic_id): array
+    function get_by_topic($topic_id, $limit = null, $offset = null): array
     {
         $quizzes = $this->get_all();
 
@@ -73,6 +73,9 @@ class QuizModel
             if (in_array($topic_id, $topic_ids))
                 $filtered[] = $quiz;
         }
+        
+        if (!is_null($limit) && !is_null($offset))
+            return array_slice($filtered, $offset, count($filtered) > $limit ? $limit : count($filtered));
 
         return $filtered;
     }

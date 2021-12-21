@@ -105,4 +105,19 @@ class QuizEntity
         
         return $titles;
     }
+    
+    function to_json()
+    {
+        return [
+            self::KEY_ID => $this->id,
+            self::KEY_DESCRIPTION => preg_replace('#<[^>]+>#', ' ', $this->description),
+            self::KEY_CREATED_AT => $this->created_at,
+            self::KEY_TITLE => $this->title,
+            self::KEY_MEDIA_ID => $this->media_id,
+            self::KEY_RANDOM_AT => $this->random_at,
+            self::KEY_QUESTION_QUANTITY => $this->question_quantity,
+            self::KEY_AUTHOR_ID => $this->author_id,
+            self::KEY_IS_VOCABULARY_PRACTICE => $this->is_vocabulary_practice
+        ];
+    }
 }
