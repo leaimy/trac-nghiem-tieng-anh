@@ -1,6 +1,7 @@
 import 'package:e_study/config/themes/themes.dart';
 import 'package:e_study/modules/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'home/home_screen.dart';
 
@@ -27,8 +28,8 @@ class _RootScreenState extends State<RootScreen> {
         children: const [
           HomeScreen(),
           ProfileScreen(),
+          ProfileScreen(),
         ],
-        
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
@@ -43,11 +44,17 @@ class _RootScreenState extends State<RootScreen> {
         },
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: FaIcon(
+              FontAwesomeIcons.swatchbook,
+              size: 20,
+            ),
             label: 'Trang Chủ',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: FaIcon(
+              FontAwesomeIcons.userGraduate,
+              size: 20,
+            ),
             label: 'Hồ sơ',
           ),
         ],

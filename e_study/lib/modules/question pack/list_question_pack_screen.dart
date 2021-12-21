@@ -1,4 +1,5 @@
 import 'package:e_study/config/routes/routes.dart';
+import 'package:e_study/config/themes/text_theme.dart';
 import 'package:e_study/config/themes/themes.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,10 @@ class ListQuestionPackScreen extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Câu hỏi'),
+        title: const Text(
+          'Câu hỏi',
+          style: CustomTextStyle.heading1Bold,
+        ),
       ),
       body: ListView.builder(
           padding: const EdgeInsets.symmetric(horizontal: 24),

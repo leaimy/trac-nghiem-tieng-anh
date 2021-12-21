@@ -1,7 +1,10 @@
 import 'package:e_study/models/question.dart';
+import 'package:e_study/shared/provider/log_provider.dart';
 import 'package:flutter/material.dart';
 
 class PracticeScreenModel extends ChangeNotifier {
+  LogProvider get logger => const LogProvider('👋 Practice Page Log: ');
+
   final PageController _pageController = PageController();
 
   PageController get pageController => _pageController;
@@ -35,5 +38,8 @@ class PracticeScreenModel extends ChangeNotifier {
     _numberOfFalse = value;
     notifyListeners();
   }
-  
+
+  void showOption(String content) {
+    logger.log(content);
+  }
 }

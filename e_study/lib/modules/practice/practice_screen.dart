@@ -1,3 +1,4 @@
+import 'package:e_study/config/routes/routes.dart';
 import 'package:e_study/config/themes/text_theme.dart';
 import 'package:e_study/config/themes/themes.dart';
 import 'package:e_study/widgets/stateless/gradient_button.dart';
@@ -16,6 +17,8 @@ class PracticeScreen extends StatefulWidget {
 }
 
 class _PracticeScreenState extends State<PracticeScreen> {
+  List<String> answers = ['01', '02', '03', '04'];
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -53,7 +56,7 @@ class _PracticeScreenState extends State<PracticeScreen> {
                         Expanded(child: Container()),
                         InkWell(
                           onTap: () {
-                            showQuitWarning(context, size);
+                            showQuitWarning(context, size, model);
                           },
                           child: const FaIcon(
                             FontAwesomeIcons.signOutAlt,
@@ -95,17 +98,10 @@ class _PracticeScreenState extends State<PracticeScreen> {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 24.0),
                                     child: Column(
-                                      children: [
-                                        BaseButton(
-                                            size: size, content: 'Answer 1'),
-                                        BaseButton(
-                                            size: size, content: 'Answer 1'),
-                                        BaseButton(
-                                            size: size, content: 'Answer 1'),
-                                        BaseButton(
-                                            size: size, content: 'Answer 1'),
-                                      ],
-                                    ),
+                                        children: answers
+                                            .map((e) => BaseButton(
+                                                size: size, content: e))
+                                            .toList()),
                                   ),
                                 ],
                               ))),
@@ -118,7 +114,8 @@ class _PracticeScreenState extends State<PracticeScreen> {
     );
   }
 
-  Future<void> showQuitWarning(BuildContext context, Size size) {
+  Future<void> showQuitWarning(
+      BuildContext context, Size size, PracticeScreenModel model) {
     return showCupertinoModalPopup(
       context: context,
       builder: (_) => Center(
@@ -145,24 +142,44 @@ class _PracticeScreenState extends State<PracticeScreen> {
                 child: Row(
               children: [
                 Expanded(
-                  child: Container(
-                    alignment: Alignment.center,
-                    child: const Text(
-                      'Có',
-                      style: CustomTextStyle.heading3,
+                  child: Material(
+                    color: LightTheme.white,
+                    borderRadius: BorderRadius.circular(20),
+                    child: GestureDetector(
+                      onTap: () {
+                        model.showOption('Yes');
+                        Navigator.pop(context);
+                        Navigator.pushNamed(context, Routes.resultScreen);
+                      },
+                      child: const Center(
+                        child: Text(
+                          'Có',
+                          style: CustomTextStyle.heading3,
+                        ),
+                      ),
                     ),
                   ),
                 ),
                 Expanded(
-                  child: Container(
-                    margin: const EdgeInsets.all(24),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: LightTheme.black),
-                        borderRadius: BorderRadius.circular(20)),
-                    child: const Text(
-                      'Không',
-                      style: CustomTextStyle.heading3,
+                  child: Material(
+                    color: LightTheme.white,
+                    borderRadius: BorderRadius.circular(20),
+                    child: GestureDetector(
+                      onTap: () {
+                        model.showOption('No');
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.all(24),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: LightTheme.black),
+                            borderRadius: BorderRadius.circular(20)),
+                        child: const Text(
+                          'Không',
+                          style: CustomTextStyle.heading3,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -174,5 +191,5 @@ class _PracticeScreenState extends State<PracticeScreen> {
     );
   }
 
-  SizedBox buildWidthSpace() => SizedBox(width: 8);
+  SizedBox buildWidthSpace() => const SizedBox(width: 8);
 }

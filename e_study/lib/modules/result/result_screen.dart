@@ -16,7 +16,7 @@ class _ResultScreenState extends State<ResultScreen> {
       create: (_) => ResultScreenModel(),
       builder: (context, child) {
         return Consumer<ResultScreenModel>(builder: (context, model, child) {
-          return Container();
+          return const Scaffold();
         });
       },
     );

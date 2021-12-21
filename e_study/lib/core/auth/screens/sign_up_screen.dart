@@ -1,3 +1,4 @@
+import 'package:e_study/config/routes/routes.dart';
 import 'package:e_study/config/themes/text_theme.dart';
 import 'package:e_study/constants/app_constants.dart';
 import 'package:e_study/core/auth/provider/sign_up_screen_model.dart';
@@ -32,7 +33,6 @@ class SignUpScreen extends StatelessWidget {
             Future.delayed(Duration.zero, () {
               if (model.isSignUpSuccess != null) {
                 if (model.isSignUpSuccess == true) {
-                  // Navigator.pushNamed(context, Routes.onboardingScreen);
                   showErrorPopUp(context, model, size, 'Đăng ký thành công');
                 } else {
                   showErrorPopUp(
@@ -40,85 +40,87 @@ class SignUpScreen extends StatelessWidget {
                 }
               }
             });
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(
-                    height: size.height / 24,
-                    child: const Text(
-                      AppConstants.signIn,
-                      style: CustomTextStyle.heading1,
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(
+                      height: size.height / 24,
+                      child: const Text(
+                        AppConstants.signUp,
+                        style: CustomTextStyle.heading1,
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: size.height / 24,
-                    child: Row(
-                      children: [
-                        const Text(
-                          AppConstants.alreadyHave,
-                          style: CustomTextStyle.heading3,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text(
-                            AppConstants.signIn,
-                            style: CustomTextStyle.heading3BlueBold,
+                    SizedBox(
+                      height: size.height / 24,
+                      child: Row(
+                        children: [
+                          const Text(
+                            AppConstants.alreadyHave,
+                            style: CustomTextStyle.heading3,
                           ),
-                        )
-                      ],
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text(
+                              AppConstants.signIn,
+                              style: CustomTextStyle.heading3BlueBold,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  blank(),
-                  CustomInputField(
-                    content: AppConstants.fullname,
-                    description: AppConstants.enterFullname,
-                    size: size,
-                    controller: model.fullname,
-                  ),
-                  blank(),
-                  CustomInputField(
-                    content: AppConstants.username,
-                    description: AppConstants.enterUsername,
-                    size: size,
-                    controller: model.username,
-                  ),
-                  blank(),
-                  CustomInputField(
-                    content: AppConstants.password,
-                    description: AppConstants.enterPassword,
-                    size: size,
-                    isObsecure: true,
-                    controller: model.password,
-                  ),
-                  blank(),
-                  CustomInputField(
-                    content: AppConstants.confirmPassword,
-                    description: AppConstants.enterConfirmPassword,
-                    size: size,
-                    isObsecure: true,
-                    controller: model.confirmPassword,
-                  ),
-                  SizedBox(
-                    height: size.height / 16,
-                  ),
-                  BaseButton(
-                    content: AppConstants.signIn,
-                    size: size,
-                    onTap: () async {
-                      model.checkInput();
-                      if (!model.isError) {
-                        await model.signUpDio();
-                      } else {
-                        showErrorPopUp(
-                            context, model, size, model.errorMessage);
-                      }
-                    },
-                  )
-                ],
+                    blank(),
+                    CustomInputField(
+                      content: AppConstants.fullname,
+                      description: AppConstants.enterFullname,
+                      size: size,
+                      controller: model.fullname,
+                    ),
+                    blank(),
+                    CustomInputField(
+                      content: AppConstants.username,
+                      description: AppConstants.enterUsername,
+                      size: size,
+                      controller: model.username,
+                    ),
+                    blank(),
+                    CustomInputField(
+                      content: AppConstants.password,
+                      description: AppConstants.enterPassword,
+                      size: size,
+                      isObsecure: true,
+                      controller: model.password,
+                    ),
+                    blank(),
+                    CustomInputField(
+                      content: AppConstants.confirmPassword,
+                      description: AppConstants.enterConfirmPassword,
+                      size: size,
+                      isObsecure: true,
+                      controller: model.confirmPassword,
+                    ),
+                    SizedBox(
+                      height: size.height / 16,
+                    ),
+                    BaseButton(
+                      content: AppConstants.signUp,
+                      size: size,
+                      onTap: () async {
+                        model.checkInput();
+                        if (!model.isError) {
+                          await model.signUpDio();
+                        } else {
+                          showErrorPopUp(
+                              context, model, size, model.errorMessage);
+                        }
+                      },
+                    )
+                  ],
+                ),
               ),
             );
           });
@@ -138,7 +140,15 @@ class SignUpScreen extends StatelessWidget {
     showCupertinoModalPopup(
       context: context,
       builder: (_) => Center(
-        child: ErrorBox(size: size, errorMessage: error),
+        child: ErrorBox(
+          size: size,
+          errorMessage: error,
+          close: () {
+            if (model.isSignUpSuccess == true) {
+              Navigator.pop(context);
+            }
+          },
+        ),
       ),
     );
   }

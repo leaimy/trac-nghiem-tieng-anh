@@ -9,6 +9,7 @@ class SignUpScreenModel extends ChangeNotifier {
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
+  
   void setIsLoading(bool value) {
     _isLoading = value;
     notifyListeners();
@@ -69,9 +70,10 @@ class SignUpScreenModel extends ChangeNotifier {
     try {
       setIsLoading(true);
       await _authService.signUp(_user);
-      setIsLoading(false);
       setSignUpStatus(true);
+      setIsLoading(false);
     } catch (e) {
+      setSignUpStatus(false);
       setIsLoading(false);
     }
   }
