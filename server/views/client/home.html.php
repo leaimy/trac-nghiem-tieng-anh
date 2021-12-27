@@ -40,22 +40,28 @@
         <div class="carousel-inner">
             <div class="carousel-item active">
                 <img
-                    src="https://picsum.photos/id/28/1200/300"
+                    style="object-fit: cover"
+                    src="/static/images/slider1.jpg"
                     class="d-block w-100"
+                    height="400px"
                     alt="..."
                 />
             </div>
             <div class="carousel-item">
                 <img
-                    src="https://picsum.photos/id/256/1200/300"
+                    style="object-fit: cover"
+                    src="/static/images/slider2.jpg"
                     class="d-block w-100"
+                    height="400px"
                     alt="..."
                 />
             </div>
             <div class="carousel-item">
                 <img
-                    src="https://picsum.photos/id/266/1200/300"
+                    style="object-fit: cover"
+                    src="/static/images/slider3.jpg"
                     class="d-block w-100"
+                    height="400px"
                     alt="..."
                 />
             </div>
@@ -105,13 +111,45 @@
                     <div class="list-group">
                         <?php foreach ($vocabulary_all as $vocabulary): ?>
                             <a href="/vocabulary/show?id=<?= $vocabulary->id ?>"
-                               class="text-decoration-none"><div class="alert alert-primary d-flex align-items-center" role="alert">
-                                    <img class="me-3" src="<?= $vocabulary->get_media_path() == null ? '/uploads/macdinh.jpg' : $vocabulary->get_media_path() ?>" width="50" height="50" alt="">
+                               class="text-decoration-none">
+                                <div class="alert alert-primary d-flex align-items-center" role="alert">
+                                    <img class="me-3"
+                                         src="<?= $vocabulary->get_media_path() == null ? '/uploads/macdinh.jpg' : $vocabulary->get_media_path() ?>"
+                                         width="50" height="50" alt="">
                                     <div>
                                         <?= ucfirst($vocabulary->english) ?>
                                     </div>
-                                </div></a>
+                                </div>
+                            </a>
                         <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-body">
+            <h1 class="text-center my-4">
+                Tra cứu theo mô tả
+            </h1>
+
+            <div class="row my-4 justify-content-center">
+                <div class="col-md-6">
+                    <form action="/" method="GET" class="input-group mb-3" id="search_form_vn">
+                        <input type="hidden" name="action" value="search">
+                        <input type="hidden" name="by" value="english">
+                        <input id="txtVietnamese" type="text" class="form-control me-2" name="keyword"
+                               placeholder="Nhập mô tả tiếng việt..." autocomplete="off">
+                    </form>
+                </div>
+            </div>
+
+            <div class="row my-4 justify-content-center">
+                <div class="col-md-6">
+                    <div class="list-group" id="result-container">
                     </div>
                 </div>
             </div>
@@ -254,5 +292,78 @@
         $('#v_topic').select2();
         $('#types').select2();
     });
+</script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', function () {
+        var form = document.getElementById('search_form_vn');
+        var input = document.getElementById('txtVietnamese');
+        var resultContainer = document.getElementById('result-container');
+
+        var apiUrl = `/api/v1/vocabularies/search/vietnamese?keyword=`;
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+        })
+
+        // Realtime search | debouce 
+        var timeOutID;
+        input.addEventListener('input', function (e) {
+            var value = input.value;
+            
+            if (value.length === 0) return;
+
+            var api = apiUrl + value;
+
+            clearTimeout(timeOutID);
+            timeOutID = setTimeout(function () {
+                resultContainer.innerHTML = `
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-grow text-info" role="status">
+                                <span class="visually-hidden">Đang tìm kiếm...</span>
+                            </div>
+                        </div>            
+                `;
+                resultContainer.style = ``;
+
+                fetch(api, {
+                    method: 'GET',
+                })
+                    .then(response => response.json())
+                    .then(result => {
+                        console.log(result);
+
+                        var results = result.data.results;
+                        if (results.length === 0) resultContainer.style = '';
+
+                        var html = '';
+
+                        for (var item of results) {
+                            var itemHTML = `
+                            <a href="/vocabulary/show?id=${item.id}"
+                               class="text-decoration-none">
+                                <div class="alert alert-primary d-flex align-items-center" role="alert">
+                                    <img class="me-3"
+                                         src="${item.media.media_path}"
+                                         width="50" height="50" alt="">
+                                    <div>
+                                        ${item.english}
+                                    </div>
+                                </div>
+                            </a>                    
+                    `;
+
+                            html += itemHTML;
+                        }
+
+                        resultContainer.innerHTML = html;
+                        resultContainer.style = `height: 400px; overflow-y: scroll; padding-right: 15px;`;
+                    })
+                    .catch(err => {
+                        alert(err.message)
+                    })
+            }, 500)
+        })
+    })
 </script>
 {% endblock %}
