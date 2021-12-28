@@ -273,15 +273,15 @@ class QuestionRenderHelper
                                     <div class="form-check">
                                         <input
                                             class="form-check-input"
-                                            type="radio"
-                                            <?= $answer == $this->question['corrects'] ? 'checked' : 'disabled' ?>
+                                            type="checkbox"
+                                            <?= strpos($correct_answers, trim($answer)) !== false ? 'checked' : 'disabled' ?>
                                             value="<?= $answer ?>"
                                         />
                                         <label
-                                            class="form-check-label <?= $answer == $this->question['corrects'] ? 'text-success' : ($answer == $this->question['user_answers'] ? 'text-danger' : '') ?>">
+                                            class="form-check-label <?= strpos($correct_answers, trim($answer)) !== false ? 'text-success' : (strpos($user_answers, trim($answer)) !== false ? 'text-danger' : '') ?>">
                                             <?= $answer ?>
                                         </label>
-                                    </div>
+                                    </div>           
                                 <?php endforeach; ?>
                             </div>
                         </div>
