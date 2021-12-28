@@ -105,23 +105,26 @@
                     </form>
                 </div>
             </div>
-<?php if ($vocabulary_all.lenght) ?>
             <div class="row my-4 justify-content-center">
                 <div class="col-md-6">
                     <div class="list-group">
-                        <?php foreach ($vocabulary_all as $vocabulary): ?>
-                            <a href="/vocabulary/show?id=<?= $vocabulary->id ?>"
-                               class="text-decoration-none">
-                                <div class="alert alert-primary d-flex align-items-center" role="alert">
-                                    <img class="me-3"
-                                         src="<?= $vocabulary->get_media_path() == null ? '/uploads/macdinh.jpg' : $vocabulary->get_media_path() ?>"
-                                         width="50" height="50" alt="">
-                                    <div>
-                                        <?= ucfirst($vocabulary->english) ?>
+                        <?php if (is_array($vocabulary_all) && count($vocabulary_all) > 0): ?>
+                            <?php foreach ($vocabulary_all as $vocabulary): ?>
+                                <a href="/vocabulary/show?id=<?= $vocabulary->id ?>"
+                                   class="text-decoration-none">
+                                    <div class="alert alert-primary d-flex align-items-center" role="alert">
+                                        <img class="me-3"
+                                             src="<?= $vocabulary->get_media_path() == null ? '/uploads/macdinh.jpg' : $vocabulary->get_media_path() ?>"
+                                             width="50" height="50" alt="">
+                                        <div>
+                                            <?= ucfirst($vocabulary->english) ?>
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
-                        <?php endforeach; ?>
+                                </a>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <div class="alert alert-danger text-center">Không tìm thấy kết quả</div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -310,7 +313,7 @@
         var timeOutID;
         input.addEventListener('input', function (e) {
             var value = input.value;
-            
+
             if (value.length === 0) return;
 
             var api = apiUrl + value;
@@ -334,7 +337,13 @@
                         console.log(result);
 
                         var results = result.data.results;
-                        if (results.length === 0){} resultContainer.style = '';
+                        if (results.length === 0) {
+                        }
+                        resultContainer.style = '';
+
+                        if (results.length >= 4) {
+                            resultContainer.style = `max-height: 400px; overflow-y: scroll; padding-right: 15px;`;
+                        }
 
                         var html = '';
 
@@ -357,7 +366,6 @@
                         }
 
                         resultContainer.innerHTML = html;
-                        resultContainer.style = `height: 400px; overflow-y: scroll; padding-right: 15px;`;
                     })
                     .catch(err => {
                         alert(err.message)
