@@ -708,20 +708,24 @@ class EStudyRoutesHandler implements IRoutes
                     'action' => 'delete'
                 ]
             ],
-
             '/admin/vocabularies/show' => [
                 'GET' => [
                     'controller' => $controller,
                     'action' => 'show'
                 ]
             ],
-
             '/admin/vocabularies/filter/topic' => [
                 'GET' => [
                     'controller' => $controller,
                     'action' => 'filter_by_topic'
                 ]
             ],
+            '/admin/vocabularies/statistic' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'show_statistic'
+                ]
+            ]
         ];
     }
 

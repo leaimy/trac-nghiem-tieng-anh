@@ -2,6 +2,7 @@
 
 namespace EStudy\Model\Admin;
 
+use EStudy\Entity\Admin\TopicEntity;
 use EStudy\Entity\Admin\TopicVocabulary;
 use EStudy\Entity\Admin\VocabularyEntity;
 use Ninja\DatabaseTable;
@@ -279,5 +280,41 @@ class VocabularyModel
     public function clear()
     {
         $this->vocabulary_table->deleteAll();
+    }
+    
+    public function get_statistic()
+    {
+        $number_of_vocabularies = $this->vocabulary_table->total();
+
+        $counter = 0;
+        $page = 0;
+        $limit = 1000;
+
+        $statistic = [];
+
+        while (true) {
+            $vocabulary_chunks = $this->vocabulary_table->findAll(null, null, $limit, $page * $limit);
+
+            /** @var $vocabulary VocabularyEntity */
+            foreach ($vocabulary_chunks as $vocabulary) {
+                $topics = $vocabulary->get_topics();
+                
+                /** @var $topic TopicEntity */
+                foreach ($topics as $topic) {
+                    if (!isset($statistic[$topic->title]))
+                        $statistic[$topic->title] = 0;
+                    
+                    $statistic[$topic->title] += 1;
+                }
+
+                $counter ++;
+            }
+
+            if ($counter >= $number_of_vocabularies) break;
+
+            $page += 1;
+        }
+
+        return $statistic;
     }
 }
