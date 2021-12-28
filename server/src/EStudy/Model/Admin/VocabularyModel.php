@@ -132,7 +132,7 @@ class VocabularyModel
     }
 
     public function filter_by_topic_get_total($topic_id)
-    {
+    { 
         $sql = "
             SELECT
                 COUNT(*)

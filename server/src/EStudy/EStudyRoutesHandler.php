@@ -92,7 +92,7 @@ class EStudyRoutesHandler implements IRoutes
         $this->authentication_helper = new Authentication($this->admin_user_table, UserEntity::KEY_USERNAME, UserEntity::KEY_PASSWORD);
 
         $this->admin_topic_table = new DatabaseTable(TopicEntity::TABLE, TopicEntity::PRIMARY_KEY, TopicEntity::CLASS_NAME, [
-            &$this->admin_media_model
+            &$this->admin_media_model,&$this->admin_topic_model
         ]);
         $this->admin_topic_model = new TopicModel($this->admin_topic_table);
 
