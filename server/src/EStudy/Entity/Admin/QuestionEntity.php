@@ -113,12 +113,20 @@ class QuestionEntity
 
     function get_answers()
     {
-        return explode("\n", $this->answers);
+        $tmp = [];
+        foreach (explode("\n", $this->answers) as $item)
+            $tmp[] = trim($item);
+        
+        return $tmp;
     }
 
     function get_correct_answers()
     {
-        return explode("\n", $this->corrects);
+        $tmp = [];
+        foreach (explode("\n", $this->corrects) as $item)
+            $tmp[] = trim($item);
+
+        return $tmp;
     }
 
     function to_json(): array

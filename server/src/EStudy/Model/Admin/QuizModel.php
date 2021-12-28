@@ -373,7 +373,10 @@ class QuizModel
         foreach ($quiz_questions as $question) {
             $question_logs[$question->id] = $question;
 
-            if (!isset($user_answer_list[$question->id])) continue;
+            if (!isset($user_answer_list[$question->id])) {
+                $question->user_answers = '';
+                continue;
+            }
 
             $correct_answers = $question->get_correct_answers();
             $user_answers = $user_answer_list[$question->id];

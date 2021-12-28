@@ -112,8 +112,11 @@ class QuizController extends EStudyBaseController
                 $user_id = $this->authentication_helper->getUserId();
 
             $answers_with_one_correct = $_POST['answers-' . QuestionEntity::TYPE_TEXT_WITH_ONE_CORRECT] ?? [];
+            $answers_with_multiple_correct = $_POST['answers-' . QuestionEntity::TYPE_TEXT_WITH_MULTIPLE_CORRECTS] ?? [];
             
-            $history = $this->quiz_model->process_exam($quiz->id, $answers_with_one_correct, $user_id);
+            $answers_list = $answers_with_one_correct + $answers_with_multiple_correct;
+            
+            $history = $this->quiz_model->process_exam($quiz->id, $answers_list, $user_id);
 
             $this->route_redirect('/quizzes/histories/show?quiz_history_id=' . $history->id);
         } catch (NinjaException $exception) {
@@ -137,7 +140,7 @@ class QuizController extends EStudyBaseController
                 'quiz_result' => $content['quiz']['result'],
                 'questions' => $content['questions'],
                 'question_render_helper' => new QuestionRenderHelper(),
-                'absolutely_correct' => $content['quiz']['result']['correct'] == $content['quiz']['result']['total']
+                'absolutely_correct' => $content['quiz']['result']['correct'] >= $content['quiz']['result']['total']
             ]);
         } catch (NinjaException $exception) {
             // TODO: Handle show quiz history detail
