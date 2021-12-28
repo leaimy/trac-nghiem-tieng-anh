@@ -5,6 +5,7 @@ namespace EStudy\Controller\Admin;
 use EStudy\Controller\EStudyBaseController;
 use EStudy\Model\Admin\QuestionModel;
 use EStudy\Model\Admin\TopicModel;
+use Ninja\NinjaException;
 
 class AdminQuestionController extends EStudyBaseController
 {
@@ -34,7 +35,7 @@ class AdminQuestionController extends EStudyBaseController
             'total' => $total,
             'number_of_page' => $number_of_page,
             'current_page' => $page_number,
-            'limit' => $page_limit
+            'limit' => $page_limit,
         ]);
     }
     
@@ -48,19 +49,28 @@ class AdminQuestionController extends EStudyBaseController
             'topics' => $topics,
         ]);
     }
+    
+    public function store()
+    {
+        try {
+            $new_question = $_POST['question'] ?? null;
+            if (is_null($new_question))
+                throw new NinjaException('Vui lòng điền đủ thông tin của câu hỏi');
+            
+            $this->question_model->create_new_question($new_question);
+            
+            $this->route_redirect('/admin/questions');
+        }
+        catch (NinjaException $exception) {
+            // TODO: Handle store new question exception
+            die($exception->getMessage());
+        }
+    }
 
     public function edit()
     {
         $question_types = $this->question_model->get_all_question_types();
-        $topics = [
-            0 => 'Xã hội',
-            1 => 'Trường học',
-            2 => 'Văn phòng',
-            3 => 'Công sở',
-            4 => 'Nhà ăn',
-            666 => 'Quizlet',
-            777 => 'Tin học VP'
-        ];
+        $topics = $this->topic_model->get_all_topic();
         
         $entity = null;
         if (!is_null($_GET['id'] ?? null)) {
@@ -72,5 +82,22 @@ class AdminQuestionController extends EStudyBaseController
             'topics' => $topics,
             'entity' => $entity
         ]);
+    }
+
+    public function update()
+    {
+        try {
+            $updated_question = $_POST['question'] ?? null;
+            if (is_null($updated_question))
+                throw new NinjaException('Vui lòng điền đủ thông tin của câu hỏi');
+
+            $this->question_model->update_question($updated_question['id'], $updated_question);
+
+            $this->route_redirect('/admin/questions');
+        }
+        catch (NinjaException $exception) {
+            // TODO: Handle store new question exception
+            die($exception->getMessage());
+        }
     }
 }
