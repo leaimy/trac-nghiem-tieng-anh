@@ -22,7 +22,7 @@
         </div>
     </div>
     <div class="col-md-6 d-flex justify-content-end align-items-start">
-        <button class="btn btn-outline-primary me-2">Nhập</button>
+        <a href="/admin/quiz/statistic" class="btn btn-outline-primary me-2">Thống kê</a>
         <button class="btn btn-success me-2 " type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
                 aria-expanded="false" aria-controls="collapseExample">Tạo từ ngân hàng câu hỏi
         </button>

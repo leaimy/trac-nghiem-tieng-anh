@@ -400,4 +400,64 @@ class QuizModel
         
         return $new_log_record->add_history($question_logs, $correct_count);
     }
+    
+    public function get_statistic()
+    {
+        $number_of_quizzes = $this->quiz_table->total();
+
+        $counter = 0;
+        $page = 0;
+        $limit = 1000;
+
+        $statistic = [
+            '1-5' => 0,
+            '6-10' => 0,
+            '11-15' => 0,
+            '16-20' => 0,
+            '21-30' => 0,
+            '31-40' => 0,
+            '41-50' => 0,
+            '>50' => 0
+        ];
+
+        while (true) {
+            $quiz_chunks = $this->quiz_table->findAll(null, null, $limit, $page * $limit);
+
+            /** @var $quiz QuizEntity */
+            foreach ($quiz_chunks as $quiz) {
+                $questions = $quiz->get_questions() ?? [];
+                $question_count = count($questions);
+                
+                if ($question_count < 6) {
+                    $statistic['1-5'] += 1;
+                }
+                else if ($question_count < 11) {
+                    $statistic['6-10'] += 1;
+                }
+                else if ($question_count < 16) {
+                    $statistic['11-15'] += 1;
+                }
+                else if ($question_count < 21) {
+                    $statistic['16-20'] += 1;
+                }
+                else if ($question_count < 31) {
+                    $statistic['21-30'] += 1;
+                }
+                else if ($question_count < 41) {
+                    $statistic['31-40'] += 1;
+                }
+                else {
+                    $statistic['>50'] += 1;
+                }
+                
+                $counter ++;
+            }
+
+            if ($counter >= $number_of_quizzes) break;
+
+            $page += 1;
+        }
+
+        return $statistic;
+    }
 }
