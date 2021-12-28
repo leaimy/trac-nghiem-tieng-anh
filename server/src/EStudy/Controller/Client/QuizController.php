@@ -113,8 +113,9 @@ class QuizController extends EStudyBaseController
 
             $answers_with_one_correct = $_POST['answers-' . QuestionEntity::TYPE_TEXT_WITH_ONE_CORRECT] ?? [];
             $answers_with_multiple_correct = $_POST['answers-' . QuestionEntity::TYPE_TEXT_WITH_MULTIPLE_CORRECTS] ?? [];
+            $answers_fill_in_blank = $_POST['answers-' . QuestionEntity::TYPE_FILL_IN_BLANK] ?? [];
             
-            $answers_list = $answers_with_one_correct + $answers_with_multiple_correct;
+            $answers_list = $answers_with_one_correct + $answers_with_multiple_correct + $answers_fill_in_blank;
             
             $history = $this->quiz_model->process_exam($quiz->id, $answers_list, $user_id);
 

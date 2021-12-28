@@ -57,9 +57,11 @@ class QuestionModel
     {
         if (empty($args[QuestionEntity::KEY_TITLE]))
             throw new NinjaException('Vui lòng nhập tiêu đề câu hỏi');
-
-        if (empty($args[QuestionEntity::KEY_ANSWERS]))
-            throw new NinjaException('Vui lòng nhập danh sách câu trả lời câu hỏi');
+        
+        if ($args[QuestionEntity::KEY_QUESTION_TYPE] != QuestionEntity::TYPE_FILL_IN_BLANK) {
+            if (empty($args[QuestionEntity::KEY_ANSWERS]))
+                throw new NinjaException('Vui lòng nhập danh sách câu trả lời câu hỏi');
+        }
 
         if (empty($args[QuestionEntity::KEY_CORRECTS]))
             throw new NinjaException('Vui lòng nhập câu trả lời đúng của câu hỏi');
