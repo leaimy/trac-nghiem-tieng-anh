@@ -20,7 +20,7 @@ $all_questions = $all_questions ?? [];
         </div>
     </div>
     <div class="col-md-6 d-flex justify-content-end align-items-start">
-        <button class="btn btn-outline-primary me-2">Nhập</button>
+        <a href="/admin/questions/statistic" class="btn btn-outline-primary me-2">Thống kê</a>
         <a href="/admin/questions/create" class="btn btn-primary">Thêm mới</a>
     </div>
 </div>

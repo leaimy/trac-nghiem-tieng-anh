@@ -544,6 +544,12 @@ class EStudyRoutesHandler implements IRoutes
                     'controller' => $controller,
                     'action' => 'update'
                 ]
+            ],
+            '/admin/questions/statistic' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'show_statistic'
+                ]
             ]
         ];
     }

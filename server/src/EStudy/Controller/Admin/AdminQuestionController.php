@@ -3,6 +3,7 @@
 namespace EStudy\Controller\Admin;
 
 use EStudy\Controller\EStudyBaseController;
+use EStudy\Entity\Admin\QuestionEntity;
 use EStudy\Model\Admin\QuestionModel;
 use EStudy\Model\Admin\TopicModel;
 use Ninja\NinjaException;
@@ -99,5 +100,23 @@ class AdminQuestionController extends EStudyBaseController
             // TODO: Handle store new question exception
             die($exception->getMessage());
         }
+    }
+    
+    public function show_statistic()
+    {
+        $statistic = $this->question_model->get_statistic();
+        
+        $statistic_by_topic = $statistic['by_topic'];
+        $statistic_by_type = $statistic['by_type'];
+        
+        foreach ($statistic_by_type as $key => $value) {
+            $statistic_by_type[QuestionEntity::get_type_text($key)] = $value;
+            unset($statistic_by_type[$key]);
+        }
+        
+        $this->view_handler->render('admin/question/statistic.html.php', [
+            'statistic_by_topic' => $statistic_by_topic,
+            'statistic_by_type' => $statistic_by_type
+        ]);
     }
 }
