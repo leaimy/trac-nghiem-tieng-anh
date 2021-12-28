@@ -94,6 +94,26 @@ class QuestionEntity
                 return 'Chưa phân loại';
         }
     }
+    
+    public static function get_type_text($type): string
+    {
+        switch ($type) {
+            case self::TYPE_TEXT_WITH_ONE_CORRECT:
+                return 'Câu hỏi 1 đáp án';
+
+            case self::TYPE_TEXT_WITH_MULTIPLE_CORRECTS:
+                return 'Câu hỏi nhiều đáp án';
+
+            case self::TYPE_FILL_IN_BLANK:
+                return 'Câu hỏi điền vào chỗ trống';
+
+            case self::TYPE_SORT_SENTENCE:
+                return 'Câu hỏi sắp xếp lại câu';
+
+            default:
+                return 'Chưa phân loại';
+        }
+    }
 
     function get_topic()
     {
@@ -113,12 +133,20 @@ class QuestionEntity
 
     function get_answers()
     {
-        return explode("\n", $this->answers);
+        $tmp = [];
+        foreach (explode("\n", $this->answers) as $item)
+            $tmp[] = trim($item);
+        
+        return $tmp;
     }
 
     function get_correct_answers()
     {
-        return explode("\n", $this->corrects);
+        $tmp = [];
+        foreach (explode("\n", $this->corrects) as $item)
+            $tmp[] = trim($item);
+
+        return $tmp;
     }
 
     function to_json(): array
@@ -136,5 +164,32 @@ class QuestionEntity
             self::KEY_AUDIO_NAME => $this->audio_name,
             self::KEY_USER_ANSWERS => $this->user_answers,
         ];
+    }
+    
+    public function to_json_for_mobile()
+    {
+        $results = [];
+        
+        $results[self::KEY_ID] = $this->id;
+        $results[self::KEY_TITLE] = $this->title;
+        $results[self::KEY_RANDOM_AT] = $this->random_at;
+        $results[self::KEY_MEDIA_ID] = $this->get_media();
+        $results[self::KEY_CREATED_AT] = $this->created_at;
+        $results[self::KEY_TOPIC] = $this->get_topic();
+        $results[self::KEY_QUESTION_TYPE] = $this->type;
+        $results[self::KEY_AUDIO_PATH] = $this->audio_path;
+        
+        $answers = [];
+        
+        foreach ($this->get_answers() as $answer) {
+            $answers[] = [
+                'content' => $answer, 
+                'isTrue' => $answer == $this->corrects
+            ];
+        }
+        
+        $results[self::KEY_ANSWERS] = $answers;
+        
+        return $results;
     }
 }

@@ -243,6 +243,14 @@ class AdminVocabularyController extends EStudyBaseController
         $this->view_handler->render('admin/vocabulary/show.html.php',[
             'vocabulary' => $vocabulary
         ]);
+    }
+    
+    public function show_statistic()
+    {
+        $statistic = $this->vocabulary_model->get_statistic();
         
+        $this->view_handler->render('admin/vocabulary/statistic.html.php', [
+            'statistic' => $statistic
+        ]);
     }
 }

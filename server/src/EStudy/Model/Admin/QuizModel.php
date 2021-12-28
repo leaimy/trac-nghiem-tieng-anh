@@ -57,7 +57,7 @@ class QuizModel
         return $this->quiz_table->findById($id);
     }
 
-    function get_by_topic($topic_id): array
+    function get_by_topic($topic_id, $limit = null, $offset = null): array
     {
         $quizzes = $this->get_all();
 
@@ -73,6 +73,9 @@ class QuizModel
             if (in_array($topic_id, $topic_ids))
                 $filtered[] = $quiz;
         }
+        
+        if (!is_null($limit) && !is_null($offset))
+            return array_slice($filtered, $offset, count($filtered) > $limit ? $limit : count($filtered));
 
         return $filtered;
     }
@@ -370,7 +373,10 @@ class QuizModel
         foreach ($quiz_questions as $question) {
             $question_logs[$question->id] = $question;
 
-            if (!isset($user_answer_list[$question->id])) continue;
+            if (!isset($user_answer_list[$question->id])) {
+                $question->user_answers = '';
+                continue;
+            }
 
             $correct_answers = $question->get_correct_answers();
             $user_answers = $user_answer_list[$question->id];
@@ -393,5 +399,65 @@ class QuizModel
             throw new NinjaException('Có lỗi trong quá trình lưu kết quả bài kiểm tra');
         
         return $new_log_record->add_history($question_logs, $correct_count);
+    }
+    
+    public function get_statistic()
+    {
+        $number_of_quizzes = $this->quiz_table->total();
+
+        $counter = 0;
+        $page = 0;
+        $limit = 1000;
+
+        $statistic = [
+            '1-5' => 0,
+            '6-10' => 0,
+            '11-15' => 0,
+            '16-20' => 0,
+            '21-30' => 0,
+            '31-40' => 0,
+            '41-50' => 0,
+            '>50' => 0
+        ];
+
+        while (true) {
+            $quiz_chunks = $this->quiz_table->findAll(null, null, $limit, $page * $limit);
+
+            /** @var $quiz QuizEntity */
+            foreach ($quiz_chunks as $quiz) {
+                $questions = $quiz->get_questions() ?? [];
+                $question_count = count($questions);
+                
+                if ($question_count < 6) {
+                    $statistic['1-5'] += 1;
+                }
+                else if ($question_count < 11) {
+                    $statistic['6-10'] += 1;
+                }
+                else if ($question_count < 16) {
+                    $statistic['11-15'] += 1;
+                }
+                else if ($question_count < 21) {
+                    $statistic['16-20'] += 1;
+                }
+                else if ($question_count < 31) {
+                    $statistic['21-30'] += 1;
+                }
+                else if ($question_count < 41) {
+                    $statistic['31-40'] += 1;
+                }
+                else {
+                    $statistic['>50'] += 1;
+                }
+                
+                $counter ++;
+            }
+
+            if ($counter >= $number_of_quizzes) break;
+
+            $page += 1;
+        }
+
+        return $statistic;
     }
 }

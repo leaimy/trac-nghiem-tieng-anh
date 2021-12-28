@@ -57,9 +57,11 @@ class QuestionModel
     {
         if (empty($args[QuestionEntity::KEY_TITLE]))
             throw new NinjaException('Vui lòng nhập tiêu đề câu hỏi');
-
-        if (empty($args[QuestionEntity::KEY_ANSWERS]))
-            throw new NinjaException('Vui lòng nhập danh sách câu trả lời câu hỏi');
+        
+        if ($args[QuestionEntity::KEY_QUESTION_TYPE] != QuestionEntity::TYPE_FILL_IN_BLANK) {
+            if (empty($args[QuestionEntity::KEY_ANSWERS]))
+                throw new NinjaException('Vui lòng nhập danh sách câu trả lời câu hỏi');
+        }
 
         if (empty($args[QuestionEntity::KEY_CORRECTS]))
             throw new NinjaException('Vui lòng nhập câu trả lời đúng của câu hỏi');
@@ -85,5 +87,44 @@ class QuestionModel
     public function clear()
     {
         $this->question_table->deleteAll();
+    }
+    
+    public function get_statistic()
+    {
+        $number_of_questions = $this->question_table->total();
+
+        $counter = 0;
+        $page = 0;
+        $limit = 1000;
+        
+        $statistic = [
+            'by_topic' => [],
+            'by_type' => []
+        ];
+        
+        while (true) {
+            $question_chunks = $this->question_table->findAll(null, null, $limit, $page * $limit);
+            
+            /** @var $question QuestionEntity */
+            foreach ($question_chunks as $question) {
+                if (!isset($statistic['by_topic'][$question->get_topic()->title])) {
+                    $statistic['by_topic'][$question->get_topic()->title] = 0;
+                }
+                $statistic['by_topic'][$question->get_topic()->title] += 1;
+                
+                if (!isset($statistic['by_type'][$question->type])) {
+                    $statistic['by_type'][$question->type] = 0;
+                }
+                $statistic['by_type'][$question->type] += 1;
+
+                $counter ++;
+            }
+            
+            if ($counter >= $number_of_questions) break;
+            
+            $page += 1;
+        }
+        
+        return $statistic;
     }
 }

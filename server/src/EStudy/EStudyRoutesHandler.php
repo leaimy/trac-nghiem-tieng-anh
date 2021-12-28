@@ -2,6 +2,7 @@
 
 namespace EStudy;
 
+use EStudy\Api\QuizApi;
 use EStudy\Api\TopicApi;
 use EStudy\Api\VocabularyApi;
 use EStudy\Api\AuthAPI;
@@ -250,6 +251,7 @@ class EStudyRoutesHandler implements IRoutes
         $topic_api = new TopicApi($this->admin_topic_model);
         $vocabulary_api = new VocabularyApi($this->admin_vocabulary_model);
         $auth_api = new AuthAPI($this->authentication_helper,$this->admin_user_model);
+        $quiz_api = new QuizApi($this->admin_topic_model, $this->admin_quiz_model);
         
         return [
             '/api/v1/auth/login'=> [
@@ -296,6 +298,12 @@ class EStudyRoutesHandler implements IRoutes
                 'GET' => [
                     'controller' => $vocabulary_api,
                     'action' => 'search_by_vietnamese'
+                ]
+            ],
+            '/api/v1/quizzes' => [
+                'GET' => [
+                    'controller' => $quiz_api,
+                    'action' => 'get_all_quizzes_total'
                 ]
             ]
         ];
@@ -531,6 +539,16 @@ class EStudyRoutesHandler implements IRoutes
                 'GET' => [
                     'controller' => $controller,
                     'action' => 'edit'
+                ],
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'update'
+                ]
+            ],
+            '/admin/questions/statistic' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'show_statistic'
                 ]
             ]
         ];
@@ -571,6 +589,12 @@ class EStudyRoutesHandler implements IRoutes
                 'POST' => [
                     'controller' => $controller,
                     'action' => 'generate_from_question_bank'
+                ]
+            ],
+            '/admin/quiz/statistic' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'show_statistic'
                 ]
             ]
         ];
@@ -690,20 +714,24 @@ class EStudyRoutesHandler implements IRoutes
                     'action' => 'delete'
                 ]
             ],
-
             '/admin/vocabularies/show' => [
                 'GET' => [
                     'controller' => $controller,
                     'action' => 'show'
                 ]
             ],
-
             '/admin/vocabularies/filter/topic' => [
                 'GET' => [
                     'controller' => $controller,
                     'action' => 'filter_by_topic'
                 ]
             ],
+            '/admin/vocabularies/statistic' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'show_statistic'
+                ]
+            ]
         ];
     }
 

@@ -5,7 +5,7 @@
 {% block content %}
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h3">Thêm câu hỏi mới 🐹</h1>
+    <h1 class="h3">Cập nhật câu hỏi 🐹</h1>
 </div>
 
 <div class="min-vh-100">
@@ -16,24 +16,28 @@
                     <div class="card-header">
                         Thông tin chung
                     </div>
+                    <input type="hidden" name="question[id]" value="<?= $entity->id ?>">
                     <div class="card-body">
                         <div class="mb-3">
                             <label for="" class="form-label">Câu hỏi*</label>
-                            <input value="<?= $entity->title ?>" name="question[title]" type="text" class="form-control" autocomplete="off">
+                            <input value="<?= $entity->title ?>" name="question[title]" type="text" class="form-control"
+                                   autocomplete="off">
                         </div>
                         <div class="mb-3">
                             <label for="" class="form-label">Câu trả lời*</label>
-                            <textarea name="question[answers]" id="" rows="5" class="form-control"><?= $entity->answers ?></textarea>
+                            <textarea name="question[answers]" id="" rows="5"
+                                      class="form-control"><?= $entity->answers ?></textarea>
                             <small class="text-muted">Mỗi câu trả lời phải trên mỗi dòng riêng biệt</small>
                         </div>
                         <div class="mb-3">
                             <label for="" class="form-label">Đáp án đúng*</label>
-                            <textarea name="question[corrects]" id="" rows="5" class="form-control"><?= $entity->corrects ?></textarea>
+                            <textarea name="question[corrects]" id="" rows="5"
+                                      class="form-control"><?= $entity->corrects ?></textarea>
                             <small class="text-muted">Copy những dòng đáp án đúng từ phần danh sách câu trả lời</small>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Thêm mới</button>
+                        <button type="submit" class="btn btn-primary">Cập nhật</button>
                         <a href="/admin/questions" class="btn btn-secondary">Quay lại</a>
                     </div>
                 </div>
@@ -49,7 +53,8 @@
                             <select name="question[type]" id="" class="form-select">
                                 <option value="">Chọn loại câu hỏi</option>
                                 <?php foreach ($question_types as $key => $type): ?>
-                                    <option value="<?= $key ?>" <?= $entity->type == $key ? 'selected' : '' ?>><?= $type ?></option>
+                                    <option
+                                        value="<?= $key ?>" <?= $entity->type == $key ? 'selected' : '' ?>><?= $type ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -57,8 +62,9 @@
                             <label for="" class="form-label">Chủ đề *</label>
                             <select name="question[topic_id]" id="" class="form-select">
                                 <option value="">Chọn chủ đề</option>
-                                <?php foreach ($topics as $key => $title): ?>
-                                    <option value="<?= $key ?>" <?= $entity->topic_id == $key ? 'selected' : '' ?>><?= $title ?></option>
+                                <?php foreach ($topics as $topic): ?>
+                                    <option
+                                        value="<?= $topic->id ?>" <?= $entity->topic_id == $topic->id ? 'selected' : '' ?>><?= ucfirst($topic->title) ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -72,11 +78,13 @@
                     <div class="card-body">
                         <div class="mb-3">
                             <label for="" class="form-label">Tập tin âm thanh</label>
-                            <input type="file" name="audio_path" id="" class="form-control form-control-sm" accept="audio/*">
+                            <input type="file" name="audio_path" id="" class="form-control form-control-sm"
+                                   accept="audio/*">
                         </div>
                         <div class="mb-3">
                             <label for="" class="form-label">Tập tin hình ảnh</label>
-                            <input type="file" name="audio_picture" id="" class="form-control form-control-sm" accept="image/*">
+                            <input type="file" name="audio_picture" id="" class="form-control form-control-sm"
+                                   accept="image/*">
                         </div>
                     </div>
                 </div>

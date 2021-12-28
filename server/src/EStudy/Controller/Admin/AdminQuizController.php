@@ -167,4 +167,13 @@ class AdminQuizController extends EStudyBaseController
             die($e->getMessage());
         }
     }
+    
+    public function show_statistic()
+    {
+        $statistic = $this->quiz_model->get_statistic();
+        
+        $this->view_handler->render('admin/quiz/statistic.html.php', [
+            'statistic' => $statistic
+        ]);
+    }
 }

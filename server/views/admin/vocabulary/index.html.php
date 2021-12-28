@@ -18,6 +18,7 @@
         </form>
     </div>
     <div class="col-md-6 d-flex justify-content-end align-items-start">
+        <a href="/admin/vocabularies/statistic" class="btn btn-outline-info me-2">Thống kê</a>
         <a href="/admin/vocabularies" class="btn btn-outline-secondary me-2">Xem toàn bộ</a>
         <a href="/admin/vocabularies/create" class="btn btn-outline-success">Thêm mới</a>
     </div>
