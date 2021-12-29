@@ -4,6 +4,7 @@ namespace EStudy\Controller\Admin;
 
 use EStudy\Controller\EStudyBaseController;
 use EStudy\Entity\Admin\QuestionEntity;
+use EStudy\Model\Admin\MediaModel;
 use EStudy\Model\Admin\QuestionModel;
 use EStudy\Model\Admin\TopicModel;
 use Ninja\NinjaException;
@@ -12,13 +13,15 @@ class AdminQuestionController extends EStudyBaseController
 {
     private $question_model;
     private $topic_model;
+    private $media_model;
     
-    public function __construct(QuestionModel $question_model, TopicModel $topic_model)
+    public function __construct(QuestionModel $question_model, TopicModel $topic_model, MediaModel $media_model)
     {
         parent::__construct();
         
         $this->question_model = $question_model;
         $this->topic_model = $topic_model;
+        $this->media_model = $media_model;
     }
 
     public function index()
@@ -57,6 +60,12 @@ class AdminQuestionController extends EStudyBaseController
             $new_question = $_POST['question'] ?? null;
             if (is_null($new_question))
                 throw new NinjaException('Vui lòng điền đủ thông tin của câu hỏi');
+
+            if (!empty($_FILES['file_upload']['name'])) {
+                $new_media = $this->media_model->create_new_media($_FILES);
+                $media_id = $new_media->id;
+                $new_question[QuestionEntity::KEY_MEDIA_ID] = $media_id;
+            }
             
             $this->question_model->create_new_question($new_question);
             
@@ -91,8 +100,16 @@ class AdminQuestionController extends EStudyBaseController
             $updated_question = $_POST['question'] ?? null;
             if (is_null($updated_question))
                 throw new NinjaException('Vui lòng điền đủ thông tin của câu hỏi');
-
-            $this->question_model->update_question($updated_question['id'], $updated_question);
+            
+            if (!empty($_FILES['file_upload']['name'])) {
+                $new_media = $this->media_model->create_new_media($_FILES);
+                $media_id = $new_media->id;
+                $updated_question[QuestionEntity::KEY_MEDIA_ID] = $media_id;
+                $this->question_model->update_question($updated_question['id'], $updated_question);
+            }
+            else {
+                $this->question_model->update_question($updated_question['id'], $updated_question);
+            }
 
             $this->route_redirect('/admin/questions');
         }

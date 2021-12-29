@@ -83,7 +83,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="" class="form-label">Tập tin hình ảnh</label>
-                            <input type="file" name="audio_picture" id="" class="form-control form-control-sm"
+                            <input type="file" name="file_upload" id="" class="form-control form-control-sm"
                                    accept="image/*">
                         </div>
                     </div>
