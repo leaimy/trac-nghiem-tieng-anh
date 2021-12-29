@@ -44,13 +44,21 @@ class AdminAccountController extends EStudyBaseController
         $total_guest = $this->user_model->get_total_guest();
         $total_male = $this->user_model->get_total_male_user();
         $total_total_married_females = $this->user_model->get_total_married_females();
+        
+        $statistic_by_roles = [
+            'Quản trị viên' => $total_admin,
+            'Người dùng' => $total_guest
+        ];
+        
+        $statistic_by_genders = [
+            'Nam' => $total_male,
+            'Nữ' => $total_user - $total_male - $total_total_married_females,
+            'Đã kết hôn' => $total_total_married_females
+        ];
+        
         $this->view_handler->render('admin/admin_account/statistics.html.php',[
-            'total_user' => $total_user,
-            'total_admin' => $total_admin,
-            'total_guest' => $total_guest,
-            'total_male' => $total_male,
-            'total_total_married_females' => $total_total_married_females,
-            
+            'statistic_by_roles' => $statistic_by_roles,
+            'statistic_by_genders' => $statistic_by_genders
         ]);
     }
 }
