@@ -3,6 +3,7 @@
 namespace EStudy\Entity\Admin;
 
 use EStudy\Model\Admin\MediaModel;
+use EStudy\Model\Admin\TopicModel;
 
 class TopicEntity
 {
@@ -24,11 +25,13 @@ class TopicEntity
 
     // Tạo biến private lưu trữ tham chiếu đến media_model
     private $media_model;
+    private $topic_model;
 
     // Truyền media_model thông qua constructor
-    public function __construct(MediaModel $media_model)
+    public function __construct(MediaModel $media_model, TopicModel  $topic_model)
     {
         $this->media_model = $media_model;
+        $this->topic_model = $topic_model;
     }
 
     // Viết hàm getter để lấy đối tượng media
@@ -116,7 +119,15 @@ class TopicEntity
         <div class="<?= $common_class ?>" style="<?= $style ?>"><?= $this->title ?></div>
         <?php
     }
-    
+
+
+    public function total_vocabulary()
+    {
+        if (!$this->id) return null;
+
+        return $this->topic_model->vocabulary_total($this->id);
+    }
+
     public function to_json()
     {
         return [

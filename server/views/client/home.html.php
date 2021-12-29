@@ -105,7 +105,7 @@
                     </form>
                 </div>
             </div>
-
+<?php if ($vocabulary_all.lenght) ?>
             <div class="row my-4 justify-content-center">
                 <div class="col-md-6">
                     <div class="list-group">
@@ -334,7 +334,7 @@
                         console.log(result);
 
                         var results = result.data.results;
-                        if (results.length === 0) resultContainer.style = '';
+                        if (results.length === 0){} resultContainer.style = '';
 
                         var html = '';
 

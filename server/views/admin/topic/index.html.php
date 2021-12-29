@@ -17,6 +17,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Title</th>
                 <th scope="col">Description</th>
+                <th scope="col">Số lượng từ</th>
                 <th scope="col">Media</th>
                 <th scope="col">Hành động</th>
             </tr>
@@ -28,11 +29,11 @@
                     <th scope="row"><?= $count++; ?></th>
                     <td><?= $topic->title; ?></td>
                     <td><?= $topic->description; ?></td>
+                    <td><?= $topic->total_vocabulary(); ?></td>
                     <td>
                         <img style="height: 100px;" src="<?= $topic->get_media_path() == null ? '/uploads/macdinh.jpg' : $topic->get_media_path() ?>" alt="">
                     </td>
                     <td>
-                        <a class="text-info" href="#"><i data-feather="folder"></i></a>
                         <a class="text-warning" href="/admin/topics/edit?id=<?= $topic->id ?>"><i data-feather="edit"></i></a>
                         <a class="text-danger" href="/admin/topics/delete?id=<?= $topic->id ?>"><i data-feather="trash-2"></i></a>
                     </td>

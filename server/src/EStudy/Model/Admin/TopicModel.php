@@ -73,4 +73,28 @@ class TopicModel
     {
         $this->topic_table->deleteAll();
     }
+
+    public function vocabulary_total($topic)
+    {
+        $sql = "
+            SELECT
+            COUNT(vocabulary.id) as sl,
+            topic.title
+            FROM
+            (
+                (
+                    topic_vocabulary
+                INNER JOIN topic ON topic_vocabulary.topic_id = $topic
+                )
+            INNER JOIN vocabulary ON topic_vocabulary.vocabulary_id = vocabulary.id
+            )
+            GROUP BY topic.title 
+        ";
+
+        $results = $this->topic_table->raw($sql, DatabaseTable::FETCH_ASSOC_SINGLE);
+        if (!is_array($results)) return 0;
+
+        return count($results) > 0 ? $results[0] : 0;
+       
+    }
 }

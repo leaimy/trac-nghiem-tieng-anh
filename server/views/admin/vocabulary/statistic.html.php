@@ -26,7 +26,7 @@ $all_questions = $all_questions ?? [];
         <thead>
         <tr class="table-primary">
             <th scope="col">Chủ đề</th>
-            <th scope="col">Số lượng (Câu)</th>
+            <th scope="col">Số lượng (Từ)</th>
         </tr>
         </thead>
         <tbody>

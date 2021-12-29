@@ -25,8 +25,10 @@ class AdminTopicController extends EStudyBaseController
     public function index()
     {
         $topic_all = $this->topic_model->get_all_topic();
+       
+        
         $this->view_handler->render('admin/topic/index.html.php', [
-            'topic_all' => $topic_all
+            'topic_all' => $topic_all,
         ]);
     }
 
