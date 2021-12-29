@@ -15,6 +15,7 @@ class QuestionRenderHelper
         
         if ($this->question instanceof QuestionEntity) {
             $this->question->answers = str_replace("\r", "", $this->question->answers);
+            $this->question->corrects = str_replace("\r", "", $this->question->corrects);
             
             switch ($question->type) {
                 case QuestionEntity::TYPE_TEXT_WITH_ONE_CORRECT:
@@ -34,6 +35,7 @@ class QuestionRenderHelper
             }
         }
 
+        $this->question['corrects'] = str_replace("\r", "", $this->question['corrects']);
         switch ($question['type']) {
             case QuestionEntity::TYPE_TEXT_WITH_ONE_CORRECT:
                 return $this->render_text_with_one_correct_for_review();
