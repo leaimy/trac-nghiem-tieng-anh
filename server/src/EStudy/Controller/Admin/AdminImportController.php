@@ -249,13 +249,13 @@ class AdminImportController extends EStudyBaseController
             ]);
 
             if ($new_media)
-                copy($image_path . '/' . $file, ROOT_DIR . '/public/uploads/' . $random_name . '.' . $extension);
+                copy($image_path . '/' . $file, ROOT_DIR . '/public_html/uploads/' . $random_name . '.' . $extension);
         }
     }
 
     public function delete_image_in_upload_folder()
     {
-        $files = glob(ROOT_DIR . '/public/uploads/*'); // get all file names
+        $files = glob(ROOT_DIR . '/public_html/uploads/*'); // get all file names
         foreach ($files as $file) { // iterate files
             if (is_file($file)) {
                 unlink($file); // delete file

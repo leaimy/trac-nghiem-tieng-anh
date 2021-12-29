@@ -1,4 +1,4 @@
 .idea/
 .vscode/
 ninja-config.json
-public/uploads/*.png
+public_html/uploads/*.png

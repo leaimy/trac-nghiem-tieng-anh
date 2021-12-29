@@ -47,7 +47,7 @@ class MediaModel
 
         $ten_anh_random = uniqid() . $ten_anh_goc;
 
-        $duong_dan_uploads = ROOT_DIR . '/public/uploads/' . $ten_anh_random;
+        $duong_dan_uploads = ROOT_DIR . '/public_html/uploads/' . $ten_anh_random;
 
         $success = move_uploaded_file($duong_dan_tam_thoi, $duong_dan_uploads);
 
