@@ -247,7 +247,12 @@ class AdminVocabularyController extends EStudyBaseController
     
     public function show_statistic()
     {
-        $statistic = $this->vocabulary_model->get_statistic();
+        $all_topics = $this->topic_model->get_all_topic();
+        
+        $statistic = [];
+        foreach ($all_topics as $topic) {
+            $statistic[$topic->title] = $this->topic_model->vocabulary_total($topic->id);
+        }
         
         $this->view_handler->render('admin/vocabulary/statistic.html.php', [
             'statistic' => $statistic
