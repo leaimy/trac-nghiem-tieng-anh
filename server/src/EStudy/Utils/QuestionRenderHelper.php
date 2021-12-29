@@ -12,8 +12,10 @@ class QuestionRenderHelper
     public function set_question($question)
     {
         $this->question = $question;
-
+        
         if ($this->question instanceof QuestionEntity) {
+            $this->question->answers = str_replace("\r", "", $this->question->answers);
+            
             switch ($question->type) {
                 case QuestionEntity::TYPE_TEXT_WITH_ONE_CORRECT:
                     return $this->render_text_with_one_correct();
@@ -385,7 +387,19 @@ class QuestionRenderHelper
                                  alt="question figure">
                         </div>
                         <div class="col-lg-8 col-xl-9 d-flex justify-content-start align-items-center">
-                            <div></div>
+                            <div>
+                                <?php foreach ($parts as $index => $part): ?>
+                                    <?= $part ?>
+
+                                    <?php if ($index < count($parts) - 1): ?>
+                                        <div class="badge bg-success"><?= $correct_answer_parts[$index] ?></div>
+
+                                        <?php if ($user_answer_parts[$index] != $correct_answer_parts[$index]): ?>
+                                            <div class="badge bg-danger"><?= $user_answer_parts[$index] ?? '' ?></div>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </div>
                         </div>
                     </div>
                 <?php endif; ?>
