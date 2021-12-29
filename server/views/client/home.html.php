@@ -122,7 +122,7 @@
                                     </div>
                                 </a>
                             <?php endforeach; ?>
-                        <?php else: ?>
+                        <?php elseif (isset($_GET['keyword'])): ?>
                             <div class="alert alert-danger text-center">Không tìm thấy kết quả</div>
                         <?php endif; ?>
                     </div>
