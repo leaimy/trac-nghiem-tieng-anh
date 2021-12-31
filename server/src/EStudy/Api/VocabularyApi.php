@@ -98,6 +98,10 @@ class VocabularyApi
             $total = $this->vocabulary_model->search_english_get_total($keyword);
             $results = $this->vocabulary_model->search_english($keyword, $limit, ($page - 1) * $limit);
 
+            foreach ($results as $item) {
+                $item->media = $item->get_media_entity();
+            }
+
             $this->response_json([
                 'status' => 'success',
                 'data' => [

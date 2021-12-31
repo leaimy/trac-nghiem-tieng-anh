@@ -23,7 +23,7 @@
         <input type="hidden" name="quiz_id" value="<?= $quiz_id ?>">
         <div class="row mt-3 justify-content-center">
             <div class="col-sm-10">
-                
+
                 <?php foreach ($questions as $index => $question): ?>
                     <?= $question_render_helper->set_question($question) ?>
                     <div class="mb-3"></div>
@@ -39,3 +39,6 @@
 
 {% endblock %}
 
+{% block custom_scrips %}
+
+{% endblock %}
