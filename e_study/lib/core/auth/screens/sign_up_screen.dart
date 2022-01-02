@@ -1,4 +1,3 @@
-import 'package:e_study/config/routes/routes.dart';
 import 'package:e_study/config/themes/text_theme.dart';
 import 'package:e_study/constants/app_constants.dart';
 import 'package:e_study/core/auth/provider/sign_up_screen_model.dart';

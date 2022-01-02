@@ -1,5 +1,7 @@
 import 'package:e_study/models/question.dart';
+import 'package:e_study/models/quiz.dart';
 import 'package:e_study/shared/provider/log_provider.dart';
+import 'package:e_study/shared/services/api/app_storeage.dart';
 import 'package:flutter/material.dart';
 
 class PracticeScreenModel extends ChangeNotifier {
@@ -7,9 +9,14 @@ class PracticeScreenModel extends ChangeNotifier {
 
   final PageController _pageController = PageController();
 
+  final int _questionQuantity =
+      AppStorage().selectedQuestionPack?.questions?.length ?? 0;
+
+  int get questionQuantity => _questionQuantity;
   PageController get pageController => _pageController;
 
-  final List<Question> _questions = [];
+  final List<Question> _questions =
+      AppStorage().selectedQuestionPack?.questions ?? [];
 
   List<Question> get questions => _questions;
 

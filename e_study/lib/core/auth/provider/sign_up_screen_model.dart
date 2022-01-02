@@ -64,7 +64,7 @@ class SignUpScreenModel extends ChangeNotifier {
   Future<void> signUpDio() async {
     setIsLoading(true);
     _user.username = _username.text;
-    _user.fullname = _fullname.text;
+    _user.fullName = _fullname.text;
     _user.password = _password.text;
 
     try {

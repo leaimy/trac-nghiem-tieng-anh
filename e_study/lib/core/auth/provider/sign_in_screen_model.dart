@@ -13,10 +13,7 @@ class SignInScreenModel extends ChangeNotifier {
     _busy = value;
     notifyListeners();
   }
-
-  bool _signedIn = false;
-  bool get signedIn => _signedIn;
-
+  
   bool? _isLoginSuccess;
   bool? get isLoginSuccess => _isLoginSuccess;
 
@@ -36,12 +33,7 @@ class SignInScreenModel extends ChangeNotifier {
     _errorMessage = message;
     notifyListeners();
   }
-
-  void setSignedIn(bool value) {
-    _signedIn = value;
-    notifyListeners();
-  }
-
+  
   void checkInput() {
     if (_username.text.isEmpty && _password.text.length < 8) {
       setError(true, 'Thông tin đăng nhập không hợp lệ');

@@ -44,7 +44,7 @@ class _SignInScreenState extends State<SignInScreen> {
               }
               if (model.isLoginSuccess != null) {
                 if (model.isLoginSuccess == true) {
-                  Navigator.pushNamedAndRemoveUntil(context, Routes.rootScreen,
+                  Navigator.pushNamedAndRemoveUntil(context, Routes.homeScreen,
                       (Route<dynamic> route) => false);
                 } else {
                   showErrorPopUp(context, model, size, 'Đăng nhập thất bại');

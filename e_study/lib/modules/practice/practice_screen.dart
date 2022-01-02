@@ -73,7 +73,7 @@ class _PracticeScreenState extends State<PracticeScreen> {
                           onPageChanged: (index) {
                             model.setCurrentIndex(index);
                           },
-                          itemCount: 10,
+                          itemCount: model.questionQuantity,
                           itemBuilder: (_, index) => Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
@@ -84,12 +84,13 @@ class _PracticeScreenState extends State<PracticeScreen> {
                                       style: CustomTextStyle.heading2,
                                     ),
                                   ),
-                                  const Expanded(
+                                  Expanded(
                                     child: Padding(
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                           horizontal: 24.0),
                                       child: Text(
-                                        'Question Content',
+                                        '${model.questions[index].content}',
+                                        // "content",
                                         style: CustomTextStyle.heading3,
                                       ),
                                     ),
@@ -98,9 +99,12 @@ class _PracticeScreenState extends State<PracticeScreen> {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 24.0),
                                     child: Column(
-                                        children: answers
+                                        children: model
+                                            .questions[index].answers!
                                             .map((e) => BaseButton(
-                                                size: size, content: e))
+                                                size: size,
+                                                content:
+                                                    e.content ?? "Undefined"))
                                             .toList()),
                                   ),
                                 ],
@@ -147,6 +151,8 @@ class _PracticeScreenState extends State<PracticeScreen> {
                     borderRadius: BorderRadius.circular(20),
                     child: GestureDetector(
                       onTap: () {
+                        // reset selected
+                        // save number for result page
                         model.showOption('Yes');
                         Navigator.pop(context);
                         Navigator.pushNamed(context, Routes.resultScreen);
