@@ -150,13 +150,21 @@
                     if (isVietnamese) {
                         var tmp = '';
                         for (var item of result.data.results) {
-                            tmp += item.english + "\n";
+                            tmp += item.english + "<br>";
                         }
 
-                        Swal.fire(tmp);
+                        Swal.fire({
+                            icon: "success",
+                            title: result.data.results.length > 1 ? "Danh sách kết quả" : "Kết quả",
+                            html: tmp
+                        });
                     }
                     else {
-                        Swal.fire(result.data.results[0].vietnamese)
+                        Swal.fire({
+                            icon: "success",
+                            title: "Kết quả",
+                            text: result.data.results[0].vietnamese
+                        })
                     }
                 }
                 else {
