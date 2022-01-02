@@ -14,6 +14,8 @@
     <!-- Feather icon -->
     <script src="/static/js/feather.min.js"></script>
 
+    <script src="/static/vendor/sweetalert2/sweetalert2@11.js"></script>
+
     {% yield custom_styles %}
 </head>
 
@@ -99,10 +101,12 @@
 
 <script src="/static/js/bootstrap.bundle.min.js"></script>
 
+
 <script>
     window.feather.replace({'aria-hidden': 'true'});
 
 </script>
+
 
 <script>
     function clearSelection() {
@@ -146,17 +150,29 @@
                     if (isVietnamese) {
                         var tmp = '';
                         for (var item of result.data.results) {
-                            tmp += item.english + "\n";
+                            tmp += item.english + "<br>";
                         }
 
-                        alert(tmp);
+                        Swal.fire({
+                            icon: "success",
+                            title: result.data.results.length > 1 ? "Danh sách kết quả" : "Kết quả",
+                            html: tmp
+                        });
                     }
                     else {
-                        alert(result.data.results[0].vietnamese)
+                        Swal.fire({
+                            icon: "success",
+                            title: "Kết quả",
+                            text: result.data.results[0].vietnamese
+                        })
                     }
                 }
                 else {
-                    alert('Hiếu óc chó Hà thông minh ');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Thông báo',
+                        text: `Không tìm thấy từ khóa "${t}"`,
+                    })
                 }
 
                 clearSelection();
