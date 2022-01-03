@@ -65,6 +65,9 @@ class QuestionModel
 
         if (empty($args[QuestionEntity::KEY_CORRECTS]))
             throw new NinjaException('Vui lòng nhập câu trả lời đúng của câu hỏi');
+        
+        $args[QuestionEntity::KEY_CORRECTS] = str_replace("\r", "", $args[QuestionEntity::KEY_CORRECTS]);
+        $args[QuestionEntity::KEY_ANSWERS] = str_replace("\r", "", $args[QuestionEntity::KEY_ANSWERS]);
 
         return $this->question_table->save([
             QuestionEntity::KEY_TITLE => $args[QuestionEntity::KEY_TITLE],
