@@ -1,6 +1,5 @@
-import 'package:e_study/config/themes/text_theme.dart';
-import 'package:e_study/config/themes/themes.dart';
 import 'package:e_study/constants/app_constants.dart';
+import 'package:e_study/widgets/stateful/answer_button.dart';
 import 'package:e_study/widgets/stateless/custom_input_field.dart';
 import 'package:e_study/widgets/stateless/error_box.dart';
 import 'package:e_study/widgets/stateless/gradient_button.dart';
@@ -32,7 +31,7 @@ class ComponentsScreen extends StatelessWidget {
               onTap: () {},
               isDisable: true,
             ),
-          AnswerButton(size: size,content: 'Answer',),
+          AnswerButton(size: size,content: 'Answer', isActive: false, status: Status.none,),
             ErrorBox(size: size, errorMessage: 'ErrorBox'),
             CustomInputField(
               content: 'Custom Input Field',
@@ -47,35 +46,3 @@ class ComponentsScreen extends StatelessWidget {
   }
 }
 
-class AnswerButton extends StatelessWidget {
-  const AnswerButton({
-    Key? key,
-    required this.size,
-    required this.content,
-    this.status
-  }) : super(key: key);
-
-  final Size size;
-  final String content;
-  final bool? status;
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: (){},
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 8),
-        height: size.height / 16,
-        width: size.width,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(22),
-            color: LightTheme.lightBlue
-        ),
-        child: Text(
-          content,
-          style: CustomTextStyle.heading3,
-        ),
-      ),
-    );
-  }
-}

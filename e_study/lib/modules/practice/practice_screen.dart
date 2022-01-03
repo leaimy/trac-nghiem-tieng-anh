@@ -1,7 +1,7 @@
 import 'package:e_study/config/routes/routes.dart';
 import 'package:e_study/config/themes/text_theme.dart';
 import 'package:e_study/config/themes/themes.dart';
-import 'package:e_study/widgets/stateless/gradient_button.dart';
+import 'package:e_study/widgets/stateful/answer_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -17,103 +17,116 @@ class PracticeScreen extends StatefulWidget {
 }
 
 class _PracticeScreenState extends State<PracticeScreen> {
-  List<String> answers = ['01', '02', '03', '04'];
-
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return ChangeNotifierProvider(
       create: (_) => PracticeScreenModel(),
       builder: (context, child) {
-        return Consumer<PracticeScreenModel>(builder: (context, model, child) {
-          return Scaffold(
-            body: SafeArea(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                    child: Row(
-                      children: [
-                        const FaIcon(
-                          FontAwesomeIcons.checkCircle,
-                          color: LightTheme.green,
-                        ),
-                        buildWidthSpace(),
-                        Text(
-                          '${model.numberOfTrue}',
-                          style: CustomTextStyle.heading2,
-                        ),
-                        const SizedBox(width: 16),
-                        const FaIcon(
-                          FontAwesomeIcons.timesCircle,
-                          color: LightTheme.red,
-                        ),
-                        buildWidthSpace(),
-                        Text(
-                          '${model.numberOfFalse}',
-                          style: CustomTextStyle.heading2,
-                        ),
-                        Expanded(child: Container()),
-                        InkWell(
-                          onTap: () {
-                            showQuitWarning(context, size, model);
-                          },
-                          child: const FaIcon(
-                            FontAwesomeIcons.signOutAlt,
-                            color: LightTheme.darkBlue,
+        return Consumer<PracticeScreenModel>(
+          builder: (context, model, child) {
+            model.initGeneralStatus();
+            return Scaffold(
+              body: SafeArea(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                      child: Row(
+                        children: [
+                          const FaIcon(
+                            FontAwesomeIcons.checkCircle,
+                            color: LightTheme.green,
                           ),
-                        ),
-                      ],
+                          buildWidthSpace(),
+                          Text(
+                            '${model.numberOfTrue}',
+                            style: CustomTextStyle.heading2,
+                          ),
+                          const SizedBox(width: 16),
+                          const FaIcon(
+                            FontAwesomeIcons.timesCircle,
+                            color: LightTheme.red,
+                          ),
+                          buildWidthSpace(),
+                          Text(
+                            '${model.numberOfFalse}',
+                            style: CustomTextStyle.heading2,
+                          ),
+                          Expanded(child: Container()),
+                          InkWell(
+                            onTap: () {
+                              showQuitWarning(context, size, model);
+                            },
+                            child: const FaIcon(
+                              FontAwesomeIcons.signOutAlt,
+                              color: LightTheme.darkBlue,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  Expanded(
+                    const SizedBox(height: 16),
+                    Expanded(
                       child: PageView.builder(
-                          controller: model.pageController,
-                          onPageChanged: (index) {
-                            model.setCurrentIndex(index);
-                          },
-                          itemCount: model.questionQuantity,
-                          itemBuilder: (_, index) => Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 24.0),
-                                    child: Text(
-                                      'Question ${index + 1}',
-                                      style: CustomTextStyle.heading2,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 24.0),
-                                      child: Text(
-                                        '${model.questions[index].content}',
-                                        // "content",
-                                        style: CustomTextStyle.heading3,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 24.0),
-                                    child: Column(
-                                        children: model
-                                            .questions[index].answers!
-                                            .map((e) => BaseButton(
-                                                size: size,
-                                                content:
-                                                    e.content ?? "Undefined"))
-                                            .toList()),
-                                  ),
-                                ],
-                              ))),
-                ],
+                        controller: model.pageController,
+                        onPageChanged: (index) {
+                          model.setCurrentIndex(index);
+                        },
+                        itemCount: model.questionQuantity,
+                        itemBuilder: (_, index) => Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 24.0),
+                              child: Text(
+                                'Question ${index + 1}',
+                                style: CustomTextStyle.heading2,
+                              ),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 24.0),
+                                child: Text(
+                                  '${model.questions[index].content}',
+                                  style: CustomTextStyle.heading3,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 24.0),
+                              child: Column(
+                                children: model.questions[index].answers!
+                                    .asMap()
+                                    .entries
+                                    .map((e) => AnswerButton(
+                                          content:
+                                              e.value.content ?? "Undefined",
+                                          size: size,
+                                          isActive: model.isActive,
+                                          // status: model.statusList[e.key],
+                                          status: model.generalStatus[
+                                              model.currentIndex][e.key],
+                                          onTap: () {
+                                            model.checkAnswer(e.value, e.key,
+                                                model.questions[index]);
+                                          },
+                                        ))
+                                    .toList(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          );
-        });
+            );
+          },
+        );
       },
     );
   }
@@ -137,7 +150,7 @@ class _PracticeScreenState extends State<PracticeScreen> {
             const Expanded(
               child: Center(
                 child: Text(
-                  'Bạn muốn dừng việc ôn tập ?',
+                  'Bạn muốn kết thúc bài trắc nghiệm ?',
                   style: CustomTextStyle.heading3,
                 ),
               ),
