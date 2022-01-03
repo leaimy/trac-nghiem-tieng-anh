@@ -96,35 +96,21 @@
 
             <div class="row my-4 justify-content-center">
                 <div class="col-md-6">
-                    <form action="/" method="GET" class="input-group mb-3">
+                    <form action="/" method="GET" class="input-group mb-3" id="search_form_en">
                         <input type="hidden" name="action" value="search">
                         <input type="hidden" name="by" value="english">
-                        <input type="text" class="form-control me-2" name="keyword"
+                        <input id="txtEnglish" type="text" class="form-control me-2" name="keyword"
                                placeholder="Nhập từ khóa tiếng anh..." autocomplete="off">
-                        <button class="btn btn-outline-danger" type="submit">Tìm kiếm</button>
                     </form>
                 </div>
             </div>
             <div class="row my-4 justify-content-center">
                 <div class="col-md-6">
-                    <div class="list-group">
-                        <?php if (is_array($vocabulary_all) && count($vocabulary_all) > 0): ?>
-                            <?php foreach ($vocabulary_all as $vocabulary): ?>
-                                <a href="/vocabulary/show?id=<?= $vocabulary->id ?>"
-                                   class="text-decoration-none">
-                                    <div class="alert alert-primary d-flex align-items-center" role="alert">
-                                        <img class="me-3"
-                                             src="<?= $vocabulary->get_media_path() == null ? '/uploads/macdinh.jpg' : $vocabulary->get_media_path() ?>"
-                                             width="50" height="50" alt="">
-                                        <div>
-                                            <?= ucfirst($vocabulary->english) ?>
-                                        </div>
-                                    </div>
-                                </a>
-                            <?php endforeach; ?>
-                        <?php elseif (isset($_GET['keyword'])): ?>
-                            <div class="alert alert-danger text-center">Không tìm thấy kết quả</div>
-                        <?php endif; ?>
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                        <div id="container">
+
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -152,7 +138,9 @@
 
             <div class="row my-4 justify-content-center">
                 <div class="col-md-6">
-                    <div class="list-group" id="result-container">
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                    <div id="result-container">
+                    </div>
                     </div>
                 </div>
             </div>
@@ -297,81 +285,6 @@
     });
 </script>
 
-<script>
-    window.addEventListener('DOMContentLoaded', function () {
-        var form = document.getElementById('search_form_vn');
-        var input = document.getElementById('txtVietnamese');
-        var resultContainer = document.getElementById('result-container');
-
-        var apiUrl = `/api/v1/vocabularies/search/vietnamese?keyword=`;
-
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
-        })
-
-        // Realtime search | debouce 
-        var timeOutID;
-        input.addEventListener('input', function (e) {
-            var value = input.value;
-
-            if (value.length === 0) return;
-
-            var api = apiUrl + value;
-
-            clearTimeout(timeOutID);
-            timeOutID = setTimeout(function () {
-                resultContainer.innerHTML = `
-                        <div class="d-flex justify-content-center">
-                            <div class="spinner-grow text-info" role="status">
-                                <span class="visually-hidden">Đang tìm kiếm...</span>
-                            </div>
-                        </div>            
-                `;
-                resultContainer.style = ``;
-
-                fetch(api, {
-                    method: 'GET',
-                })
-                    .then(response => response.json())
-                    .then(result => {
-                        console.log(result);
-
-                        var results = result.data.results;
-                        if (results.length === 0) {
-                        }
-                        resultContainer.style = '';
-
-                        if (results.length >= 4) {
-                            resultContainer.style = `max-height: 400px; overflow-y: scroll; padding-right: 15px;`;
-                        }
-
-                        var html = '';
-
-                        for (var item of results) {
-                            var itemHTML = `
-                            <a href="/vocabulary/show?id=${item.id}"
-                               class="text-decoration-none">
-                                <div class="alert alert-primary d-flex align-items-center" role="alert">
-                                    <img class="me-3"
-                                         src="${item.media.media_path}"
-                                         width="50" height="50" alt="">
-                                    <div>
-                                        ${item.english}
-                                    </div>
-                                </div>
-                            </a>                    
-                    `;
-
-                            html += itemHTML;
-                        }
-
-                        resultContainer.innerHTML = html;
-                    })
-                    .catch(err => {
-                        alert(err.message)
-                    })
-            }, 500)
-        })
-    })
-</script>
+<script src="/static/js/client/home/realtime_search_by_vietnamese.js"></script>
+<script src="/static/js/client/home/realtime_search_by_english.js"></script>
 {% endblock %}

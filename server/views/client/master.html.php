@@ -14,6 +14,8 @@
     <!-- Feather icon -->
     <script src="/static/js/feather.min.js"></script>
 
+    <script src="/static/vendor/sweetalert2/sweetalert2@11.js"></script>
+
     {% yield custom_styles %}
 </head>
 
@@ -99,8 +101,94 @@
 
 <script src="/static/js/bootstrap.bundle.min.js"></script>
 
+
 <script>
     window.feather.replace({'aria-hidden': 'true'});
+
+</script>
+
+
+<script>
+    function clearSelection() {
+        if (window.getSelection) {
+            if (window.getSelection().empty) {  // Chrome
+                window.getSelection().empty();
+            } else if (window.getSelection().removeAllRanges) {  // Firefox
+                window.getSelection().removeAllRanges();
+            }
+        } else if (document.selection) {  // IE?
+            document.selection.empty();
+        }
+    }
+
+    var t = '';
+
+    function gText(e) {
+        t = (document.all) ? document.selection.createRange().text : document.getSelection();
+        if(!t.toString().trim())
+            return;
+
+        var api = '/api/v1/vocabularies/search/english?keyword=' + t.toString().trim();
+
+        var reg = new RegExp('[ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]');
+        var isVietnamese = false;
+
+        if (reg.test(t)) {
+            api = '/api/v1/vocabularies/search/vietnamese?keyword=' + t.toString().trim();
+            isVietnamese = true;
+        }
+
+        fetch(api)
+
+            .then(function (response) {
+                return response.json(); // Bien doi ve doi tuong
+            })
+            .then(function (result) {
+                console.log(result);
+
+                if (result.data.results.length > 0) {
+                    if (isVietnamese) {
+                        var tmp = '';
+                        for (var item of result.data.results) {
+                            tmp += item.english + "<br>";
+                        }
+
+                        Swal.fire({
+                            icon: "success",
+                            title: result.data.results.length > 1 ? "Danh sách kết quả" : "Kết quả",
+                            html: tmp
+                        });
+                    }
+                    else {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Kết quả",
+                            text: result.data.results[0].vietnamese
+                        })
+                    }
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Thông báo',
+                        text: `Không tìm thấy từ khóa "${t}"`,
+                    })
+                }
+
+                clearSelection();
+            })
+            .catch(function (erro) {
+                alert(erro.message);
+
+                clearSelection();
+            })
+
+
+    }
+
+    document.onmouseup = gText;
+    if (!document.all) document.captureEvents(Event.MOUSEUP);
+
 
 </script>
 
