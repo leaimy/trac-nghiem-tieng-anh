@@ -84,6 +84,13 @@ class QuestionModel
     public function update_question($id, $args)
     {
         $args[QuestionEntity::PRIMARY_KEY] = $id;
+
+        if(isset($args[QuestionEntity::KEY_CORRECTS]) && !empty($args[QuestionEntity::KEY_CORRECTS]))
+            $args[QuestionEntity::KEY_CORRECTS] = str_replace("\r", "", $args[QuestionEntity::KEY_CORRECTS]);
+        
+        if (isset($args[QuestionEntity::KEY_ANSWERS]) && !empty($args[QuestionEntity::KEY_ANSWERS]))
+            $args[QuestionEntity::KEY_ANSWERS] = str_replace("\r", "", $args[QuestionEntity::KEY_ANSWERS]);
+
         $this->question_table->save($args);
     }
 
