@@ -7,7 +7,6 @@ import 'package:e_study/widgets/stateless/error_box.dart';
 import 'package:e_study/widgets/stateless/gradient_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -24,12 +23,12 @@ class _SignInScreenState extends State<SignInScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const FaIcon(FontAwesomeIcons.arrowLeft),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        // leading: IconButton(
+        //   icon: const FaIcon(FontAwesomeIcons.arrowLeft),
+        //   onPressed: () {
+        //     Navigator.pop(context);
+        //   },
+        // ),
       ),
       body: ChangeNotifierProvider<SignInScreenModel>(
         create: (_) => SignInScreenModel(),
@@ -88,7 +87,6 @@ class _SignInScreenState extends State<SignInScreen> {
                     content: AppConstants.username,
                     description: AppConstants.enterUsername,
                     size: size,
-                    keyboardType: TextInputType.number,
                     controller: model.username,
                   ),
                   blank(),

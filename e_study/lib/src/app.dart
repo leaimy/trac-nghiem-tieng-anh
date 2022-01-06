@@ -1,11 +1,9 @@
 import 'package:e_study/config/routes/routes.dart';
 import 'package:e_study/config/themes/text_theme.dart';
 import 'package:e_study/config/themes/themes.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
 import 'settings/settings_controller.dart';
 
 import 'package:e_study/config/routes/router.dart' as router;
@@ -48,7 +46,7 @@ class MyApp extends StatelessWidget {
                 fontFamily: 'avenirnext'),
             darkTheme: ThemeData.dark(),
             themeMode: settingsController.themeMode,
-            initialRoute: Routes.homeScreen,
+            initialRoute: Routes.signInScreen,
             onGenerateRoute: router.Router.generateRoute);
       },
     );
