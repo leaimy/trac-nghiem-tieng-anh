@@ -1,6 +1,7 @@
 import 'package:e_study/models/quiz.dart';
 import 'package:e_study/models/topic.dart';
 import 'package:e_study/models/user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppStorage {
   static final AppStorage _instance = AppStorage._internal();
@@ -46,15 +47,30 @@ class AppStorage {
   }
 
   //======================
-  final Map<String, int> _result = {
+  final Map<String, dynamic> _result = {
+    "quiz_title": "",
     "numberOfTrue": 0,
     "numberOfFalse": 0,
   };
 
-  Map<String, int> get result => _result;
-  
-  void setResult(int trueNum, int falseNum) {
+  Map<String, dynamic> get result => _result;
+
+  void setResult(String title, int trueNum, int falseNum) {
+    _result["quiz_title"] = title;
     _result["numberOfTrue"] = trueNum;
     _result["numberOfFalse"] = falseNum;
+  }
+
+  //==================== save data for render log
+  final List<Map<String, dynamic>> _historyList = [];
+  List<Map<String, dynamic>> get historyList => _historyList;
+  void addHistory(Map<String, dynamic> item) {
+    _historyList.add(item);
+  }
+
+  //==================== clear preferences
+  Future clearPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
   }
 }

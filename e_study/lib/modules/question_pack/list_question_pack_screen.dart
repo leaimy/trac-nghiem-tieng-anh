@@ -2,9 +2,8 @@ import 'package:e_study/config/routes/routes.dart';
 import 'package:e_study/config/themes/text_theme.dart';
 import 'package:e_study/config/themes/themes.dart';
 import 'package:e_study/models/quiz.dart';
-
 import 'package:e_study/shared/provider/log_provider.dart';
-import 'package:e_study/shared/services/api/app_storeage.dart';
+import 'package:e_study/shared/services/api/app_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 

@@ -1,10 +1,7 @@
-import 'package:e_study/constants/app_data.dart';
 import 'package:e_study/models/user.dart';
 import 'package:e_study/shared/provider/api_provider.dart';
 import 'package:e_study/shared/provider/log_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../http_service.dart';
 
 class AuthService {
   String endpoint = 'auth';
@@ -22,27 +19,13 @@ class AuthService {
     }
   }
 
-  Future<void> saveToken(String token) async {
-    final storage = await SharedPreferences.getInstance();
-    storage.setString("token", token);
-  }
-
-  late HttpService httpService;
-
-  AuthService() {
-    httpService = HttpService();
-    httpService
-        .withHost(appData.apiHost)
-        .withVersion(appData.apiVersion)
-        .withPath(endpoint);
-  }
-
   Future<dynamic> signIn(String username, String password) async {
     try {
       final response = await _apiProvider.post('/auth/login',
           data: {"username": username, "password": password});
       if (response.statusCode == 200) {
-        logger.log('$response.data');
+        logger.log('${response.data["data"]["user"]["fullname"]}');
+        saveUser(response.data["data"]["user"]["fullname"]);
         return response.data;
       }
     } catch (e) {
@@ -54,11 +37,16 @@ class AuthService {
     try {
       final response = await _apiProvider.post('/auth/register', data: user);
       if (response.statusCode == 200) {
-        logger.log('$response.data');
+        logger.log('$response');
         return response.data;
       }
     } catch (e) {
       rethrow;
     }
+  }
+
+  Future saveUser(String fullName) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('fullname', fullName);
   }
 }

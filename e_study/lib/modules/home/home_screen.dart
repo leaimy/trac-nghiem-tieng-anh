@@ -2,7 +2,7 @@ import 'package:e_study/config/routes/routes.dart';
 import 'package:e_study/config/themes/text_theme.dart';
 import 'package:e_study/config/themes/themes.dart';
 import 'package:e_study/modules/home/home_screen_model.dart';
-import 'package:e_study/shared/services/api/app_storeage.dart';
+import 'package:e_study/shared/services/api/app_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -26,12 +26,20 @@ class _HomeScreenState extends State<HomeScreen> {
           'Chủ đề',
           style: CustomTextStyle.heading1Bold,
         ),
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, Routes.translateScreen);
+              },
+              icon: const FaIcon(FontAwesomeIcons.search)),
+        ),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: IconButton(
                 onPressed: () {
-                  Navigator.pushNamed(context,Routes.profileScreen);
+                  Navigator.pushNamed(context, Routes.profileScreen);
                 },
                 icon: const FaIcon(FontAwesomeIcons.userGraduate)),
           )

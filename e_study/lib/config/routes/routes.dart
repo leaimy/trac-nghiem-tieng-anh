@@ -16,4 +16,7 @@ class Routes {
   static const String resultScreen = 'ResultScreen';
 
   static const String profileScreen = "ProfileScreen";
+  static const String historyScreen = "HistoryScreen";
+  static const String aboutUsScreen = "AboutUsSreen";
+  static const String translateScreen = "TranslateScreen";
 }

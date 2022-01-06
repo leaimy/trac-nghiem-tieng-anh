@@ -2,7 +2,7 @@ import 'package:e_study/config/routes/routes.dart';
 import 'package:e_study/config/themes/text_theme.dart';
 import 'package:e_study/constants/assets_path.dart';
 import 'package:e_study/modules/result/result_screen_model.dart';
-import 'package:e_study/shared/services/api/app_storeage.dart';
+import 'package:e_study/shared/services/api/app_storage.dart';
 import 'package:e_study/widgets/stateless/gradient_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

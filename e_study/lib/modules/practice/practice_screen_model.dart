@@ -1,7 +1,7 @@
 import 'package:e_study/models/answer.dart';
 import 'package:e_study/models/question.dart';
 import 'package:e_study/shared/provider/log_provider.dart';
-import 'package:e_study/shared/services/api/app_storeage.dart';
+import 'package:e_study/shared/services/api/app_storage.dart';
 import 'package:e_study/widgets/stateful/answer_button.dart';
 import 'package:flutter/material.dart';
 
@@ -104,8 +104,12 @@ class PracticeScreenModel extends ChangeNotifier {
     return list?.indexOf(correctAnswer!) ?? 0;
   }
 
-  void setResultData () {
-    AppStorage().setResult(_numberOfTrue, numberOfFalse);
+  void setResultData() {
+    String title = AppStorage().selectedQuestionPack?.title ?? "No Name";
+    AppStorage().setResult(
+      title,
+      _numberOfTrue,
+      numberOfFalse,
+    );
   }
-  
 }
