@@ -103,4 +103,9 @@ class PracticeScreenModel extends ChangeNotifier {
         list?.firstWhere((element) => element.isTrue == true);
     return list?.indexOf(correctAnswer!) ?? 0;
   }
+
+  void setResultData () {
+    AppStorage().setResult(_numberOfTrue, numberOfFalse);
+  }
+  
 }

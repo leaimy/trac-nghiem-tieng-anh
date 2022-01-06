@@ -44,6 +44,17 @@ class AppStorage {
   void resetSelectedQuestionPack() {
     _selectedQuestionPack = null;
   }
-  //======================
 
+  //======================
+  final Map<String, int> _result = {
+    "numberOfTrue": 0,
+    "numberOfFalse": 0,
+  };
+
+  Map<String, int> get result => _result;
+  
+  void setResult(int trueNum, int falseNum) {
+    _result["numberOfTrue"] = trueNum;
+    _result["numberOfFalse"] = falseNum;
+  }
 }

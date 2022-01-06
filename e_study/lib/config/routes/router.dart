@@ -6,6 +6,7 @@ import 'package:e_study/modules/common_widget/screens/components_screen.dart';
 import 'package:e_study/modules/common_widget/screens/screens_list.dart';
 import 'package:e_study/modules/home/home_screen.dart';
 import 'package:e_study/modules/practice/practice_screen.dart';
+import 'package:e_study/modules/profile/profile_screen.dart';
 import 'package:e_study/modules/question_pack/list_question_pack_screen.dart';
 import 'package:e_study/modules/result/result_screen.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,10 @@ class Router {
       case Routes.homeScreen:
         {
           return MaterialPageRoute(builder: (_) => const HomeScreen());
+        }
+      case Routes.profileScreen:
+        {
+          return MaterialPageRoute(builder: (_) => const ProfileScreen());
         }
       case Routes.signInScreen:
         {

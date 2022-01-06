@@ -22,6 +22,8 @@ class CustomTextStyle {
       decoration: TextDecoration.none);
   static const TextStyle heading4 = TextStyle(
       fontSize: 14, fontWeight: FontWeight.w300, color: LightTheme.black);
+  static const TextStyle heading4White = TextStyle(
+      fontSize: 14, fontWeight: FontWeight.w300, color: LightTheme.white);
   static const TextStyle heading4Grey =
       TextStyle(fontSize: 14, fontWeight: FontWeight.w300, color: Colors.grey);
 

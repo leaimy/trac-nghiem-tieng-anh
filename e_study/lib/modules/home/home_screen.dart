@@ -30,7 +30,9 @@ class _HomeScreenState extends State<HomeScreen> {
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context,Routes.profileScreen);
+                },
                 icon: const FaIcon(FontAwesomeIcons.userGraduate)),
           )
         ],
@@ -54,7 +56,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding: const EdgeInsets.only(bottom: 16.0),
                         child: InkWell(
                           onTap: () {
-                            AppStorage().setSelectedTopic(model.topicData[index]);
+                            AppStorage()
+                                .setSelectedTopic(model.topicData[index]);
                             Navigator.pushNamed(
                               context,
                               Routes.listQuestionPackScreen,

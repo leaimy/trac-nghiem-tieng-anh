@@ -32,38 +32,64 @@ class _PracticeScreenState extends State<PracticeScreen> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: Row(
-                        children: [
-                          const FaIcon(
-                            FontAwesomeIcons.checkCircle,
-                            color: LightTheme.green,
-                          ),
-                          buildWidthSpace(),
-                          Text(
-                            '${model.numberOfTrue}',
-                            style: CustomTextStyle.heading2,
-                          ),
-                          const SizedBox(width: 16),
-                          const FaIcon(
-                            FontAwesomeIcons.timesCircle,
-                            color: LightTheme.red,
-                          ),
-                          buildWidthSpace(),
-                          Text(
-                            '${model.numberOfFalse}',
-                            style: CustomTextStyle.heading2,
-                          ),
-                          Expanded(child: Container()),
-                          InkWell(
-                            onTap: () {
-                              showQuitWarning(context, size, model);
-                            },
-                            child: const FaIcon(
-                              FontAwesomeIcons.signOutAlt,
-                              color: LightTheme.darkBlue,
+                      child: SizedBox(
+                        height: size.height / 24,
+                        child: Row(
+                          children: [
+                            const FaIcon(
+                              FontAwesomeIcons.checkCircle,
+                              color: LightTheme.green,
                             ),
-                          ),
-                        ],
+                            buildWidthSpace(),
+                            Text(
+                              '${model.numberOfTrue}',
+                              style: CustomTextStyle.heading2,
+                            ),
+                            const SizedBox(width: 16),
+                            const FaIcon(
+                              FontAwesomeIcons.timesCircle,
+                              color: LightTheme.red,
+                            ),
+                            buildWidthSpace(),
+                            Text(
+                              '${model.numberOfFalse}',
+                              style: CustomTextStyle.heading2,
+                            ),
+                            Expanded(child: Container()),
+                            model.currentIndex + 1 != model.questionQuantity
+                                ? InkWell(
+                                    onTap: () {
+                                      showQuitWarning(context, size, model);
+                                    },
+                                    child: const FaIcon(
+                                      FontAwesomeIcons.signOutAlt,
+                                      color: LightTheme.darkBlue,
+                                    ),
+                                  )
+                                : GestureDetector(
+                                    onTap: () {
+                                      model.setResultData();
+                                      Navigator.pushNamedAndRemoveUntil(
+                                          context,
+                                          Routes.resultScreen,
+                                          (Route<dynamic> route) => false);
+                                    },
+                                    child: Container(
+                                      width: size.width / 4,
+                                      height: size.height / 24,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                          color: LightTheme.darkBlue,
+                                          borderRadius:
+                                              BorderRadius.circular(22)),
+                                      child: const Text(
+                                        'Kết thúc',
+                                        style: CustomTextStyle.heading4White,
+                                      ),
+                                    ),
+                                  )
+                          ],
+                        ),
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -106,7 +132,6 @@ class _PracticeScreenState extends State<PracticeScreen> {
                                               e.value.content ?? "Undefined",
                                           size: size,
                                           isActive: model.isActive,
-                                          // status: model.statusList[e.key],
                                           status: model.generalStatus[
                                               model.currentIndex][e.key],
                                           onTap: () {
