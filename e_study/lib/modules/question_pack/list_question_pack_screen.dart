@@ -38,9 +38,6 @@ class ListQuestionPackScreen extends StatelessWidget {
           ? const Center(
               child: Text('Chưa có bộ câu hỏi'),
             )
-          // : Center(
-          //     child: Text(AppStorage().selectedTopic!.quizzes!.length.toString()),
-          //   ),
           : ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               itemCount: AppStorage().selectedTopic!.quizzes!.length,

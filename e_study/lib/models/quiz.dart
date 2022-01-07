@@ -13,4 +13,6 @@ class Quiz {
 
   Quiz(this.id, this.title, this.questionQuantity, this.questions);
   factory Quiz.fromJson(Map<String, dynamic> json) => _$QuizFromJson(json);
+  Map<String, dynamic> toJson() => _$QuizToJson(this);
+
 }

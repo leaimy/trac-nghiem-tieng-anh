@@ -189,10 +189,9 @@ class _PracticeScreenState extends State<PracticeScreen> {
                     borderRadius: BorderRadius.circular(20),
                     child: GestureDetector(
                       onTap: () {
-                        // reset selected
-                        // save number for result page
                         model.showOption('Yes');
                         Navigator.pop(context);
+                        model.setResultData();
                         Navigator.pushNamed(context, Routes.resultScreen);
                       },
                       child: const Center(

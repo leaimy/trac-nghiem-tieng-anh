@@ -15,4 +15,6 @@ class Topic {
   Topic(this.id, this.title, this.description, this.createdAt,this.quizzes);
 
   factory Topic.fromJson(Map<String, dynamic> json) => _$TopicFromJson(json);
+  Map<String, dynamic> toJson() => _$TopicToJson(this);
+
 }

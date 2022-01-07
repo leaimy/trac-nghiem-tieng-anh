@@ -12,8 +12,12 @@ class CustomTextStyle {
       fontSize: 16, color: LightTheme.white, fontWeight: FontWeight.w300);
   static const TextStyle heading3BlackBold =
       TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold);
-  static const TextStyle heading3BlueBold =
-      TextStyle(fontSize: 16, color: LightTheme.darkBlue, fontWeight: FontWeight.bold);
+  static const TextStyle heading3BlueBold = TextStyle(
+      fontSize: 16, color: LightTheme.darkBlue, fontWeight: FontWeight.bold);
+  static const TextStyle heading3RedBold = TextStyle(
+      fontSize: 16, color: LightTheme.red, fontWeight: FontWeight.bold);
+  static const TextStyle heading3GreenBold = TextStyle(
+      fontSize: 16, color: LightTheme.green, fontWeight: FontWeight.bold);
 
   static const TextStyle heading3 = TextStyle(
       fontSize: 16,

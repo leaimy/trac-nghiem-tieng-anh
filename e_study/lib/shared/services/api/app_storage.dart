@@ -1,9 +1,15 @@
+import 'dart:convert';
+
+import 'package:e_study/models/history.dart';
 import 'package:e_study/models/quiz.dart';
 import 'package:e_study/models/topic.dart';
 import 'package:e_study/models/user.dart';
+import 'package:e_study/shared/provider/log_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppStorage {
+  LogProvider get logger => const LogProvider('👋 Storage: ');
+
   static final AppStorage _instance = AppStorage._internal();
 
   factory AppStorage() => _instance;
@@ -47,25 +53,52 @@ class AppStorage {
   }
 
   //======================
-  final Map<String, dynamic> _result = {
-    "quiz_title": "",
-    "numberOfTrue": 0,
-    "numberOfFalse": 0,
-  };
+  // final Map<String, dynamic> _result = {
+  //   "quiz_title": "",
+  //   "numberOfTrue": 0,
+  //   "numberOfFalse": 0,
+  // };
 
-  Map<String, dynamic> get result => _result;
+  // Map<String, dynamic> get result => _result;
 
-  void setResult(String title, int trueNum, int falseNum) {
-    _result["quiz_title"] = title;
-    _result["numberOfTrue"] = trueNum;
-    _result["numberOfFalse"] = falseNum;
+  // void setResult(String title, int trueNum, int falseNum) {
+  //   _result["quiz_title"] = title;
+  //   _result["numberOfTrue"] = trueNum;
+  //   _result["numberOfFalse"] = falseNum;
+  // }
+  History? _currentResult;
+  History? get currentResult => _currentResult;
+
+  void setCurrentResult(History value) {
+    _currentResult = value;
   }
 
-  //==================== save data for render log
-  final List<Map<String, dynamic>> _historyList = [];
-  List<Map<String, dynamic>> get historyList => _historyList;
-  void addHistory(Map<String, dynamic> item) {
-    _historyList.add(item);
+  void resetCurrentResult() {
+    _currentResult = null;
+  }
+
+  List<History> _historyData = [];
+  List<History> get historyData => _historyData;
+
+  void addHistory(History item) {
+    _historyData.add(item);
+  }
+  
+  void resetHistoryData() {
+    _historyData = [];
+  }
+
+  List<String> convertHistoryToString() {
+    List<String> stringData = [];
+    if (_historyData.isNotEmpty) {
+      for (History item in _historyData) {
+        Map<String, dynamic> jsonData = item.toJson();
+        String itemData = json.encode(jsonData);
+        stringData.add(itemData);
+      }
+    }
+    logger.log(stringData.toString());
+    return stringData;
   }
 
   //==================== clear preferences

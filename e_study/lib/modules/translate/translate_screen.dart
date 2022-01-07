@@ -19,7 +19,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Tra Cứu',
           style: CustomTextStyle.heading1Bold,
         ),

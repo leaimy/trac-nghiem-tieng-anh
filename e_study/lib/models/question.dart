@@ -10,4 +10,6 @@ class Question {
   List<Answer>? answers;
   Question(this.content, this.answers, this.id);
   factory Question.fromJson(Map<String, dynamic> json) => _$QuestionFromJson(json);
+  Map<String, dynamic> toJson() => _$QuestionToJson(this);
+
 }

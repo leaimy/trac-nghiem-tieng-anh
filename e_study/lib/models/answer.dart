@@ -8,4 +8,6 @@ class Answer {
 
   Answer({this.content, this.isTrue});
   factory Answer.fromJson(Map<String, dynamic> json) => _$AnswerFromJson(json);
+  Map<String, dynamic> toJson() => _$AnswerToJson(this);
+
 }

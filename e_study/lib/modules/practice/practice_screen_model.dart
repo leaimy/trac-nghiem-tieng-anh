@@ -1,4 +1,5 @@
 import 'package:e_study/models/answer.dart';
+import 'package:e_study/models/history.dart';
 import 'package:e_study/models/question.dart';
 import 'package:e_study/shared/provider/log_provider.dart';
 import 'package:e_study/shared/services/api/app_storage.dart';
@@ -105,11 +106,9 @@ class PracticeScreenModel extends ChangeNotifier {
   }
 
   void setResultData() {
-    String title = AppStorage().selectedQuestionPack?.title ?? "No Name";
-    AppStorage().setResult(
-      title,
-      _numberOfTrue,
-      numberOfFalse,
-    );
+    String title = AppStorage().selectedQuestionPack?.title ?? "Undefined";
+    History data =
+        History(title: title, trueNum: _numberOfTrue, falseNum: _numberOfFalse);
+    AppStorage().setCurrentResult(data);
   }
 }

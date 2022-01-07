@@ -1,6 +1,7 @@
 import 'package:e_study/config/routes/routes.dart';
 import 'package:e_study/config/themes/text_theme.dart';
 import 'package:e_study/constants/assets_path.dart';
+import 'package:e_study/shared/services/api/app_storage.dart';
 import 'package:e_study/shared/services/restart_helper.dart';
 import 'package:e_study/widgets/stateless/gradient_button.dart';
 import 'package:flutter/material.dart';
@@ -81,6 +82,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             GestureDetector(
               onTap: () {
+                AppStorage().clearPrefs();
+                AppStorage().resetCurrentResult();
+                AppStorage().resetSelectedTopic();
+                AppStorage().resetSelectedQuestionPack();
+                AppStorage().resetHistoryData();
                 RestartApp.restartApp(context);
               },
               child: Container(
